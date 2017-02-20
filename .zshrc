@@ -9,7 +9,7 @@ unsetopt beep
 bindkey -v
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename '$HOME/.config/.zshrc'
+zstyle :compinstall filename '$HOME/.zshrc'
 
 autoload -Uz compinit
 compinit
@@ -37,6 +37,7 @@ export PATH=$HOME/.scripts:$PATH
 [ -z "$TMUX" ] && export TERM=xterm-256color-italic
 
 # TODO should add fzf later
+#https://github.com/junegunn/fzf
 #[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 #export FZF_DEFAULT_COMMAND='ag -g ""'
 
