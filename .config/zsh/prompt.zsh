@@ -124,7 +124,7 @@ local left_prompt="%{$green%}\
 %{$blue%}@\
 %{$cyan_bold%}$(get_box_name): \
 %{$yellow_bold%}$(get_current_dir)%{$reset_color%}\
- ⇨  "
+ ⇨ "
 
 #export PROMPT='%(?.%F{205}.%F{red})⇨%f '
 export PROMPT=$left_prompt
