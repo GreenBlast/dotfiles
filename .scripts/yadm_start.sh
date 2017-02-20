@@ -12,8 +12,9 @@ echo ""
 
 type yadm || {
 echo 'Attempting to download yadm'
-curl -fLo /home/$USER/.local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm || exit 1
-chmod a+x /home/$USER/.local/bin/yadm || exit 1
+mkdir -p $HOME/.local/bin/
+curl -fLo $HOME/.local/bin/yadm https://github.com/TheLocehiliosan/yadm/raw/master/yadm || exit 1
+chmod a+x $HOME/.local/bin/yadm || exit 1
 
 }
 
@@ -21,4 +22,4 @@ echo ""
 
 echo "Cloning"
 
-yadm clone git@github.com:GreenBlast/dotfiles.git
+$HOME/.local/bin/yadm clone https://github.com/GreenBlast/dotfiles.git
