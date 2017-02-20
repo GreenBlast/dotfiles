@@ -23,7 +23,7 @@ export REPORTTIME=10
 for config ($ZSH/**/*.zsh) source $config
 
 # TODO Check how and what to add completions
-for config ($ZSH/**/*completion.sh) source $config
+for config ($ZSH/**/*completion.zsh) source $config
 
 
 # TODO Should change editor later
