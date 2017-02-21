@@ -122,3 +122,6 @@ export PATH=$HOME/.scripts:$PATH
 
 # display how long all tasks over 10 seconds take
 export REPORTTIME=10
+
+# Disable zsh double rm verification
+setopt rm_star_silent
