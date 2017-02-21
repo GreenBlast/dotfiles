@@ -125,3 +125,9 @@ export REPORTTIME=10
 
 # Disable zsh double rm verification
 setopt rm_star_silent
+
+# Set no newline in spaceship prompt
+export SPACESHIP_PROMPT_ADD_NEWLINE=false
+export SPACESHIP_PROMPT_SEPARATE_LINE=false
+export SPACESHIP_PROMPT_TRUNC=0
+export SPACESHIP_PROMPT_SYMBOL='➔>'
