@@ -4,7 +4,9 @@ cd "$HOME"
 echo "Init submodules"
 yadm submodule update --recursive --init
 
-installing vim plugins, should do later with dein
+curl -o - https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/install.sh | sh
+
+#installing vim plugins, should do later with dein
 #if command -v vim >/dev/null 2>&1; then
 #  echo "Bootstraping Vim"
 #  vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
