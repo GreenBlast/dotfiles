@@ -3,68 +3,54 @@ set nocompatible
 filetype off
 
 " Required:
-set runtimepath+=/home/user/.config/nvim/dein/repos/github.com/Shougo/dein.vim
-set runtimepath^=/home/user/.config/nvim/dein/repos/github.com/kien/ctrlp.vim
+" set runtimepath^=/home/user/.config/nvim/dein/repos/github.com/kien/ctrlp.vim
 
-" Required:
-if dein#load_state('/home/user/.config/nvim/dein')
-    call dein#begin('/home/user/.config/nvim/dein')
+" Required for vim-vimplug
+call plug#begin('~/.vim/plugged')
 
-    " Let dein manage dein
-    " Required:
-    call dein#add('/home/user/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
+    Plug 'Shougo/deoplete.nvim'
+    Plug 'zchee/deoplete-jedi'
+    Plug 'ctrlpvim/ctrlp.vim'
+    Plug 'tpope/vim-fugitive'
 
-    " lazy load on insert mode
-    "call dein#add('Shougo/deoplete.nvim',  {'on_i': 1})
-    call dein#add('Shougo/deoplete.nvim')
-    call dein#add('zchee/deoplete-jedi')
-    " Use deoplete.
-    call dein#add('kien/ctrlp.vim')
-    " Add or remove your plugins here:
-"    call dein#add('Shougo/neosnippet.vim')
-"    call dein#add('Shougo/neosnippet-snippets')
-
-    call dein#add('tpope/vim-fugitive')
-
-    " You can specify revision/branch/tag.
-    " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
-
-    " Required:
-    call dein#end()
-    call dein#save_state()
-endif
+call plug#end()
+"" Required:
+"if dein#load_state('/home/user/.config/nvim/dein')
+"    call dein#begin('/home/user/.config/nvim/dein')
+"
+"    " Let dein manage dein
+"    " Required:
+"    call dein#add('/home/user/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
+"
+"    call dein#add('zchee/deoplete-jedi')
+"    " lazy load on insert mode
+"    "call dein#add('Shougo/deoplete.nvim',  {'on_i': 1})
+"    call dein#add('Shougo/deoplete.nvim')
+"    call dein#add('zchee/deoplete-jedi')
+"    " Use deoplete.
+"    call dein#add('ctrlpvim/ctrlp.vim')
+"    " Add or remove your plugins here:
+""    call dein#add('Shougo/neosnippet.vim')
+""    call dein#add('Shougo/neosnippet-snippets')
+"
+"    call dein#add('tpope/vim-fugitive')
+"
+"    " You can specify revision/branch/tag.
+"    " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
+"
+"    " Required:
+"    call dein#end()
+"    call dein#save_state()
+"endif
 
 " Required:
 filetype plugin indent on
 syntax enable
 
-" If you want to install not installed plugins on startup.
-"if dein#check_install()
-"  call dein#install()
-"endif
-
-
-" Disabled vundle for now, testing dein
-"set rtp+=~/.config/nvim/bundle/Vundle.vim
-"call vundle#begin('~/.config/nvim/bundle')
-"
-"Plugin 'VundleVim/Vundle.vim'
-"
-"" Custom plugins...
-"" Plugin 'Valloric/YouCompleteMe'
-"
-"" After all plugins...
-"call vundle#end()
-"filetype plugin indent on
-
-
-
-
 """"""" General coding stuff """""""
 " Highlight 80th column
 " set colorcolumn=80
 " Always show status bar
-    call dein#add('zchee/deoplete-jedi')
 set laststatus=2
 " Let plugins show effects after 500ms, not 4s
 set updatetime=500
@@ -95,19 +81,6 @@ let python_highlight_all = 1
 " Set up leaders
 "let mapleader=","
 "let maplocalleader="\\"
-
-" Mac OS X option-left / right
-"noremap â b
-"noremap æ e
-"inoremap â <C-o>b
-"inoremap æ <C-o>e<right>
-" Note - this required binding in preferences (Cmd-,) option+backspace to
-" escape+z.
-" Why this one is complicated - <C-o> at end of line moves cursor by one
-" character, which means a trailing character could be left.
-" inoremap <expr> ú col('.')>1 ? 'T<Left><C-o>db<Delete>' : '<Backspace>T<Left><c-o>db<Delete>'
-" Requires binding option+forward delete to escape
- "inoremap ø <C-o>dw
 
 " Linux / windows ctrl+backspace ctrl+delete
 " Note that ctrl+backspace doesn't work in Linux, so ctrl+\ is also available
@@ -286,7 +259,7 @@ nmap <Right> >>
 vmap <Left> <gv
 vmap <Right> >gv
 
-" I think this is un-highlighting search with \/
+" Un-highlighting search with \/
 noremap <Leader>/ :nohls<CR>
 
 " noremap <C-j> <C-w>j
