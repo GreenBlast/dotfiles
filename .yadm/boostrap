@@ -1,6 +1,9 @@
 #!/bin/bash
 cd "$HOME"
 
+# Would probably like to add yadm path here
+
+
 echo "Init submodules"
 yadm submodule update --recursive --init
 
