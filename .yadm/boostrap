@@ -4,13 +4,18 @@ cd "$HOME"
 echo "Init submodules"
 yadm submodule update --recursive --init
 
-echo "Installing zsh"
-sudo apt-get install zsh
-echo "Changing default shell to zsh"
-chsh -s $(which zsh)
+#echo "Installing zsh"
+#sudo apt-get install zsh
+#echo "Changing default shell to zsh"
+#chsh -s $(which zsh)
 
-echo "Installing spaceship theme"
-curl -o - https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/install.sh | sh
+#echo "Installing spaceship theme"
+#curl -o - https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/install.sh | sh
+
+#echo "Installing fzf"
+# Install zsh, install fzf, install tmux, install nvim
+# Setup spaceship prompt
+
 
 #installing vim plugins, should do later with dein
 #if command -v vim >/dev/null 2>&1; then
