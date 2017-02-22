@@ -277,3 +277,5 @@ inoremap <Right> <nop>
 inoremap <Up> <nop>
 inoremap <Down> <nop>
 
+" Search and replace current hightlighted visual
+vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
