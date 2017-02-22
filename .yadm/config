@@ -1,2 +1,4 @@
 [push]
-	default = simple
+    default = simple
+[core]
+    editor = vim
