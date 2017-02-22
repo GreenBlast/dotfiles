@@ -99,11 +99,6 @@ export PATH=$HOME/.scripts:$PATH
 # Setting colors for tmux
 [ -z "$TMUX" ] && export TERM=xterm-256color-italic
 
-# TODO should add fzf later
-#https://github.com/junegunn/fzf
-#[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-#export FZF_DEFAULT_COMMAND='ag -g ""'
-
 # Uncomment this after checking the ohmyzsh files to make sure they are setting things that concerning it
 # Lines configured by zsh-newuser-install
 #HISTFILE=~/.histfile
@@ -131,3 +126,6 @@ export SPACESHIP_PROMPT_ADD_NEWLINE=false
 export SPACESHIP_PROMPT_SEPARATE_LINE=false
 export SPACESHIP_PROMPT_TRUNC=0
 export SPACESHIP_PROMPT_SYMBOL='➔>'
+
+# Fzf is a fuzzy searcher written in go
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
