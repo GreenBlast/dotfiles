@@ -2,7 +2,7 @@
 cd "$HOME"
 
 # Would probably like to add yadm path here
-
+export PATH=$HOME/.local/bin:$PATH
 
 echo "Init submodules"
 yadm submodule update --recursive --init
