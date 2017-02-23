@@ -1,6 +1,6 @@
-[submodule "/home/user/.oh-my-zsh"]
-	path = /home/user/.oh-my-zsh
+[submodule "${HOME}.oh-my-zsh"]
+	path = $HOME.oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
-[submodule "/home/user/.fzf"]
-	path = /home/user/.fzf
+[submodule "${HOME}.fzf"]
+	path = $HOME.fzf
 	url = https://github.com/junegunn/fzf.git
