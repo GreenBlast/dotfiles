@@ -3,7 +3,6 @@
 	filemode = true
 	bare = false
 	sharedrepository = 0600
-	worktree = /home/user
 [receive]
 	denyNonFastforwards = true
 [status]
