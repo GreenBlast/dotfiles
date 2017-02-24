@@ -10,7 +10,7 @@
 [yadm]
 	managed = true
 [remote "origin"]
-	url = https://github.com/GreenBlast/dotfiles.git
+	url = git@github.com:GreenBlast/dotfiles.git
 	fetch = +refs/heads/*:refs/remotes/origin/*
 [branch "master"]
 	remote = origin
@@ -22,3 +22,5 @@
 	url = https://github.com/robbyrussell/oh-my-zsh.git
 [submodule "${HOME}/.fzf"]
 	url = https://github.com/junegunn/fzf.git
+[local]
+	class = Home
