@@ -7,41 +7,5 @@ export PATH=$HOME/.local/bin:$PATH
 echo "Init submodules"
 yadm submodule update --recursive --init
 
-
-
-
-echo "Install tmux"
-sudo apt-get install tmux
-
-
-#echo "Installing zsh"
-sudo apt-get install zsh
-echo "Changing default shell to zsh"
-chsh -s $(which zsh)
-
-
-#echo "Installing spaceship theme"
-#curl -o - https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/install.sh | sh
-
-#echo "Installing fzf"
-# Install zsh, install fzf, install tmux, install nvim
-# Setup spaceship prompt
-
-
-echo "Install fzf"
-source ~/.fzf/install
-
-
-echo "Install vim plug"
-curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-
-## installing vim plugins
-#if command -v vim >/dev/null 2>&1; then
-#  echo "Bootstraping Vim"
-#  vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
-#fi
-
-# Checklist:
-# fzf
-# vim plug
-
+echo "Install essentials"
+source $HOME/.scripts/install/install_essentials.sh
