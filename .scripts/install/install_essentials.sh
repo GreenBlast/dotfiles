@@ -3,7 +3,7 @@ echo "Adding repos"
 sudo add-apt-repository -y ppa:neovim-ppa/stable
 
 echo "Updating"
-#sudo apt-get update
+sudo apt-get update
 
 echo "Installing"
 # Installing neovim
@@ -23,5 +23,5 @@ curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubuserc
 # installing vim plugins
 if command -v vim >/dev/null 2>&1; then
   echo "Bootstraping Vim"
-  vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
+  /usr/bin/nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
 fi
