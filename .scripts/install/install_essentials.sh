@@ -7,7 +7,7 @@ sudo apt-get update
 
 echo "Installing"
 # Installing neovim
-sudo apt-get -y install zsh tmux neovim python-dev python-pip python3-dev python3-pip
+sudo apt-get -y install zsh tmux neovim python-dev python-pip python3-dev python3-pip silversearcher-ag
 
 echo "Pip installing"
 pip2 install --user neovim
