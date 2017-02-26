@@ -1,0 +1,1 @@
+/home/aviad/.config/nvim/autoload/plug.vim
