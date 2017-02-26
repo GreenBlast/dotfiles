@@ -5,6 +5,9 @@ filetype off
 " Required:
 " set runtimepath^=/home/user/.config/nvim/dein/repos/github.com/kien/ctrlp.vim
 
+" For FZF integration
+set rtp+=~/.fzf
+
 " Required for vim-vimplug
 call plug#begin('~/.vim/plugged')
 
@@ -12,6 +15,10 @@ call plug#begin('~/.vim/plugged')
     Plug 'zchee/deoplete-jedi'
     Plug 'ctrlpvim/ctrlp.vim'
     Plug 'tpope/vim-fugitive'
+    Plug 'mileszs/ack.vim'
+"Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --key-bindings --completion --no-update-rc' }
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+    Plug 'junegunn/fzf.vim'
 
 call plug#end()
 
@@ -204,6 +211,12 @@ endif
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 
+" Ack and ag settings
+if executable('ag')
+  "let g:ackprg = 'ag --vimgrep'
+  let g:ackprg = 'ag --nogroup --nocolor --column'
+endif
+
 " ctlp settings
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
@@ -254,3 +267,6 @@ inoremap <Down> <nop>
 
 " Search and replace current hightlighted visual
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
+
+
+

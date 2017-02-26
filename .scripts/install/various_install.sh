@@ -1,2 +1,2 @@
 #!/bin/bash
-sudo apt-get -y install htop vim
+sudo apt-get -y install htop vim ncdu
