@@ -21,6 +21,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf.vim'
     Plug 'zchee/deoplete-clang'
     Plug 'vim-syntastic/syntastic'
+"    Plug 'neomake/neomake'
 
 call plug#end()
 
@@ -310,4 +311,8 @@ let g:syntastic_cpp_compiler = "g++"
 let g:syntastic_cpp_compiler_options = "-std=c++11 -Wall -Wextra -Wpedantic"
 let g:syntastic_python_checkers = ['pylint']
 let g:syntastic_python_pylint_post_args = '--msg-template="{path}:{line}:{column}:{C}: [{symbol} {msg_id}] {msg}"'
-
+let g:syntastic_enable_signs = 0
+let g:syntastic_enable_balloons = 0
+let g:syntastic_enable_highlighting = 0
+let g:syntastic_enable_highlighting = 0
+let g:syntastic_echo_current_error = 0
