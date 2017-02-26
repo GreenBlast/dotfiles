@@ -20,6 +20,7 @@ call plug#begin('~/.vim/plugged')
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
     Plug 'junegunn/fzf.vim'
     Plug 'zchee/deoplete-clang'
+    Plug 'vim-syntastic/syntastic'
 
 call plug#end()
 
@@ -300,3 +301,13 @@ let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/lib/clang'
 " Setting vim to load local vimrc files
 set exrc
 set secure
+
+" Setting syntastic
+let g:syntastic_always_populate_loc_list = 1 
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_cpp_compiler = "g++"
+let g:syntastic_cpp_compiler_options = "-std=c++11 -Wall -Wextra -Wpedantic"
+let g:syntastic_python_checkers = ['pylint']
+let g:syntastic_python_pylint_post_args = '--msg-template="{path}:{line}:{column}:{C}: [{symbol} {msg_id}] {msg}"'
+
