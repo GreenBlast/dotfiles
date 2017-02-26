@@ -14,34 +14,9 @@ call plug#begin('~/.vim/plugged')
     Plug 'tpope/vim-fugitive'
 
 call plug#end()
-"" Required:
-"if dein#load_state('/home/user/.config/nvim/dein')
-"    call dein#begin('/home/user/.config/nvim/dein')
-"
-"    " Let dein manage dein
-"    " Required:
-"    call dein#add('/home/user/.config/nvim/dein/repos/github.com/Shougo/dein.vim')
-"
-"    call dein#add('zchee/deoplete-jedi')
-"    " lazy load on insert mode
-"    "call dein#add('Shougo/deoplete.nvim',  {'on_i': 1})
-"    call dein#add('Shougo/deoplete.nvim')
-"    call dein#add('zchee/deoplete-jedi')
-"    " Use deoplete.
-"    call dein#add('ctrlpvim/ctrlp.vim')
-"    " Add or remove your plugins here:
-""    call dein#add('Shougo/neosnippet.vim')
-""    call dein#add('Shougo/neosnippet-snippets')
-"
-"    call dein#add('tpope/vim-fugitive')
-"
-"    " You can specify revision/branch/tag.
-"    " call dein#add('Shougo/vimshell', { 'rev': '3787e5' })
-"
-"    " Required:
-"    call dein#end()
-"    call dein#save_state()
-"endif
+
+"    call dein#add('Shougo/neosnippet.vim')
+"    call dein#add('Shougo/neosnippet-snippets')
 
 " Required:
 filetype plugin indent on

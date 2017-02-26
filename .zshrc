@@ -86,7 +86,7 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias vim=/usr/bin/nvim
+[ -f /usr/bin/vim ] && alias vim=/usr/bin/nvim
 
 # This should be temporary, should just load all zsh in this dir after dealing with the prompt
 source $HOME/.config/zsh/aliases.zsh
