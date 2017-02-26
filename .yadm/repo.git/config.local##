@@ -1,3 +1,0 @@
-[remote "origin"]
-	url = https://github.com/GreenBlast/dotfiles.git
-	fetch = +refs/heads/*:refs/remotes/origin/*

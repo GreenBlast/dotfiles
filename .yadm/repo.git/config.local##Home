@@ -1,5 +1,0 @@
-[remote "origin"]
-	url = git@github.com:GreenBlast/dotfiles.git
-	fetch = +refs/heads/*:refs/remotes/origin/*
-[local]
-	class = Home
