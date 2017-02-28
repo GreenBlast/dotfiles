@@ -195,7 +195,7 @@ Plug 'zchee/deoplete-jedi'
 Plug 'zchee/deoplete-clang'
 " {{{
     " Settings for deoplete clang
-    let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang-3.8.so.1'
+    let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1'
     let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/lib/clang'
 " }}}
 
@@ -271,9 +271,24 @@ Plug 'neomake/neomake'
 "    endif
 "
 "    " run neomake on the current file on every write:
-    "autocmd! BufWritePost * Neomake
-
+    autocmd! BufWritePost * Neomake
     let g:neomake_python_enabled_makers = ['pylint']
+    let g:neomake_python_pylint_maker = {
+        \ 'args': [
+            \ '--output-format=text',
+            \ '--msg-template="{path}:{line}:{column}:{C}: ({msg_id})[{symbol}] {msg}"',
+            \ '--reports=no'
+        \ ],
+        \ 'errorformat':
+            \ '%A%f:%l:%c:%t: %m,' .
+            \ '%A%f:%l: %m,' .
+            \ '%A%f:(%l): %m,' .
+            \ '%-Z%p^%.%#,' .
+            \ '%-G%.%#',
+        \ 'postprocess': [
+        \   function('neomake#postprocess#GenericLengthPostprocess'),
+        \   function('neomake#makers#ft#python#PylintEntryProcess'),
+        \ ]}
 
 " }}}
 
