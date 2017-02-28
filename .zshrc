@@ -97,7 +97,12 @@ source $HOME/.config/zsh/aliases.zsh
 export PATH=$HOME/.scripts:$PATH
 
 # Setting colors for tmux
-[ -z "$TMUX" ] && export TERM=xterm-256color-italic
+#[ -z $TMUX ] && export TERM=xterm-256color-italic
+if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+    export TERM='xterm-256color'
+else
+    export TERM='xterm-color'
+fi
 
 # Uncomment this after checking the ohmyzsh files to make sure they are setting things that concerning it
 # Lines configured by zsh-newuser-install
