@@ -98,12 +98,13 @@ export PATH=$HOME/.scripts:$PATH
 
 # Setting colors for tmux
 #[ -z $TMUX ] && export TERM=xterm-256color-italic
-if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-    export TERM='xterm-256color'
-else
-    export TERM='xterm-color'
-fi
+#if [ -e /usr/share/terminfo/x/xterm-256color ]; then
+#    export TERM='xterm-256color'
+#else
+#    export TERM='xterm-color'
+#fi
 
+#export TERM='xterm-256color'
 # Uncomment this after checking the ohmyzsh files to make sure they are setting things that concerning it
 # Lines configured by zsh-newuser-install
 #HISTFILE=~/.histfile
@@ -137,4 +138,3 @@ export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-
