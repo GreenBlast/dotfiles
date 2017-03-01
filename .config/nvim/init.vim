@@ -240,7 +240,7 @@ Plug 'tpope/vim-repeat'
 " ====================================================================
 " Git
 " ====================================================================
-"Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 " {{{
 " }}}
 
@@ -710,4 +710,3 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
     " nnoremap <Leader>erc :vsplit $MYVIMRC<cr>
 " }}}
 
-let g:airline_powerline_fonts = 1
