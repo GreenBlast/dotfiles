@@ -710,3 +710,6 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
     " nnoremap <Leader>erc :vsplit $MYVIMRC<cr>
 " }}}
 
+" Counting all occurances under cursor
+map ,* *<C-O>:%s///gn<CR>
+
