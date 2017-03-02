@@ -1,13 +1,20 @@
 #!/bin/bash
 echo "Adding repos"
-sudo add-apt-repository -y ppa:neovim-ppa/stable
+if [ "$(id -u)" != "0" ]; then
+    RUN_AS_ROOT='sudo'
+else
+    RUN_AS_ROOT=''
+fi
+
+$RUN_AS_ROOT apt-get -y install software-properties-common
+$RUN_AS_ROOT add-apt-repository -y ppa:neovim-ppa/stable
 
 echo "Updating"
-sudo apt-get update
+$RUN_AS_ROOT apt-get update
 
 echo "Installing"
 # Installing neovim
-sudo apt-get -y install zsh tmux neovim python-dev python-pip python3-dev python3-pip silversearcher-ag
+$RUN_AS_ROOT apt-get -y install zsh tmux python-dev python-pip python3-dev python3-pip silversearcher-ag neovim
 
 echo "Pip installing"
 pip2 install --user neovim
@@ -25,3 +32,4 @@ if command -v vim >/dev/null 2>&1; then
   echo "Bootstraping Vim"
   /usr/bin/nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+qall'
 fi
+

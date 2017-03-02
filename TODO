@@ -1,2 +1,7 @@
 setup spaceship theme
 setup neomake in vim
+need to add: deb http://ppa.launchpad.net/neovim-ppa/unstable/ubuntu vivid main to sources.list dynamically
+https://github.com/square/maximum-awesome
+https://github.com/jabbalaci/dotfiles/blob/master/nvim/init.vim
+make term var in tmux tmux-256color
+https://medium.com/square-corner-blog/fly-vim-first-class-610f1a39b572#.w1xeqkaet
