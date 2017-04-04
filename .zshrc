@@ -94,7 +94,9 @@ source $HOME/.config/zsh/aliases.zsh
 #for config ($ZSH/**/*completion.zsh) source $config
 
 # Adding scripts dir
-export PATH=$HOME/.scripts:$PATH
+if [[ ! "$PATH" == *$HOME/.scripts* ]]; then
+  export PATH="$PATH:$HOME/.scripts"
+fi
 
 # Setting colors for tmux
 #[ -z $TMUX ] && export TERM=xterm-256color-italic
