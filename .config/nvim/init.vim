@@ -380,6 +380,14 @@ Plug 'vim-scripts/BufOnly.vim'
 " Navigation
 " ====================================================================.
 
+" Vim HardTime
+Plug 'takac/vim-hardtime'
+" {{{
+    let g:hardtime_default_on = 1
+    let g:hardtime_showmsg = 1
+" }}}
+
+
 Plug 'easymotion/vim-easymotion'
 " {{{
 "    " http://vimawesome.com/plugin/easymotion
@@ -403,6 +411,15 @@ Plug 'easymotion/vim-easymotion'
 "    " If you want to use more useful mappings, please see :h easymotion.txt for more detail.
 " }}}
 
+" Most Recent Used for fzf
+Plug 'lvht/fzf-mru'
+" {{{
+    " set max lenght for the mru file list
+    let g:fzf_mru_file_list_size = 10 " default value
+    " set path pattens that should be ignored
+    let g:fzf_mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
+" }}}
+
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " {{{
@@ -413,8 +430,7 @@ Plug 'junegunn/fzf.vim'
 " }}}
 
 
-
-Plug 'shougo/unite.vim' | Plug 'shougo/neomru.vim'
+"Plug 'shougo/unite.vim' | Plug 'shougo/neomru.vim'
 " {{{
 "    " Ctrl-p    -> since we are used to it
 "    " http://vimawesome.com/plugin/unite-vim
@@ -450,6 +466,9 @@ Plug 'mileszs/ack.vim'
     endif
 " }}}
 
+Plug 'Shougo/denite.nvim'
+" {{{
+" }}}
 
 " ====================================================================
 " Tags
