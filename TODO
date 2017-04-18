@@ -5,3 +5,4 @@ https://github.com/square/maximum-awesome
 https://github.com/jabbalaci/dotfiles/blob/master/nvim/init.vim
 make term var in tmux tmux-256color - and or also in bashrc, while adding bashrc to dotfiles
 https://medium.com/square-corner-blog/fly-vim-first-class-610f1a39b572#.w1xeqkaet
+Add yadm class for each location, and for example add the warprc as a linked file to this class?
