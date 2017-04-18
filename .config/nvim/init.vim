@@ -98,7 +98,7 @@ let g:python_host_prog = '/usr/bin/python2'
 let g:python3_host_prog = '/usr/bin/python3'
 
 
-" Autoinstall vim-plug {{{
+" Autoinstall vim-lug {{{
     " https://github.com/junegunn/vim-plug
     let s:vim_plug_dir=expand($HOME.'/.config/nvim/autoload')
     if !filereadable(s:vim_plug_dir.'/plug.vim')
@@ -124,11 +124,15 @@ call plug#begin('~/nvim.local/plugged')
 " ====================================================================
 Plug 'freeo/vim-kalisi'
 Plug 'michalbachowski/vim-wombat256mod'
+Plug 'joshdick/onedark.vim'
+Plug 'chriskempson/base16-vim'
 
 
 " ====================================================================
 " Visuals
 " ====================================================================
+
+" Indenting lines with given characters
 Plug 'Yggdroot/indentLine'
 " {{{
     " :h indentLine.txt
@@ -164,6 +168,7 @@ Plug 'elzr/vim-json'
 " Completion
 " ====================================================================
 
+" Dark powered async autocomplete
 Plug 'Shougo/deoplete.nvim'
 " {{{
 
@@ -190,8 +195,10 @@ Plug 'Shougo/deoplete.nvim'
     augroup end
 " }}}
 
+" Adding autocomplete support for python
 Plug 'zchee/deoplete-jedi'
 
+" Auto complete support for c based languages
 Plug 'zchee/deoplete-clang'
 " {{{
     " Settings for deoplete clang
@@ -199,7 +206,10 @@ Plug 'zchee/deoplete-clang'
     let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/lib/clang'
 " }}}
 
+" Add ability to surround given strings with characters
 Plug 'tpope/vim-surround'
+
+" Add dot repeat function to tpope plugins
 Plug 'tpope/vim-repeat'
 " {{{
     " viw    -> visually select the current word
@@ -427,6 +437,17 @@ Plug 'junegunn/fzf.vim'
     imap <c-x><c-f> <plug>(fzf-complete-path)
     imap <c-x><c-j> <plug>(fzf-complete-file-ag)
     imap <c-x><c-l> <plug>(fzf-complete-line)
+
+    command! FZFMix call fzf#run({
+            \'source':  'bash -c "'.
+            \               'echo -e \"'.join(v:oldfiles, '\n').'\";'.
+            \               'ag -l -g \"\"'.
+            \           '"',
+            \'sink' : 'e ',
+            \'dir' : './/',
+            \'options' : '-e -m --reverse',
+            \'window' : 'enew',
+            \})
 " }}}
 
 
@@ -458,13 +479,15 @@ Plug 'junegunn/fzf.vim'
 "    noremap <F3> :Unite file_mru<cr>
 " }}}
 
-Plug 'mileszs/ack.vim'
-" {{{
-    if executable('ag')
-      "let g:ackprg = 'ag --vimgrep'
-      let g:ackprg = 'ag --nogroup --nocolor --column'
-    endif
-" }}}
+" Ack lets you search files
+" Disabled because using fzf, which also uses ag
+""Plug 'mileszs/ack.vim'
+"" {{{
+"    if executable('ag')
+"      "let g:ackprg = 'ag --vimgrep'
+"      let g:ackprg = 'ag --nogroup --nocolor --column'
+"    endif
+"" }}}
 
 Plug 'Shougo/denite.nvim'
 " {{{
@@ -668,24 +691,30 @@ set nospell                         "by default spell is off
 
 " ============== Color scheme =========================
 
-set background=dark
+"set background=dark
 " {{{
-    colorscheme kalisi
-    " black background:
-    hi Normal  ctermbg=Black guifg=#d0d0d0 guibg=Black  gui=none
-    " black background at the end of file too (with lines ~):
-    hi NonText ctermbg=Black guifg=#958b7f guibg=Black gui=none
+    "colorscheme kalisi
+    "" {{{
+    "    " black background:
+    "    hi Normal  ctermbg=Black guifg=#d0d0d0 guibg=Black  gui=none
+    "    " black background at the end of file too (with lines ~):
+    "    hi NonText ctermbg=Black guifg=#d0d0d0 guibg=Black gui=none
+    "" }}}
+    colorscheme onedark
+    " {{{
+        "set background=dark
+    " }}}
 " }}}
 "colorscheme advantage
 "colorscheme elflord
-"hi LineNr       term=bold cterm=bold ctermfg=2 guifg=DarkGrey guibg=#334C75
-"hi LineNr       term=bold cterm=bold ctermfg=2 guifg=Grey
+"hi lineNr       term=bold cterm=bold ctermfg=2 guifg=DarkGrey guibg=#334C75
+"hi lineNr       term=bold cterm=bold ctermfg=2 guifg=Grey
 "guibg=Grey90
 "colorscheme PaperColor
 "colorscheme wombat256mod
 " ================= Keys ===========================
 
-"Allow saving of files as sudo when I forgot to start vim using sudo."
+"allow saving of files as sudo when I forgot to start vim using sudo."
 cmap w!! w !sudo tee > /dev/null %
 
 " XML Lint
@@ -709,6 +738,7 @@ noremap <Leader>/ :nohls<CR>
 
 " Exiting insert mode with jk
 inoremap jk <Esc><Esc>
+noremap jk <Esc><Esc>
 
 " Hard mode - Setting escape not to work in insert mode,
 inoremap <esc> <nop>
@@ -732,3 +762,6 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 " Counting all occurances under cursor
 map ,* *<C-O>:%s///gn<CR>
 
+
+" Setting C-l to denite
+nnoremap <C-l> :Denite file file_rec buffer file_mru everything<CR>
