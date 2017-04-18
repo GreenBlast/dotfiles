@@ -246,6 +246,10 @@ Plug 'tpope/vim-repeat'
     vnoremap <Leader>`  <esc>`<i`<esc>`>la`<esc>
 " }}}
 
+" automatic closing of quotes, parenthesis, brackets, etc.
+Plug 'Raimondi/delimitMate'
+" {{{
+" }}}
 
 " ====================================================================
 " Git
@@ -640,16 +644,22 @@ endif
 " ============== Settings =========================
 " Indenting the next lines in a scope by 4 spaces
 set shiftwidth=4
-" Replacing shift with tabs
+
+" Tabs are expanded to spaces
 set expandtab
+
 " Dont know what this do yet,
 "set backspace=2,indent,eol,start
+
 " Tab is 4 spaces
 set tabstop=4
+
 " Syntax highlight
 syntax on
+
 " Highlight search"
 set hlsearch
+
 " Case insensitive search
 set ignorecase
 
@@ -793,3 +803,4 @@ omap <Leader><Leader>/ <Plug>(easymotion-tn)
 " different highlight method and have some other features )
 "map  n <Plug>(easymotion-next)
 "map  N <Plug>(easymotion-prev)
+
