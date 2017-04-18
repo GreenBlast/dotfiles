@@ -459,6 +459,13 @@ Plug 'junegunn/fzf.vim'
             \'options' : '-e -m --reverse',
             \'window' : 'enew',
             \})
+
+    " Adding functionality to get root if in git repo, and FZF on it
+    function! s:find_git_root()
+        return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+    endfunction
+
+    command! ProjectFiles execute 'Files' s:find_git_root()
 " }}}
 
 
@@ -704,14 +711,14 @@ set nospell                         "by default spell is off
 
 "set background=dark
 " {{{
-    "colorscheme kalisi
-    "" {{{
-    "    " black background:
-    "    hi Normal  ctermbg=Black guifg=#d0d0d0 guibg=Black  gui=none
-    "    " black background at the end of file too (with lines ~):
-    "    hi NonText ctermbg=Black guifg=#d0d0d0 guibg=Black gui=none
-    "" }}}
-    colorscheme onedark
+    colorscheme kalisi
+    " {{{
+        " black background:
+        hi Normal  ctermbg=Black guifg=#d0d0d0 guibg=Black  gui=none
+        " black background at the end of file too (with lines ~):
+        hi NonText ctermbg=Black guifg=#d0d0d0 guibg=Black gui=none
+    " }}}
+    "colorscheme onedark
     " {{{
         "set background=dark
     " }}}
@@ -749,7 +756,6 @@ noremap <Leader>/ :nohls<CR>
 
 " Exiting insert mode with jk
 inoremap jk <Esc><Esc>
-noremap jk <Esc><Esc>
 
 " Hard mode - Setting escape not to work in insert mode,
 inoremap <esc> <nop>
@@ -776,3 +782,14 @@ map ,* *<C-O>:%s///gn<CR>
 
 " Setting C-l to denite
 nnoremap <C-l> :Denite file file_rec buffer file_mru everything<CR>
+
+
+" Gif config
+map <Leader><Leader>/ <Plug>(easymotion-sn)
+omap <Leader><Leader>/ <Plug>(easymotion-tn)
+
+" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+" Without these mappings, `n` & `N` works fine. (These mappings just provide
+" different highlight method and have some other features )
+"map  n <Plug>(easymotion-next)
+"map  N <Plug>(easymotion-prev)
