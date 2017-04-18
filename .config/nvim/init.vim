@@ -302,6 +302,17 @@ Plug 'neomake/neomake'
 
 " }}}
 
+" vim -b : edit binary using xxd-format!
+augroup Binary
+    au!
+    au BufReadPre  *.bin let &bin=1
+    au BufReadPost *.bin if &bin | %!xxd
+    au BufReadPost *.bin set ft=xxd | endif
+    au BufWritePre *.bin if &bin | %!xxd -r
+    au BufWritePre *.bin endif
+    au BufWritePost *.bin if &bin | %!xxd
+    au BufWritePost *.bin set nomod | endif
+augroup END
 
 " ====================================================================
 " Session management
@@ -662,19 +673,19 @@ set autochdir
 
 
 " remove trailing whitespaces, strip, trim {{{
-"    autocmd BufWritePre *.txt :%s/\s\+$//e
-"    autocmd BufWritePre *.py :%s/\s\+$//e
-"    autocmd BufWritePre *.scala :%s/\s\+$//e
-"    autocmd BufWritePre *.pl :%s/\s\+$//e
-"    autocmd BufWritePre *.php :%s/\s\+$//e
-"    autocmd BufWritePre *.java :%s/\s\+$//e
-"    autocmd BufWritePre *.md :%s/\s\+$//e
-"    autocmd BufWritePre *.h :%s/\s\+$//e
-"    autocmd BufWritePre *.tex :%s/\s\+$//e
-"    autocmd BufWritePre *.vim :%s/\s\+$//e
-"    autocmd BufWritePre *.nfo :%s/\s\+$//e
-"    autocmd BufWritePre *.json :%s/\s\+$//e
-"    autocmd BufWritePre *.rs :%s/\s\+$//e
+    autocmd BufWritePre *.txt :%s/\s\+$//e
+    autocmd BufWritePre *.py :%s/\s\+$//e
+    autocmd BufWritePre *.scala :%s/\s\+$//e
+    autocmd BufWritePre *.pl :%s/\s\+$//e
+    autocmd BufWritePre *.php :%s/\s\+$//e
+    autocmd BufWritePre *.java :%s/\s\+$//e
+    autocmd BufWritePre *.md :%s/\s\+$//e
+    autocmd BufWritePre *.h :%s/\s\+$//e
+    autocmd BufWritePre *.tex :%s/\s\+$//e
+    autocmd BufWritePre *.vim :%s/\s\+$//e
+    autocmd BufWritePre *.nfo :%s/\s\+$//e
+    autocmd BufWritePre *.json :%s/\s\+$//e
+    autocmd BufWritePre *.rs :%s/\s\+$//e
 " }}}
 
 
