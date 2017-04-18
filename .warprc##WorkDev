@@ -1,0 +1,5 @@
+config:/etc/fides
+dev:~/dev/fides
+scripts:~/.scripts
+bbx:~/dev/fides/src/sniffer/bbx
+mail:/var/mail
