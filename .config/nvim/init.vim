@@ -698,6 +698,7 @@ set autochdir
     autocmd BufWritePre *.java :%s/\s\+$//e
     autocmd BufWritePre *.md :%s/\s\+$//e
     autocmd BufWritePre *.h :%s/\s\+$//e
+    autocmd BufWritePre *.cpp :%s/\s\+$//e
     autocmd BufWritePre *.tex :%s/\s\+$//e
     autocmd BufWritePre *.vim :%s/\s\+$//e
     autocmd BufWritePre *.nfo :%s/\s\+$//e
@@ -803,4 +804,5 @@ omap <Leader><Leader>/ <Plug>(easymotion-tn)
 " different highlight method and have some other features )
 "map  n <Plug>(easymotion-next)
 "map  N <Plug>(easymotion-prev)
+
 
