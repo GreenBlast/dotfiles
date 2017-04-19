@@ -6,3 +6,13 @@ make term var in tmux tmux-256color - and or also in bashrc, while adding bashrc
 https://medium.com/square-corner-blog/fly-vim-first-class-610f1a39b572#.w1xeqkaet
 Add yadm class for each location, and for example add the warprc as a linked file to this class?
 setup neomake in vim
+
+
+" markdown
+Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open markdown files in Marked.app - mapped to <leader>m
+Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown support
+
+" Async make
+Plug 'Shougo/vimproc.vim', { 'do': 'make' } " interactive command execution in vim
+ Choose Files Choose Files
+
