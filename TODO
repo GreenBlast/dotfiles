@@ -1,5 +1,4 @@
 setup spaceship theme
-need to add: deb http://ppa.launchpad.net/neovim-ppa/unstable/ubuntu vivid main to sources.list dynamically
 https://github.com/square/maximum-awesome
 https://github.com/jabbalaci/dotfiles/blob/master/nvim/init.vim
 make term var in tmux tmux-256color - and or also in bashrc, while adding bashrc to dotfiles
