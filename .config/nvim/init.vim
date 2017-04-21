@@ -728,6 +728,10 @@ set nospell                         "by default spell is off
         hi Normal  ctermbg=Black guifg=#d0d0d0 guibg=Black  gui=none
         " black background at the end of file too (with lines ~):
         hi NonText ctermbg=Black guifg=#d0d0d0 guibg=Black gui=none
+        " black background:
+        hi Normal  ctermbg=Black guifg=#d0d0d0 guibg=Black  gui=none
+        " black background at the end of file too (with lines ~):
+        hi NonText ctermbg=Black guifg=#d0d0d0 guibg=Black gui=none
     " }}}
     "colorscheme onedark
     " {{{
