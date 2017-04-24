@@ -4,3 +4,4 @@ scripts:~/.scripts
 bbx:~/dev/fides/src/sniffer/bbx
 mail:/var/mail
 logs:/var/log/fides
+alerts:/var/fides/alerts
