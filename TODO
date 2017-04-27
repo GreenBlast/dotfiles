@@ -1,3 +1,4 @@
+check makefile script
 setup spaceship theme
 make term var in tmux tmux-256color - and or also in bashrc, while adding bashrc to dotfiles
 Add yadm class for each location, and for example add the warprc as a linked file to this class?
