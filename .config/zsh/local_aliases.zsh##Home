@@ -1,0 +1,4 @@
+
+# setting alias to attach to raspi server
+alias rpi='ssh pi@192.168.3.132 -t "tmux new-session -A -s main"'
+alias rpix='ssh pi@192.168.3.132 -X -t "tmux new-session -A -s main"'

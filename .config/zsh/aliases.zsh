@@ -62,3 +62,6 @@ alias fs="stat -f \"%z bytes\""
 #alias stfu="osascript -e 'set volume output muted true'"
 #alias pumpitup="osascript -e 'set volume 10'"
 
+# Setting local aliases
+source ./local_aliases.zsh
+
