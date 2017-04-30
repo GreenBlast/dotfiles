@@ -86,7 +86,10 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-[ -f /usr/bin/nvim ] && alias vim=/usr/bin/nvim
+NVIM_PATH=/usr/bin/nvim
+if [ -f $NVIM_PATH ]; then  
+    alias vim=$NVIM_PATH
+fi
 
 # This should be temporary, should just load all zsh in this dir after dealing with the prompt
 source $HOME/.config/zsh/aliases.zsh
@@ -142,5 +145,5 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Exporting editor
-export VISUAL=vim
+export VISUAL=$NVIM_PATH
 export EDITOR="$VISUAL"

@@ -63,5 +63,5 @@ alias fs="stat -f \"%z bytes\""
 #alias pumpitup="osascript -e 'set volume 10'"
 
 # Setting local aliases
-source ./local_aliases.zsh
+source $HOME/.config/zsh/local_aliases.zsh
 

@@ -318,6 +318,12 @@ augroup Binary
     au BufWritePost *.bin set nomod | endif
 augroup END
 
+" Unimpaired adds various shortcuts
+Plug 'tpope/vim-unimpaired'
+" {{{
+" }}}
+
+
 " ====================================================================
 " Session management
 " ====================================================================
@@ -399,7 +405,6 @@ Plug 'vim-scripts/BufOnly.vim'
 " {{{
     " :BufOnly closes all buffers except the current one
 " }}}
-
 
 " ====================================================================
 " Navigation
