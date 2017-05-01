@@ -89,6 +89,7 @@ source $ZSH/oh-my-zsh.sh
 NVIM_PATH=/usr/bin/nvim
 if [ -f $NVIM_PATH ]; then  
     alias vim=$NVIM_PATH
+    export GIT_EDITOR=$NVIM_PATH
 fi
 
 # This should be temporary, should just load all zsh in this dir after dealing with the prompt
