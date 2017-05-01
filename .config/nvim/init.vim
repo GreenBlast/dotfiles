@@ -453,6 +453,11 @@ Plug 'lvht/fzf-mru'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " {{{
+
+    " [Tags] Command to generate tags file
+    let g:fzf_tags_command = 'ctags -R'
+
+
     imap <c-x><c-k> <plug>(fzf-complete-word)
     imap <c-x><c-f> <plug>(fzf-complete-path)
     imap <c-x><c-j> <plug>(fzf-complete-file-ag)
