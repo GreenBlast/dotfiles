@@ -1,0 +1,53 @@
+remove vimrc from HOME, so that vim could start without problems
+make term var in tmux tmux-256color - and or also in bashrc, while adding bashrc to dotfiles
+Add yadm class for each location, and for example add the warprc as a linked file to this class?
+
+
+" markdown
+Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open markdown files in Marked.app - mapped to <leader>m
+Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown support
+
+" Async make
+Plug 'Shougo/vimproc.vim', { 'do': 'make' } " interactive command execution in vim
+ Choose Files Choose Files
+
+
+
+Plug 'tpope/vim-commentary' " comment stuff out
+Plug 'tpope/vim-unimpaired' " mappings which are simply short normal mode aliases for commonly used ex commands
+
+Plug 'tpope/vim-ragtag' " endings for html, xml, etc. - ehances surround
+garbas/vim-snipmate
+tpope/vim-vinegar
+
+" buffer keys
+nnoremap <Leader>bb :b#<CR>
+nnoremap <Leader>bn :bn<CR>
+nnoremap <Leader>bp :bp<CR>
+nnoremap <Leader>bf :bf<CR>
+nnoremap <Leader>bl :bl<CR>
+nnoremap <Leader>bw :w<CR>:bd<CR>
+nnoremap <Leader>bd :bd!<CR>
+" new buffer/tab
+nnoremap <Leader>e :enew<CR>
+
+" window keys
+nnoremap <Leader>w< <C-w><
+nnoremap <Leader>w> <C-w>>
+nnoremap <Leader>w- <C-w>-
+nnoremap <Leader>w+ <C-w>+
+nnoremap <Leader>ws :split<CR>
+nnoremap <Leader>wv :vsplit<CR>
+nnoremap <Leader>wx :close<CR>
+
+" %% to expand active buffer location on cmdline
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
+" CtrlP keys
+nnoremap <Leader>pp :CtrlP<CR>
+nnoremap <Leader>pf :CtrlP<CR>
+nnoremap <Leader>pm :CtrlPMRUFiles<CR>
+nnoremap <Leader>pr :CtrlPMRUFiles<CR>
+nnoremap <Leader>pb :CtrlPBuffer<CR>
+
+
