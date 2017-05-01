@@ -1,4 +1,4 @@
-#!/grid/common/pkgs/python/v3.4.0/bin/python3.4 -B
+#!/usr/bin/python3
 """
  CLion project generator.
  The scripts runs dry run in one or more directories and builds CLion project out of log.
@@ -21,8 +21,9 @@ import re
 import shutil
 import subprocess
 import sys
+from ipdb import launch_ipdb_on_exception
 
-gcc_path = "/grid/common/pkgs/gcc/v4.8.3/bin/g++"
+gcc_path = "/usr/bin/g++"
 
 
 def main():
@@ -983,7 +984,8 @@ if __name__ == "__main__":
     # line = "a>>b"
     # tokens = MakeProject.split_shell_command(line, [' '], [">>", ">"])
     # print(tokens)
-    main()
+    with launch_ipdb_on_exception():
+        main()
 
 # TODO: debug/release build
 # TODO: mv in /vobs/rcc/lib/featurefile
