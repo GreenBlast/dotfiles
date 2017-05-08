@@ -1,6 +1,6 @@
+check out easymotions shortcuts
 remove vimrc from HOME, so that vim could start without problems
 make term var in tmux tmux-256color - and or also in bashrc, while adding bashrc to dotfiles
-Add yadm class for each location, and for example add the warprc as a linked file to this class?
 
 
 " markdown
@@ -14,11 +14,21 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' } " interactive command execution in v
 
 
 Plug 'tpope/vim-commentary' " comment stuff out
-Plug 'tpope/vim-unimpaired' " mappings which are simply short normal mode aliases for commonly used ex commands
 
 Plug 'tpope/vim-ragtag' " endings for html, xml, etc. - ehances surround
 garbas/vim-snipmate
+" Improves the builtin netrw
 tpope/vim-vinegar
+
+" Session management needs to compare with the current
+tpope/vim-obsession
+
+Also check tmux resurrect for vim sessions:
+# for vim
+set -g @resurrect-strategy-vim 'session'
+# for neovim
+set -g @resurrect-strategy-nvim 'session'
+
 
 " buffer keys
 nnoremap <Leader>bb :b#<CR>
