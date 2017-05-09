@@ -556,7 +556,7 @@ call plug#end()    " vim-plug
 
 
 
-" =================================================================================
+" ====================================================================
 
 " Always show status bar
 set laststatus=2
@@ -813,10 +813,16 @@ nnoremap <C-l> :Denite file file_rec buffer file_mru everything<CR>
 map <Leader><Leader>/ <Plug>(easymotion-sn)
 omap <Leader><Leader>/ <Plug>(easymotion-tn)
 
-" These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
-" Without these mappings, `n` & `N` works fine. (These mappings just provide
-" different highlight method and have some other features )
-"map  n <Plug>(easymotion-next)
-"map  N <Plug>(easymotion-prev)
 
+" This block sets tmux activity to off, since for some reason NeoVim causes an
+" activity when leaving the pane
+if exists('$TMUX')
+
+augroup tmux_no_activity
+    autocmd!
+    autocmd VimEnter * !tmux set-window-option monitor-activity off
+    autocmd VimLeave * !tmux set-window-option monitor-activity on
+augroup end
+
+endif
 
