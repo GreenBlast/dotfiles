@@ -439,6 +439,17 @@ Plug 'easymotion/vim-easymotion'
 "    map <Leader>k <Plug>(easymotion-k)
 "    map <Leader>l <Plug>(easymotion-bd-jk)
 "    " If you want to use more useful mappings, please see :h easymotion.txt for more detail.
+
+    " Setting an easymotion search
+    map s  <Plug>(easymotion-sn)
+    omap s <Plug>(easymotion-tn)
+
+    " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
+    " Without these mappings, `n` & `N` works fine. (These mappings just provide
+    " different highlight method and have some other features )
+    "map  n <Plug>(easymotion-next)
+    "map  N <Plug>(easymotion-prev)
+
 " }}}
 
 " Most Recent Used for fzf
@@ -808,21 +819,15 @@ map ,* *<C-O>:%s///gn<CR>
 " Setting C-l to denite
 nnoremap <C-l> :Denite file file_rec buffer file_mru everything<CR>
 
-
-" Gif config
-map <Leader><Leader>/ <Plug>(easymotion-sn)
-omap <Leader><Leader>/ <Plug>(easymotion-tn)
-
-
 " This block sets tmux activity to off, since for some reason NeoVim causes an
 " activity when leaving the pane
 if exists('$TMUX')
 
-augroup tmux_no_activity
-    autocmd!
-    autocmd VimEnter * !tmux set-window-option monitor-activity off
-    autocmd VimLeave * !tmux set-window-option monitor-activity on
-augroup end
+    augroup tmux_no_activity
+        autocmd!
+        autocmd VimEnter * !tmux set-window-option monitor-activity off
+        autocmd VimLeave * !tmux set-window-option monitor-activity on
+    augroup end
 
 endif
 
