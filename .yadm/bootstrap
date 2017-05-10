@@ -11,4 +11,5 @@ echo "Install essentials"
 source $HOME/.scripts/install/install_essentials.sh
 
 # linking theme
+mkdir -p $HOME/.oh-my-zsh/custom/themes
 ln -s $HOME/.config/zsh/spaceship.zsh-theme $HOME/.oh-my-zsh/custom/themes/spaceship.zsh-theme
