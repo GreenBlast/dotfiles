@@ -323,6 +323,10 @@ Plug 'tpope/vim-unimpaired'
 " {{{
 " }}}
 
+" Comment stuff out
+Plug 'tpope/vim-commentary'
+" {{{
+" }}}
 
 " ====================================================================
 " Session management

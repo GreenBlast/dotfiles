@@ -1,7 +1,4 @@
-check out easymotions shortcuts
-remove vimrc from HOME, so that vim could start without problems
 make term var in tmux tmux-256color - and or also in bashrc, while adding bashrc to dotfiles
-
 
 " markdown
 Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open markdown files in Marked.app - mapped to <leader>m
@@ -11,9 +8,6 @@ Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown support
 Plug 'Shougo/vimproc.vim', { 'do': 'make' } " interactive command execution in vim
  Choose Files Choose Files
 
-
-
-Plug 'tpope/vim-commentary' " comment stuff out
 
 Plug 'tpope/vim-ragtag' " endings for html, xml, etc. - ehances surround
 garbas/vim-snipmate
