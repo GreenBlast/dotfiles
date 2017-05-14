@@ -3,7 +3,10 @@
 # ncdu - Ncurses interface du
 # htop - Improved top
 # clang - C language framework
-# iptraf - monitor IP traffic
-# exuberant-ctags - ctags for C language
+# iptraf - Monitor IP traffic
+# exuberant-ctags - Ctags for C language
+# ipython - Python shell
+# xclip - Clipboard utility
 
-sudo apt-get -y install htop vim ncdu clang iptraf exuberant-ctags
+
+sudo apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip
