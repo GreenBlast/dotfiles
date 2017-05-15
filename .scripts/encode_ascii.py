@@ -28,11 +28,11 @@ def parse_number(hex_string):
     encoded_hex_chars_with_parity = [set_parity(format(ord(x), 'X')) for x in hex_string]
     return "".join(encoded_hex_chars_with_parity)
 
-def prepare_hex_string(number):
+def prepare_hex_string(number, base=10):
     """
     Gets an int number, and returns the hex representation with even length padded to the left with zeroes
     """
-    int_number = int(number)
+    int_number = int(number, base)
     hex_number = format(int_number, 'X')
 
     # Takes the string and pads to the left to make sure the number of characters is even
@@ -61,6 +61,8 @@ def main():
     """
     if sys.argv[1] == '-f':
         print parse_number(":" + append_checksum(prepare_hex_string(sys.argv[2])) + "\x0d\x0a")
+    elif sys.argv[1] == '-hf':
+        print parse_number(":" + append_checksum(prepare_hex_string(sys.argv[2], 16)) + "\x0d\x0a")
     else:
         print parse_number(prepare_hex_string(sys.argv[1]))
 

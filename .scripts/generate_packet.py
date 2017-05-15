@@ -11,7 +11,7 @@ DST_MAC = "00:50:56:b3:c7:fc"
 SRC_IP = "4.4.4.4"
 DST_IP = "4.4.4.5"
 RANDOM_PORT = 12345
-MODBUS_PORT = 1010
+TARGET_PORT = 1010
 
 def build_pcap(payload, src_port, dst_port):
     """
@@ -33,9 +33,9 @@ def main():
     Main function
     """
     if sys.argv[1] == '-r':
-        build_pcap(sys.argv[2], MODBUS_PORT, RANDOM_PORT)
+        build_pcap(sys.argv[2], TARGET_PORT, RANDOM_PORT)
     else:
-        build_pcap(sys.argv[1], RANDOM_PORT, MODBUS_PORT)
+        build_pcap(sys.argv[1], RANDOM_PORT, TARGET_PORT)
 
 if __name__ == "__main__":
     main()
