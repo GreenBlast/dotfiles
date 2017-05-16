@@ -746,6 +746,7 @@ set autochdir
     autocmd BufWritePre *.nfo :%s/\s\+$//e
     autocmd BufWritePre *.json :%s/\s\+$//e
     autocmd BufWritePre *.rs :%s/\s\+$//e
+    autocmd BufWritePre *.config :%s/\s\+$//e
 " }}}
 
 
