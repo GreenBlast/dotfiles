@@ -103,14 +103,12 @@ if [[ ! "$PATH" == *$HOME/.scripts* ]]; then
 fi
 
 # Setting colors for tmux
-#[ -z $TMUX ] && export TERM=xterm-256color-italic
-#if [ -e /usr/share/terminfo/x/xterm-256color ]; then
-#    export TERM='xterm-256color'
-#else
-#    export TERM='xterm-color'
-#fi
+if [ 'find /lib/terminfo /usr/share/terminfo -name "*256*" | grep xterm-256color' ]; then
+    export TERM='xterm-256color'
+else
+    export TERM='xterm-color'
+fi
 
-#export TERM='xterm-256color'
 # Uncomment this after checking the ohmyzsh files to make sure they are setting things that concerning it
 # Lines configured by zsh-newuser-install
 #HISTFILE=~/.histfile
@@ -148,3 +146,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 # Exporting editor
 export VISUAL=$NVIM_PATH
 export EDITOR="$VISUAL"
+
+
+
