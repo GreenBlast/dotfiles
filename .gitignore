@@ -1,0 +1,7 @@
+# Ignore everything
+/*
+
+# Except this locations
+!/.gitignore
+!/vimwiki
+#!/vimwiki/*
