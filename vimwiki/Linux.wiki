@@ -1,0 +1,7 @@
+= Linux =
+
+
+== Add to sudouers ==
+
+# Enable calling script without password prompt
+# user    ALL=(root) NOPASSWD: /home/user/.scripts/start_sniffer_for_debug.sh
