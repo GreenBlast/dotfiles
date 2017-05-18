@@ -582,6 +582,14 @@ Plug 'majutsushi/tagbar'
     nnoremap <F4> :TagbarToggle<cr>
 " }}}
 
+" ====================================================================
+" VimWiki
+" ====================================================================
+
+Plug 'vimwiki/vimwiki'
+" {{{
+" }}}
+
 
 call plug#end()    " vim-plug
 
