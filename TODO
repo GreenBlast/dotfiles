@@ -69,4 +69,6 @@ nnoremap <Leader>pm :CtrlPMRUFiles<CR>
 nnoremap <Leader>pr :CtrlPMRUFiles<CR>
 nnoremap <Leader>pb :CtrlPBuffer<CR>
 
+---
 
+Add hebrew?
