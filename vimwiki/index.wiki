@@ -1,6 +1,8 @@
+= Vim Wiki =
 
+== Checklists ==
+* [[Dotfiles TODO]]
 
-
-= Knowledge =
-
+== Knowledge ==
 * [[Linux]]
+* [[Vim tips]]

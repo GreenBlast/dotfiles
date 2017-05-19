@@ -1,0 +1,37 @@
+= Vim tips =
+
+* gx
+Open URL under cursor in your browser
+
+* :retab
+Replace TABs with 4 spaces
+
+* :set filetype?
+Current filetype
+
+* :edit
+Reload the current file (if it was changed outside of vim)
+
+* nvim --startuptime nvim.log
+Check what makes vim slow to load
+
+* :map H
+What is mapped on H ?
+
+* :verb set expandtab?
+If expandtab is not OK, then find out which config file changed it for the last time (verbose)
+
+* :set ft=json
+Treat the file as a json file (even if it has a different extension) [ft: filetype]
+
+
+== Variables ==
+* (nothing) In a function: local to a function; otherwise: global
+* |buffer-variable|    b:   Local to the current buffer.
+* |window-variable|    w:   Local to the current window.
+* |tabpage-variable|   t:   Local to the current tab page.
+* |global-variable|    g:   Global.
+* |local-variable|     l:   Local to a function.
+* |script-variable|    s:   Local to a |:source|'ed Vim script.
+* |function-argument|  a:   Function argument (only inside a function).
+* |vim-variable|       v:   Global, predefined by Vim.

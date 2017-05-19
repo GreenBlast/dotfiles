@@ -1,3 +1,5 @@
+= Dotfiles TODO =
+
 Add to included profile script if not exist (See FZF)
 make term var in tmux tmux-256color - and or also in bashrc, while adding bashrc to dotfiles
 if [ 'find /lib/terminfo /usr/share/terminfo -name "*256*" | grep xterm-256color' ]; then
@@ -66,4 +68,4 @@ nnoremap <Leader>pb :CtrlPBuffer<CR>
 
 ---
 
-Add hebrew?
+A
