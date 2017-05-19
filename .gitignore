@@ -1,23 +1,33 @@
 # Ignore everything
 /*
 
+# Ignore vim temp files
+*~
+*.swp
+*.swo
+
 # Except the gitignore
 !/.gitignore
 
 # And these directories
-!/.config
+!/.config/zsh
 !/.fzf
 !/.oh-my-zsh
 !/.scripts
-!/.tmux
+!/.tmux/plugins/tpm
 !/.yadm
 !/vimwiki
 
 # And this files
+!/.config/nvim/init.vim
 !/.tmux.conf
-!/.warprc*
+!/.warprc##*
 !/.zshrc
 !/LICENSE
 !/pylintrc
 !/README.md
 !/TODO
+
+# Do ignore this subdirectories
+.yadm/repo.git
+
