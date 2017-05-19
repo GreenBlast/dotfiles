@@ -1,7 +1,23 @@
 # Ignore everything
 /*
 
-# Except this locations
+# Except the gitignore
 !/.gitignore
+
+# And these directories
+!/.config
+!/.fzf
+!/.oh-my-zsh
+!/.scripts
+!/.tmux
+!/.yadm
 !/vimwiki
-#!/vimwiki/*
+
+# And this files
+!/.tmux.conf
+!/.warprc*
+!/.zshrc
+!/LICENSE
+!/pylintrc
+!/README.md
+!/TODO
