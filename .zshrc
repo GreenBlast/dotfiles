@@ -87,7 +87,7 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 NVIM_PATH=/usr/bin/nvim
-if [ -f $NVIM_PATH ]; then  
+if [ -f $NVIM_PATH ]; then
     alias vim=$NVIM_PATH
     export GIT_EDITOR=$NVIM_PATH
 fi
