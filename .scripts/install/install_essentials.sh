@@ -30,7 +30,9 @@ curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubuserc
 # installing vim plugins
 if command -v vim >/dev/null 2>&1; then
   echo "Bootstraping Vim"
-  /usr/bin/nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+UpdateRemotePlugins' '+qall'
   /usr/bin/vim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+UpdateRemotePlugins' '+qall'
+  /usr/bin/nvim '+PlugUpdate' '+PlugClean!' '+PlugUpdate' '+UpdateRemotePlugins' '+qall'
 fi
 
+echo "Adding colors to terminal"
+source "./add_colors_to_terminal.sh"
