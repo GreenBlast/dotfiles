@@ -35,4 +35,4 @@ if command -v vim >/dev/null 2>&1; then
 fi
 
 echo "Adding colors to terminal"
-source "./add_colors_to_terminal.sh"
+source "$HOME/.scripts/install/add_colors_to_terminal.sh"
