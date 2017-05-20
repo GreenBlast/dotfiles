@@ -1,17 +1,5 @@
 = Dotfiles TODO =
 
-Add to included profile script if not exist (See FZF)
-make term var in tmux tmux-256color - and or also in bashrc, while adding bashrc to dotfiles
-if [ 'find /lib/terminfo /usr/share/terminfo -name "*256*" | grep xterm-256color' ]; then
-    export TERM='xterm-256color'
-else
-    export TERM='xterm-color'
-fi
-
-
-Check if should and use crypt
-
-
 " markdown
 Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open markdown files in Marked.app - mapped to <leader>m
 Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown support
@@ -68,4 +56,3 @@ nnoremap <Leader>pb :CtrlPBuffer<CR>
 
 ---
 
-A
