@@ -1,5 +1,11 @@
 = Dotfiles TODO =
 
+Make sure have this for vimwiki:
+set nocompatible
+filetype plugin on
+syntax on
+----
+
 " markdown
 Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open markdown files in Marked.app - mapped to <leader>m
 Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown support
