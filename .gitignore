@@ -31,3 +31,6 @@
 # Do ignore this subdirectories
 .yadm/repo.git
 
+
+# Do ignore these files
+/vimwiki/Work notes.wiki

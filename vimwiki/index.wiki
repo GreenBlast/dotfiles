@@ -3,6 +3,8 @@
 == Checklists ==
 * [[Dotfiles TODO]]
 
+== Notes ==
+* [[Work notes]]
 == Knowledge ==
 * [[Linux]]
 * [[Vim tips]]
