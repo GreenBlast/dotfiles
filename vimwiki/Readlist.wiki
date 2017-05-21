@@ -1,0 +1,9 @@
+= Readlist =
+
+* Vim scripting
+http://learnvimscriptthehardway.stevelosh.com/chapters/03.html
+* Vim knowledge
+http://vimcasts.org/episodes/page/7/
+* Github tips
+http://xenon.stanford.edu/~blynn/gitmagic/index.html
+
