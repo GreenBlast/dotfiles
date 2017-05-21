@@ -9,11 +9,9 @@
 "   ~/.config/nvim/init.vim
 
 
-" Set up leaders:
-" <Leader>
-let mapleader = ","
-" <LocalLeader>
-let maplocalleader = "\\"
+" ====================================================================
+" General settings
+" ====================================================================
 
 " Create the required directories
 " {{{
@@ -26,6 +24,50 @@ let maplocalleader = "\\"
 " Mainly Shougos plugins (deoplete, denite)
 let g:python_host_prog = '/usr/bin/python2'
 let g:python3_host_prog = '/usr/bin/python3'
+
+" Always show status bar
+set laststatus=2
+" Let plugins show effects after 500ms, not 4s
+set updatetime=500
+
+" Hybrid numbering
+set relativenumber showmatch
+set number
+
+" Not compatible with vi, does nothing on Nvim
+set nocompatible
+filetype plugin indent on
+
+" Enable syntax
+if !exists("g:syntax_on")
+    syntax enable
+endif
+
+" Allow backspacing over everything in insert mode
+set backspace=indent,eol,start
+
+" If vim versioning is active, don't save backup, use versions instead
+if has("vms")
+    " do not keep a backup file, use versions instead
+    set nobackup
+else
+    " keep a backup file (restore to previous version)
+    set backup
+    " keep an undo file (undo changes after closing)
+    set undofile
+endif
+
+" keep 50 lines of command line history
+set history=50
+
+" show the cursor position all the time
+set ruler
+
+" display incomplete commands
+set showcmd
+
+" do incremental searching
+set incsearch
 
 " Autoinstall vim-plug
 " {{{
@@ -190,6 +232,9 @@ Plug 'airblade/vim-gitgutter'
 " ====================================================================
 " Syntax
 " ====================================================================
+
+" Highlight python
+autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 
 " Neomake is async builder for neovim
 Plug 'neomake/neomake'
@@ -396,49 +441,7 @@ Plug 'vimwiki/vimwiki'
 " Ending of plugins section
 call plug#end()
 
-
-" ====================================================================
-" General settings
-" ====================================================================
-
 " ----
-" Always show status bar
-set laststatus=2
-" Let plugins show effects after 500ms, not 4s
-set updatetime=500
-
-
-" Enable syntax
-syntax enable
-
-" Hybrid numbering
-set relativenumber showmatch
-set number
-
-" Highlight python
-let python_highlight_all = 1
-
-" Allow backspacing over everything in insert mode
-set backspace=indent,eol,start
-
-
-if has("vms")
-  set nobackup      " do not keep a backup file, use versions instead
-else
-  set backup        " keep a backup file (restore to previous version)
-  set undofile      " keep an undo file (undo changes after closing)
-endif
-set history=50      " keep 50 lines of command line history
-set ruler       " show the cursor position all the time
-set showcmd     " display incomplete commands
-set incsearch       " do incremental searching
-
-" Don't use Ex mode, use Q for formatting
-map Q gq
-
-" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
-" so that you can undo CTRL-U after inserting a line break.
-inoremap <C-U> <C-G>u<C-U>
 
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
@@ -595,6 +598,19 @@ set nospell                         "by default spell is off
 " colorscheme PaperColor
 " colorscheme wombat256mod
 " ================= Keys ===========================
+
+" Set up leaders:
+" <Leader>
+let mapleader = ","
+" <LocalLeader>
+let maplocalleader = "\\"
+
+" Don't use Ex mode, use Q for formatting
+map Q gq
+
+" CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
+" so that you can undo CTRL-U after inserting a line break.
+inoremap <C-U> <C-G>u<C-U>
 
 " Allow saving of files as sudo when I forgot to start vim using sudo."
 cmap w!! w !sudo tee > /dev/null %
