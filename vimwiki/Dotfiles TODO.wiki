@@ -121,3 +121,20 @@ Should probably delete all this
 Plug 'Shougo/denite.nvim'
 " {{{
 " }}}
+
+
+" " these unite lines must be here, after vim-plug, otherwise vim drops an error when launched
+" " https://github.com/Shougo/neobundle.vim/issues/330
+" " {{{
+"    call unite#filters#matcher_default#use(['matcher_fuzzy'])
+"    call unite#custom#profile('default', 'context', {
+"    \   'prompt': '» ',
+"    \   'start_insert': 1,
+"    \   'vertical': 1,
+"    \   'direction': 'botright',
+"    \   'ignorecase': 1
+"    \ })
+" " }}}
+
+
+----

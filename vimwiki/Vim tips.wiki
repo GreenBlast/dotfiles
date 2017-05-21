@@ -58,3 +58,16 @@ Don't select the text, this change surrounding tag to '
 * select text, s ]
 surround with [ and ] (no space)
 
+=== Vim Easymotion ===
+
+* If your terminal's background is white (light theme), uncomment the following
+* To make EasyMotion's cues much easier to read.
+{{{viml
+hi link EasyMotionTarget String
+hi link EasyMotionShade Comment
+hi link EasyMotionTarget2First String
+hi link EasyMotionTarget2Second Statement
+}}}
+
+
+----

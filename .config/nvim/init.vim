@@ -37,7 +37,7 @@ let g:python3_host_prog = '/usr/bin/python3'
     endif
 " }}}
 
-" This is the start of the plugins list
+" This is the start of the plugins section
 call plug#begin('~/nvim.local/plugged')
 
 " ====================================================================
@@ -114,6 +114,8 @@ Plug 'Shougo/deoplete.nvim'
 
 " Adding autocomplete support for python
 Plug 'zchee/deoplete-jedi'
+" {{{
+" }}}
 
 " Auto complete support for c based languages
 Plug 'zchee/deoplete-clang'
@@ -125,6 +127,8 @@ Plug 'zchee/deoplete-clang'
 
 " Add ability to surround given strings with characters
 Plug 'tpope/vim-surround'
+" {{{
+" }}}
 
 " Add dot repeat function to tpope plugins
 Plug 'tpope/vim-repeat'
@@ -149,6 +153,8 @@ Plug 'tpope/vim-repeat'
 
 " Automatic closing of quotes, parenthesis, brackets, etc.
 Plug 'Raimondi/delimitMate'
+" {{{
+" }}}
 
 " ====================================================================
 " Git
@@ -176,6 +182,10 @@ Plug 'tpope/vim-fugitive'
 
 " Adds gutter git annotations
 Plug 'airblade/vim-gitgutter'
+" {{{
+    " Let vim-gitgutter do its thing on large files
+    let g:gitgutter_max_signs=10000
+" }}}
 
 " ====================================================================
 " Syntax
@@ -219,9 +229,13 @@ augroup END
 
 " Unimpaired adds various shortcuts
 Plug 'tpope/vim-unimpaired'
+" {{{
+" }}}
 
 " Comment stuff out
 Plug 'tpope/vim-commentary'
+" {{{
+" }}}
 
 " ====================================================================
 " Session management
@@ -242,7 +256,6 @@ Plug 'xolox/vim-misc' | Plug 'xolox/vim-session'
 " Appearance
 " ====================================================================
 
-" ----
 " Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline'
 " {{{
@@ -287,15 +300,13 @@ Plug 'vim-airline/vim-airline-themes'
     let g:airline#extensions#tabline#left_alt_sep = '|'
 " }}}
 
-Plug 'vim-airline/vim-airline-themes'
-
 " ====================================================================
 " Buffers
 " ====================================================================
 
+" Adds BufOnly command to close all other buffers
 Plug 'vim-scripts/BufOnly.vim'
 " {{{
-    " :BufOnly closes all buffers except the current one
 " }}}
 
 " ====================================================================
@@ -363,14 +374,13 @@ Plug 'lvht/fzf-mru'
 " }}}
 
 
-" ----
 " ====================================================================
 " Tags
 " ====================================================================
+
+" Adds an IDE like viewer for tags (Needs ctags installed)
 Plug 'majutsushi/tagbar'
 " {{{
-    " $ yaourt ctags                  # Manjaro
-    " $ sudo apt-get install ctags    # Ubuntu
     nnoremap <F4> :TagbarToggle<cr>
 " }}}
 
@@ -378,47 +388,25 @@ Plug 'majutsushi/tagbar'
 " VimWiki
 " ====================================================================
 
+" A wiki system for vim for knowledge management
 Plug 'vimwiki/vimwiki'
 " {{{
 " }}}
 
-
-call plug#end()    " vim-plug
-
-
-
-
-" " these unite lines must be here, after vim-plug, otherwise vim drops an error when launched
-" " https://github.com/Shougo/neobundle.vim/issues/330
-" " {{{
-"    call unite#filters#matcher_default#use(['matcher_fuzzy'])
-"    call unite#custom#profile('default', 'context', {
-"    \   'prompt': '» ',
-"    \   'start_insert': 1,
-"    \   'vertical': 1,
-"    \   'direction': 'botright',
-"    \   'ignorecase': 1
-"    \ })
-" " }}}
-
+" Ending of plugins section
+call plug#end()
 
 
 " ====================================================================
+" General settings
+" ====================================================================
 
+" ----
 " Always show status bar
 set laststatus=2
 " Let plugins show effects after 500ms, not 4s
 set updatetime=500
-" Let vim-gitgutter do its thing on large files
-let g:gitgutter_max_signs=10000
 
-
-" If your terminal's background is white (light theme), uncomment the following
-" To make EasyMotion's cues much easier to read.
-" hi link EasyMotionTarget String
-" hi link EasyMotionShade Comment
-" hi link EasyMotionTarget2First String
-" hi link EasyMotionTarget2Second Statement
 
 " Enable syntax
 syntax enable
