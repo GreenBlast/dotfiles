@@ -15,7 +15,8 @@ let mapleader = ","
 " <LocalLeader>
 let maplocalleader = "\\"
 
-" create the required directories {{{
+" Create the required directories
+" {{{
     silent !mkdir ~/nvim.local > /dev/null 2>&1
     silent !mkdir ~/nvim.local/tmp > /dev/null 2>&1
     silent !mkdir ~/nvim.local/undo > /dev/null 2>&1
@@ -26,7 +27,8 @@ let maplocalleader = "\\"
 let g:python_host_prog = '/usr/bin/python2'
 let g:python3_host_prog = '/usr/bin/python3'
 
-" Autoinstall vim-plug {{{
+" Autoinstall vim-plug
+" {{{
     " https://github.com/junegunn/vim-plug
     let s:vim_plug_dir=expand($HOME.'/.config/nvim/autoload')
     if !filereadable(s:vim_plug_dir.'/plug.vim')
@@ -41,6 +43,7 @@ call plug#begin('~/nvim.local/plugged')
 " ====================================================================
 " Color schemes
 " ====================================================================
+
 Plug 'freeo/vim-kalisi'
 Plug 'michalbachowski/vim-wombat256mod'
 Plug 'joshdick/onedark.vim'
@@ -71,7 +74,6 @@ Plug 'Yggdroot/indentLine'
 " Json support
 Plug 'elzr/vim-json'
 " {{{
-    " https://github.com/elzr/vim-json
     " indentLine conceals quotes in json files; this puts them back:
     let g:vim_json_syntax_conceal = 0
 " }}}
@@ -159,7 +161,7 @@ Plug 'tpope/vim-repeat'
     vnoremap <Leader>`  <esc>`<i`<esc>`>la`<esc>
 " }}}
 
-" automatic closing of quotes, parenthesis, brackets, etc.
+" Automatic closing of quotes, parenthesis, brackets, etc.
 Plug 'Raimondi/delimitMate'
 " {{{
 " }}}
@@ -234,7 +236,7 @@ Plug 'neomake/neomake'
 
 " }}}
 
-" vim -b : edit binary using xxd-format!
+" Vim -b : edit binary using xxd-format!
 augroup Binary
     au!
     au BufReadPre  *.bin let &bin=1
@@ -274,7 +276,7 @@ Plug 'xolox/vim-misc' | Plug 'xolox/vim-session'
 " ====================================================================
 " Appearance
 " ====================================================================
-"Plug 'bling/vim-airline'
+" Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline'
 " {{{
     let g:airline_powerline_fonts = 1
@@ -443,7 +445,7 @@ Plug 'junegunn/fzf.vim'
 " }}}
 
 
-"Plug 'shougo/unite.vim' | Plug 'shougo/neomru.vim'
+" Plug 'shougo/unite.vim' | Plug 'shougo/neomru.vim'
 " {{{
 "    " Ctrl-p    -> since we are used to it
 "    " http://vimawesome.com/plugin/unite-vim
@@ -473,13 +475,13 @@ Plug 'junegunn/fzf.vim'
 
 " Ack lets you search files
 " Disabled because using fzf, which also uses ag
-""Plug 'mileszs/ack.vim'
-"" {{{
+" "Plug 'mileszs/ack.vim'
+" " {{{
 "    if executable('ag')
 "      "let g:ackprg = 'ag --vimgrep'
 "      let g:ackprg = 'ag --nogroup --nocolor --column'
 "    endif
-"" }}}
+" " }}}
 
 Plug 'Shougo/denite.nvim'
 " {{{
@@ -509,9 +511,9 @@ call plug#end()    " vim-plug
 
 
 
-"" these unite lines must be here, after vim-plug, otherwise vim drops an error when launched
-"" https://github.com/Shougo/neobundle.vim/issues/330
-"" {{{
+" " these unite lines must be here, after vim-plug, otherwise vim drops an error when launched
+" " https://github.com/Shougo/neobundle.vim/issues/330
+" " {{{
 "    call unite#filters#matcher_default#use(['matcher_fuzzy'])
 "    call unite#custom#profile('default', 'context', {
 "    \   'prompt': '» ',
@@ -520,7 +522,7 @@ call plug#end()    " vim-plug
 "    \   'direction': 'botright',
 "    \   'ignorecase': 1
 "    \ })
-"" }}}
+" " }}}
 
 
 
@@ -535,7 +537,7 @@ let g:gitgutter_max_signs=10000
 
 
 " If your terminal's background is white (light theme), uncomment the following
-" to make EasyMotion's cues much easier to read.
+" To make EasyMotion's cues much easier to read.
 " hi link EasyMotionTarget String
 " hi link EasyMotionShade Comment
 " hi link EasyMotionTarget2First String
@@ -551,7 +553,7 @@ set number
 " Highlight python
 let python_highlight_all = 1
 
-" allow backspacing over everything in insert mode
+" Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
 
 
@@ -627,7 +629,7 @@ set shiftwidth=4
 set expandtab
 
 " Dont know what this do yet,
-"set backspace=2,indent,eol,start
+" set backspace=2,indent,eol,start
 
 " Tab is 4 spaces
 set tabstop=4
@@ -650,9 +652,10 @@ set listchars=tab:→\ ,trail:·,extends:>,precedes:<
 
 
 " Setting visual mode colors"
-"hi Visual term=reverse cterm=reverse guibg=Grey
+" hi Visual term=reverse cterm=reverse guibg=Grey
 
-"VimTip 20: Are *.swp and *~ files littering your working directory? {{{
+" VimTip 20: Are *.swp and *~ files littering your working directory?
+" {{{
     set backup
     set backupext=~
     set backupdir=~/nvim.local/tmp
@@ -663,11 +666,12 @@ set listchars=tab:→\ ,trail:·,extends:>,precedes:<
     set undodir=~/nvim.local/undo
 " }}}
 
-" automatically change window's cwd to file's dir
+" Automatically change window's cwd to file's dir
 set autochdir
 
 
-" remove trailing whitespaces, strip, trim {{{
+" Remove trailing whitespaces, strip, trim
+" {{{
     autocmd BufWritePre *.txt :%s/\s\+$//e
     autocmd BufWritePre *.py :%s/\s\+$//e
     autocmd BufWritePre *.scala :%s/\s\+$//e
@@ -692,7 +696,7 @@ set exrc
 set secure
 
 
-"switch spell check on/off (grammar check)
+" Switch spell check on/off (grammar check)
 setlocal spell spelllang=en_us      "let's use English by default
 set nospell                         "by default spell is off
 
@@ -700,7 +704,7 @@ set nospell                         "by default spell is off
 
 " ============== Color scheme =========================
 
-"set background=dark
+" set background=dark
 " {{{
     colorscheme kalisi
     " {{{
@@ -718,29 +722,29 @@ set nospell                         "by default spell is off
         "set background=dark
     " }}}
 " }}}
-"colorscheme advantage
-"colorscheme elflord
-"hi lineNr       term=bold cterm=bold ctermfg=2 guifg=DarkGrey guibg=#334C75
-"hi lineNr       term=bold cterm=bold ctermfg=2 guifg=Grey
-"guibg=Grey90
-"colorscheme PaperColor
-"colorscheme wombat256mod
+" colorscheme advantage
+" colorscheme elflord
+" hi lineNr       term=bold cterm=bold ctermfg=2 guifg=DarkGrey guibg=#334C75
+" hi lineNr       term=bold cterm=bold ctermfg=2 guifg=Grey
+" guibg=Grey90
+" colorscheme PaperColor
+" colorscheme wombat256mod
 " ================= Keys ===========================
 
-"allow saving of files as sudo when I forgot to start vim using sudo."
+" Allow saving of files as sudo when I forgot to start vim using sudo."
 cmap w!! w !sudo tee > /dev/null %
 
 " XML Lint
 map @@x !%xmllint --format --recover -^M
 
 
-"map up/down arrow keys to unimpaired commands
+" Map up/down arrow keys to unimpaired commands
 nmap <Up> [e
 nmap <Down> ]e
 vmap <Up> [egv
 vmap <Down> ]egv
 
-"map left/right arrow keys to indendation
+" Map left/right arrow keys to indendation
 nmap <Left> <<
 nmap <Right> >>
 vmap <Left> <gv
@@ -763,7 +767,8 @@ inoremap <Down> <nop>
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
 
-" VimTip 305: make it easy to update/reload .vimrc {{{
+" VimTip 305: make it easy to update/reload .vimrc
+" {{{
     "src: source rc file
     "erc: edit rc file
     nnoremap <Leader>src :source $MYVIMRC<cr>
