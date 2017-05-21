@@ -1,5 +1,8 @@
 = Dotfiles TODO =
 
+Add yadm script update to bootstrap
+----
+
 Make sure have this for vimwiki:
 set nocompatible
 filetype plugin on
