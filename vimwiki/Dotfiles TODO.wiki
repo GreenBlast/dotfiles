@@ -78,3 +78,46 @@ noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
 Check if FZFMix is used (A function in the init file, ) If not remove it
 
 ----
+
+Should probably delete all this
+" Plug 'shougo/unite.vim' | Plug 'shougo/neomru.vim'
+" {{{
+"    " Ctrl-p    -> since we are used to it
+"    " http://vimawesome.com/plugin/unite-vim
+"    " https://github.com/shougo/neomru.vim , this is required for file_mru
+"    function! s:unite_settings()
+"       imap <buffer><tab>           <c-x><c-f>
+"       nmap <silent><buffer><esc>   :bd<cr>
+"       imap <buffer><c-p>   <Plug>(unite_select_previous_line)
+"       imap <buffer><c-n>   <Plug>(unite_select_next_line)
+"       inoremap <silent><buffer><expr> <C-s>     unite#do_action('split')
+"       inoremap <silent><buffer><expr> <C-v>     unite#do_action('vsplit')
+"       " for toggling (show / hide)
+"       " imap <silent><buffer><c-l>   <esc>:bd<cr>
+"       imap <silent><buffer><c-p>   <esc>:bd<cr>
+"       imap <F3>                    <esc>:bd<cr>
+"    endfunction
+"    " custom mappings for the unite buffer
+"    autocmd FileType unite call s:unite_settings()
+"
+"    " nnoremap <c-p> :Unite file file_rec -start-insert -vertical -direction=botright<cr>
+"
+"    "nnoremap <Leader>r :<C-u>Unite -start-insert file_rec<cr>
+"    nnoremap <c-p> :Unite file file_rec buffer<cr>
+"    " nnoremap <c-l> :Unite line<cr>
+"    noremap <F3> :Unite file_mru<cr>
+" }}}
+
+" Ack lets you search files
+" Disabled because using fzf, which also uses ag
+" "Plug 'mileszs/ack.vim'
+" " {{{
+"    if executable('ag')
+"      "let g:ackprg = 'ag --vimgrep'
+"      let g:ackprg = 'ag --nogroup --nocolor --column'
+"    endif
+" " }}}
+
+Plug 'Shougo/denite.nvim'
+" {{{
+" }}}
