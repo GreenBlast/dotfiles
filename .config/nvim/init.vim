@@ -67,7 +67,8 @@ Plug 'Yggdroot/indentLine'
     " let g:indentLine_char = '│'
     " disable it
     let g:indentLine_enabled = 1
-    " the indentlines will not show up in the cursorline:
+
+    " The indentlines will not show up in the cursorline:
     let g:indentLine_concealcursor = ''
 " }}}
 
@@ -93,13 +94,14 @@ Plug 'Shougo/deoplete.nvim'
     endif
     " let g:deoplete#disable_auto_complete = 1
 
+    " Close on finish completion or exiting insert
     autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
-    " deoplete tab-complete
+    " Deoplete tab-complete
     inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
     inoremap <expr><S-Tab> pumvisible() ? "\<c-p>" : "\<tab>"
 
-    " omnifuncs
+    " Omnifuncs
     augroup omnifuncs
       autocmd!
       autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
@@ -116,7 +118,7 @@ Plug 'zchee/deoplete-jedi'
 " Auto complete support for c based languages
 Plug 'zchee/deoplete-clang'
 " {{{
-    " Settings for deoplete clang
+    " Settings for deoplete clang - Location is different for each machine
     let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1'
     let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/lib/clang'
 " }}}
@@ -127,35 +129,19 @@ Plug 'tpope/vim-surround'
 " Add dot repeat function to tpope plugins
 Plug 'tpope/vim-repeat'
 " {{{
-    " viw    -> visually select the current word
-    "nnoremap <space> viw
-    " select the text, press s and type in the surrounding character / tag
-    " cs'"    -> (DON'T select the text) change ' to "
-    " ds"     -> (DON'T select the text) delete surrounding "
-    " dst     -> (DON'T select the text) delete surrounding tags (for ex. <q> and </q>)
-    " cs'<q>  -> (DON'T select the text) change ' to <q>...</q>
-    " cst'    -> (DON'T select the text) change surrounding tag to '
-    " select text, s ]    -> surround with [ and ] (no space)
-    " ----------
-
-    " vim-repeat: https://github.com/tpope/vim-repeat
-    " However, I didn't understand how to use it...
-    " But here I found an excellent example:
-    " http://vimcasts.org/episodes/creating-repeatable-mappings-with-repeat-vim/
-
-    " here are some own surroundings that are more intuitive for me
+    " Some intuitive surrounding (Surround with ",' or `)
     nnoremap <silent> <Plug>SurroundWordWithApostrophe  viw<esc>a'<esc>hbi'<esc>lel
         \ :call repeat#set("\<Plug>SurroundWordWithApostrophe", v:count)<cr>
     nmap <Leader>'  <Plug>SurroundWordWithApostrophe
-    "
+
     nnoremap <silent> <Plug>SurroundWordWithQuote  viw<esc>a"<esc>hbi"<esc>lel
         \ :call repeat#set("\<Plug>SurroundWordWithQuote", v:count)<cr>
     nmap <Leader>"  <Plug>SurroundWordWithQuote
-    "
+
     nnoremap <silent> <Plug>SurroundWordWithBacktick  viw<esc>a`<esc>hbi`<esc>lel
         \ :call repeat#set("\<Plug>SurroundWordWithBacktick", v:count)<cr>
     nmap <Leader>`  <Plug>SurroundWordWithBacktick
-    "
+
     vnoremap <Leader>'  <esc>`<i'<esc>`>la'<esc>
     vnoremap <Leader>"  <esc>`<i"<esc>`>la"<esc>
     vnoremap <Leader>`  <esc>`<i`<esc>`>la`<esc>
@@ -163,12 +149,12 @@ Plug 'tpope/vim-repeat'
 
 " Automatic closing of quotes, parenthesis, brackets, etc.
 Plug 'Raimondi/delimitMate'
-" {{{
-" }}}
 
 " ====================================================================
 " Git
 " ====================================================================
+
+" Adds various git functionality to vim
 Plug 'tpope/vim-fugitive'
 " {{{
   nnoremap <leader>gs :Gstatus<CR>
@@ -188,33 +174,17 @@ Plug 'tpope/vim-fugitive'
   nnoremap <leader>gpl :Dispatch! git pull<CR>
 " }}}
 
+" Adds gutter git annotations
 Plug 'airblade/vim-gitgutter'
-" {{{
-" }}}
-
 
 " ====================================================================
 " Syntax
 " ====================================================================
+
+" Neomake is async builder for neovim
 Plug 'neomake/neomake'
 " {{{
-"    " neomake is async => it doesn't block the editor
-"    " It's a syntastic alternative. Syntastic was slow for me on python files.
-"    " $ sudo pip2/pip3 install flake8 -U
-"    " $ sudo pip2/pip3 install vulture -U
-"    let g:neomake_python_enabled_makers = ['flake8', 'pep8', 'vulture']
-"    " let g:neomake_python_enabled_makers = ['flake8', 'pep8']
-"    " E501 is line length of 80 characters
-"    let g:neomake_python_flake8_maker = { 'args': ['--ignore=E115,E266,E501,E302'], }
-"    let g:neomake_python_pep8_maker = { 'args': ['--max-line-length=100', '--ignore=E115,E266,E302'], }
-"
-"    " I had a problem under Manjaro: problems were underlined, instead of coloring red
-"    let distro = system("cat /etc/issue | head -1 | cut -f 1 -d ' '")
-"    if distro == "Manjaro\n"
-"        let g:neomake_highlight_columns = 0
-"    endif
-"
-"    " run neomake on the current file on every write:
+    " run neomake on the current file on every write:
     autocmd! BufWritePost * Neomake
     let g:neomake_python_enabled_makers = ['pylint']
     let g:neomake_python_pylint_maker = {
@@ -233,7 +203,6 @@ Plug 'neomake/neomake'
         \   function('neomake#postprocess#GenericLengthPostprocess'),
         \   function('neomake#makers#ft#python#PylintEntryProcess'),
         \ ]}
-
 " }}}
 
 " Vim -b : edit binary using xxd-format!
@@ -250,17 +219,15 @@ augroup END
 
 " Unimpaired adds various shortcuts
 Plug 'tpope/vim-unimpaired'
-" {{{
-" }}}
 
 " Comment stuff out
 Plug 'tpope/vim-commentary'
-" {{{
-" }}}
 
 " ====================================================================
 " Session management
 " ====================================================================
+
+" Manages vim session save and restore
 Plug 'xolox/vim-misc' | Plug 'xolox/vim-session'
 " {{{
     " allows you to save and restore the current session (restart vim)
@@ -271,11 +238,11 @@ Plug 'xolox/vim-misc' | Plug 'xolox/vim-session'
     let g:session_directory = '~/nvim.local/sessions'
 " }}}
 
-
-
 " ====================================================================
 " Appearance
 " ====================================================================
+
+" ----
 " Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline'
 " {{{
@@ -294,7 +261,7 @@ Plug 'vim-airline/vim-airline'
     let g:airline_symbols.readonly = '⭤'
     let g:airline_symbols.linenr = '⭡'
 
-    " unicode symbols
+    " Unicode symbols
     let g:airline_left_sep = '»'
     let g:airline_left_sep = '▶'
     let g:airline_right_sep = '«'
@@ -306,18 +273,9 @@ Plug 'vim-airline/vim-airline'
     let g:airline_symbols.whitespace = 'Ξ'
 " }}}
 
+" Themes for vim airline
 Plug 'vim-airline/vim-airline-themes'
 " {{{
-    " https://github.com/vim-airline/vim-airline
-    " let distro = system("cat /etc/issue | head -1 | cut -f 1 -d ' '")
-    " if distro == "Manjaro\n"
-    "     set termguicolors
-    " else
-    "     " Ubuntu
-    "     set termguicolors
-    "     " let $NVIM_TUI_ENABLE_TRUE_COLOR = 1
-    " endif
-    "set termguicolors
     " also install the system package 'powerline-fonts'
     let g:airline_powerline_fonts = 1
     " Enable the list of buffers
@@ -334,6 +292,7 @@ Plug 'vim-airline/vim-airline-themes'
 " ====================================================================
 " Buffers
 " ====================================================================
+
 Plug 'vim-scripts/BufOnly.vim'
 " {{{
     " :BufOnly closes all buffers except the current one
@@ -351,67 +310,16 @@ Plug 'takac/vim-hardtime'
     let g:hardtime_showmsg = 1
 " }}}
 
-
+" Easymotion let you get fast to locations in buffer
 Plug 'easymotion/vim-easymotion'
 " {{{
-"    " http://vimawesome.com/plugin/easymotion
-"    let g:EasyMotion_do_mapping = 0 " Disable default mappings
-"    " Turn on case insensitive feature
-"    let g:EasyMotion_smartcase = 1
-"    " <Leader>w    -> search word
-"    map <Leader>w <Plug>(easymotion-bd-w)
-"    " Jump to anywhere you want with minimal keystrokes, with just one key binding.
-"    " `s{char}{label}`
-"    " nmap s <Plug>(easymotion-overwin-f)
-"    " or
-"    " `s{char}{char}{label}`
-"    " Need one more keystroke, but on average, it may be more comfortable.
-"    nmap <Leader>s <Plug>(easymotion-overwin-f2)
-"
-"    " JK motions: motions (j: down, k: up, l: line, up and down)
-"    map <Leader>j <Plug>(easymotion-j)
-"    map <Leader>k <Plug>(easymotion-k)
-"    map <Leader>l <Plug>(easymotion-bd-jk)
-"    " If you want to use more useful mappings, please see :h easymotion.txt for more detail.
 
     " Setting an easymotion search
     map s  <Plug>(easymotion-sn)
     omap s <Plug>(easymotion-tn)
-
-    " These `n` & `N` mappings are options. You do not have to map `n` & `N` to EasyMotion.
-    " Without these mappings, `n` & `N` works fine. (These mappings just provide
-    " different highlight method and have some other features )
-    "map  n <Plug>(easymotion-next)
-    "map  N <Plug>(easymotion-prev)
-
 " }}}
 
-Plug 'haya14busa/incsearch.vim'
-Plug 'haya14busa/incsearch-fuzzy.vim'
-Plug 'haya14busa/incsearch-easymotion.vim'
-
-function! s:config_easyfuzzymotion(...) abort
-  return extend(copy({
-  \   'converters': [incsearch#config#fuzzy#converter()],
-  \   'modules': [incsearch#config#easymotion#module()],
-  \   'keymap': {"\<CR>": '<Over>(easymotion)'},
-  \   'is_expr': 0,
-  \   'is_stay': 1
-  \ }), get(a:, 1, {}))
-endfunction
-
-let g:incsearch#auto_nohlsearch = 1
-noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
-
-" Most Recent Used for fzf
-Plug 'lvht/fzf-mru'
-" {{{
-    " set max lenght for the mru file list
-    let g:fzf_mru_file_list_size = 10 " default value
-    " set path pattens that should be ignored
-    let g:fzf_mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
-" }}}
-
+" Fzf is a fuzzy searcher that uses ag - The Silver Searcher
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 " {{{
@@ -420,11 +328,13 @@ Plug 'junegunn/fzf.vim'
     let g:fzf_tags_command = 'ctags -R'
 
 
+    " Helpful completions while in insert mode
     imap <c-x><c-k> <plug>(fzf-complete-word)
     imap <c-x><c-f> <plug>(fzf-complete-path)
     imap <c-x><c-j> <plug>(fzf-complete-file-ag)
     imap <c-x><c-l> <plug>(fzf-complete-line)
 
+    " Mixes the finds of FZF with the recent files in vim
     command! FZFMix call fzf#run({
             \'source':  'bash -c "'.
             \               'echo -e \"'.join(v:oldfiles, '\n').'\";'.
@@ -440,53 +350,20 @@ Plug 'junegunn/fzf.vim'
     function! s:find_git_root()
         return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
     endfunction
-
     command! ProjectFiles execute 'Files' s:find_git_root()
 " }}}
 
-
-" Plug 'shougo/unite.vim' | Plug 'shougo/neomru.vim'
+" Most Recent Used for fzf
+Plug 'lvht/fzf-mru'
 " {{{
-"    " Ctrl-p    -> since we are used to it
-"    " http://vimawesome.com/plugin/unite-vim
-"    " https://github.com/shougo/neomru.vim , this is required for file_mru
-"    function! s:unite_settings()
-"       imap <buffer><tab>           <c-x><c-f>
-"       nmap <silent><buffer><esc>   :bd<cr>
-"       imap <buffer><c-p>   <Plug>(unite_select_previous_line)
-"       imap <buffer><c-n>   <Plug>(unite_select_next_line)
-"       inoremap <silent><buffer><expr> <C-s>     unite#do_action('split')
-"       inoremap <silent><buffer><expr> <C-v>     unite#do_action('vsplit')
-"       " for toggling (show / hide)
-"       " imap <silent><buffer><c-l>   <esc>:bd<cr>
-"       imap <silent><buffer><c-p>   <esc>:bd<cr>
-"       imap <F3>                    <esc>:bd<cr>
-"    endfunction
-"    " custom mappings for the unite buffer
-"    autocmd FileType unite call s:unite_settings()
-"
-"    " nnoremap <c-p> :Unite file file_rec -start-insert -vertical -direction=botright<cr>
-"
-"    "nnoremap <Leader>r :<C-u>Unite -start-insert file_rec<cr>
-"    nnoremap <c-p> :Unite file file_rec buffer<cr>
-"    " nnoremap <c-l> :Unite line<cr>
-"    noremap <F3> :Unite file_mru<cr>
+    " set max lenght for the mru file list
+    let g:fzf_mru_file_list_size = 10 " default value
+    " set path pattens that should be ignored
+    let g:fzf_mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
 " }}}
 
-" Ack lets you search files
-" Disabled because using fzf, which also uses ag
-" "Plug 'mileszs/ack.vim'
-" " {{{
-"    if executable('ag')
-"      "let g:ackprg = 'ag --vimgrep'
-"      let g:ackprg = 'ag --nogroup --nocolor --column'
-"    endif
-" " }}}
 
-Plug 'Shougo/denite.nvim'
-" {{{
-" }}}
-
+" ----
 " ====================================================================
 " Tags
 " ====================================================================

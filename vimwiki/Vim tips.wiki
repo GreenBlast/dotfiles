@@ -35,3 +35,26 @@ Treat the file as a json file (even if it has a different extension) [ft: filety
 * |script-variable|    s:   Local to a |:source|'ed Vim script.
 * |function-argument|  a:   Function argument (only inside a function).
 * |vim-variable|       v:   Global, predefined by Vim.
+
+== Plugins ==
+
+
+=== Vim surround ===
+
+* viw
+Visually select the current word
+* nnoremap <space> viw
+Select the text, press s and type in the surrounding character / tag
+* cs'"
+Don't select the text, this change ' to "
+* ds"
+Don't select the text, this delete surrounding "
+* dst
+Don't select the text, this delete surrounding tags (for ex. <q> and </q>)
+* cs'<q>
+Don't select the text, this change ' to <q>...</q>
+* cst'
+Don't select the text, this change surrounding tag to '
+* select text, s ]
+surround with [ and ] (no space)
+
