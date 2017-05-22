@@ -10,7 +10,13 @@
 !/.gitignore
 
 # And these directories
-!/.config/zsh
+!.config
+.config/*
+!.config/zsh
+.config/zsh/local_aliases.zsh
+!.config/nvim
+.config/nvim/*
+!.config/nvim/colors
 !/.fzf
 !/.oh-my-zsh
 !/.scripts
@@ -34,3 +40,4 @@
 
 # Do ignore these files
 /vimwiki/Work notes.wiki
+
