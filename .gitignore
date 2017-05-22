@@ -9,7 +9,7 @@
 # Except the gitignore
 !/.gitignore
 
-# And these directories
+# Ignore specific paths in config dir
 !.config
 .config/*
 !.config/zsh
@@ -17,22 +17,24 @@
 !.config/nvim
 .config/nvim/*
 !.config/nvim/colors
-!/.fzf
-!/.oh-my-zsh
-!/.scripts
-!/.tmux/plugins/tpm
-!/.yadm
-!/vimwiki
+
+# Exclude these directories
+!.fzf
+!.oh-my-zsh
+!.scripts
+!.tmux/plugins/tpm
+!.yadm
+!vimwiki
 
 # And this files
-!/.config/nvim/init.vim
-!/.tmux.conf
-!/.warprc##*
-!/.zshrc
-!/LICENSE
-!/pylintrc
-!/README.md
-!/TODO
+!.config/nvim/init.vim
+!.tmux.conf
+!.warprc##*
+!.zshrc
+!LICENSE
+!pylintrc
+!README.md
+!TODO
 
 # Do ignore this subdirectories
 .yadm/repo.git

@@ -1,9 +1,7 @@
 = Dotfiles TODO =
 
-
-
-----
 Add change notes to the colorscheme file
+Add colorscheme?
 ----
 
 Add yadm script update to bootstrap
