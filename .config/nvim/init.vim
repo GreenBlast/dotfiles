@@ -90,6 +90,31 @@ call plug#begin('~/nvim.local/plugged')
 " ====================================================================
 
 Plug 'freeo/vim-kalisi'
+" {{{
+    set background=dark
+    colorscheme kalisi
+    "" black background:
+    "hi Normal  ctermbg=None
+    "" black background at the end of file too (with lines ~):
+    "hi NonText ctermbg=None
+    " black background:
+    hi Normal  ctermbg=None guifg=None guibg=None gui=none
+    " black background at the end of file too (with lines ~):
+    hi NonText ctermbg=None guifg=None guibg=None gui=none
+    " }}}
+    "colorscheme onedark
+    " {{{
+        "set background=dark
+    " }}}
+" }}}
+" colorscheme advantage
+" colorscheme elflord
+" hi lineNr       term=bold cterm=bold ctermfg=2 guifg=DarkGrey guibg=#334C75
+" hi lineNr       term=bold cterm=bold ctermfg=2 guifg=Grey
+" guibg=Grey90
+" colorscheme PaperColor
+" colorscheme wombat256mod
+" }}}
 Plug 'michalbachowski/vim-wombat256mod'
 Plug 'joshdick/onedark.vim'
 Plug 'https://github.com/ninja/sky'
@@ -540,33 +565,6 @@ set nospell                         "by default spell is off
 
 
 
-" ============== Color scheme =========================
-
-" set background=dark
-" {{{
-    colorscheme kalisi
-    " {{{
-        " black background:
-        hi Normal  ctermbg=Black guifg=#d0d0d0 guibg=Black  gui=none
-        " black background at the end of file too (with lines ~):
-        hi NonText ctermbg=Black guifg=#d0d0d0 guibg=Black gui=none
-        " black background:
-        hi Normal  ctermbg=Black guifg=#d0d0d0 guibg=Black  gui=none
-        " black background at the end of file too (with lines ~):
-        hi NonText ctermbg=Black guifg=#d0d0d0 guibg=Black gui=none
-    " }}}
-    "colorscheme onedark
-    " {{{
-        "set background=dark
-    " }}}
-" }}}
-" colorscheme advantage
-" colorscheme elflord
-" hi lineNr       term=bold cterm=bold ctermfg=2 guifg=DarkGrey guibg=#334C75
-" hi lineNr       term=bold cterm=bold ctermfg=2 guifg=Grey
-" guibg=Grey90
-" colorscheme PaperColor
-" colorscheme wombat256mod
 " ================= Keys ===========================
 
 " Set up leaders:
@@ -646,3 +644,7 @@ if exists('$TMUX')
 
 endif
 
+" black background:
+hi Normal  ctermbg=None guifg=None guibg=None gui=none
+" black background at the end of file too (with lines ~):
+hi NonText ctermbg=None guifg=None guibg=None gui=none
