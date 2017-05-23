@@ -72,6 +72,14 @@ set incsearch
 " Draw only what needed, helps scroll performance
 set lazyredraw
 
+" In many terminal emulators the mouse works just fine
+if has('mouse')
+    set mouse=a
+endif
+
+" Setting copy to system clipboard
+set clipboard=unnamed
+
 " Autoinstall vim-plug
 " {{{
     " https://github.com/junegunn/vim-plug
@@ -89,19 +97,6 @@ call plug#begin('~/nvim.local/plugged')
 " Color schemes
 " ====================================================================
 
-Plug 'freeo/vim-kalisi'
-" {{{
-    set background=dark
-    colorscheme kalisi
-    "" black background:
-    "hi Normal  ctermbg=None
-    "" black background at the end of file too (with lines ~):
-    "hi NonText ctermbg=None
-    " black background:
-    hi Normal  ctermbg=None guifg=None guibg=None gui=none
-    " black background at the end of file too (with lines ~):
-    hi NonText ctermbg=None guifg=None guibg=None gui=none
-    " }}}
     "colorscheme onedark
     " {{{
         "set background=dark
@@ -118,6 +113,10 @@ Plug 'freeo/vim-kalisi'
 Plug 'michalbachowski/vim-wombat256mod'
 Plug 'joshdick/onedark.vim'
 Plug 'https://github.com/ninja/sky'
+Plug 'freeo/vim-kalisi'
+" {{{
+    set background=dark
+" }}}
 
 " ====================================================================
 " Visuals
@@ -468,12 +467,17 @@ Plug 'vimwiki/vimwiki'
 " Ending of plugins section
 call plug#end()
 
-" ----
+" Setting the color scheme needs to be after plug end
+" {{{
+    set background=dark
+    colorscheme kalisi
+    " black background:
+    hi Normal  ctermbg=None guifg=None guibg=None gui=none
+    " black background at the end of file too (with lines ~):
+    hi NonText ctermbg=None guifg=None guibg=None gui=none
+" }}}
 
-" In many terminal emulators the mouse works just fine
-if has('mouse')
-  set mouse=a
-endif
+" ----
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -496,9 +500,6 @@ set expandtab
 
 " Tab is 4 spaces
 set tabstop=4
-
-" Syntax highlight
-syntax on
 
 " Highlight search"
 set hlsearch
@@ -644,7 +645,7 @@ if exists('$TMUX')
 
 endif
 
-" black background:
-hi Normal  ctermbg=None guifg=None guibg=None gui=none
-" black background at the end of file too (with lines ~):
-hi NonText ctermbg=None guifg=None guibg=None gui=none
+"" black background:
+"hi Normal  ctermbg=None
+"" black background at the end of file too (with lines ~):
+"hi NonText ctermbg=None
