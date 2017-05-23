@@ -1,13 +1,5 @@
 = Dotfiles TODO =
 
-search netrw customization
-
-----
-
-" markdown
-Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open markdown files in Marked.app - mapped to <leader>m
-Plug 'tpope/vim-markdown', { 'for': 'markdown' } " markdown support
-
 " Async make
 Plug 'Shougo/vimproc.vim', { 'do': 'make' } " interactive command execution in vim
  Choose Files Choose Files
@@ -15,8 +7,6 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' } " interactive command execution in v
 
 Plug 'tpope/vim-ragtag' " endings for html, xml, etc. - ehances surround
 garbas/vim-snipmate
-" Improves the builtin netrw
-tpope/vim-vinegar
 
 " Session management needs to compare with the current
 tpope/vim-obsession

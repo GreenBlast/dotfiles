@@ -369,6 +369,11 @@ Plug 'tpope/vim-commentary'
 " {{{
 " }}}
 
+" Adds markdown support
+Plug 'tpope/vim-markdown', { 'for': 'markdown' }
+" {{{
+" }}}
+
 " ====================================================================
 " Session management
 " ====================================================================
@@ -505,7 +510,7 @@ Plug 'lvht/fzf-mru'
     let g:fzf_mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
 " }}}
 
-" Augmenting vim netrw
+" Augmenting vim's builtin netrw
 Plug 'tpope/vim-vinegar'
 " {{{
 " }}}
