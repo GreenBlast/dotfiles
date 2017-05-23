@@ -33,6 +33,7 @@ let g:python3_host_prog = '/usr/bin/python3'
 
 " Always show status bar
 set laststatus=2
+
 " Let plugins show effects after 500ms, not 4s
 set updatetime=500
 
@@ -136,6 +137,21 @@ endif
 
 " Setting copy to system clipboard
 set clipboard=unnamed
+
+" netrw settings
+" {{{
+    " Setting netrw to tree style
+    let g:netrw_liststyle = 3
+
+    "Remove the banner
+    " let g:netrw_banner = 0
+
+    " Open in a new split
+    " let g:netrw_browse_split = 1
+
+    " Set split to 25% of page
+    " let g:netrw_winsize = 25
+" }}}
 
 " Autoinstall vim-plug
 " {{{
@@ -489,6 +505,10 @@ Plug 'lvht/fzf-mru'
     let g:fzf_mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
 " }}}
 
+" Augmenting vim netrw
+Plug 'tpope/vim-vinegar'
+" {{{
+" }}}
 
 " ====================================================================
 " Tags
