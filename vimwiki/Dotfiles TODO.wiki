@@ -1,9 +1,11 @@
 = Dotfiles TODO =
 
-Add change notes to the colorscheme file
-Add colorscheme?
+Add clipboard unnamed?
+
 ----
 
+Lint init file
+----
 
 search netrw customization
 ----
@@ -18,8 +20,6 @@ syntax on
 ----
 
 
-Lint init file
-----
 
 " markdown
 Plug 'itspriddle/vim-marked', { 'for': 'markdown', 'on': 'MarkedOpen' } " Open markdown files in Marked.app - mapped to <leader>m
@@ -163,6 +163,8 @@ Plug 'Shougo/denite.nvim'
 Scheme quest:
 
 Tried:
+Now that I know how to set the background to black, Should check again,
+also remember to check diff mode
 
 Plug 'freeo/vim-kalisi'
 Plug 'michalbachowski/vim-wombat256mod'
@@ -189,3 +191,7 @@ Plug 'https://github.com/lanox/lanox-vim-theme'
 Plug 'https://github.com/acoustichero/simple_dark'
 Plug 'https://github.com/ninja/sky'
 Plug 'https://github.com/nanotech/jellybeans.vim'
+
+----
+
+check whether should use xsel or xclip
