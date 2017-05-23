@@ -20,6 +20,12 @@
     silent !mkdir ~/nvim.local/undo > /dev/null 2>&1
 " }}}
 
+" Set up leaders:
+" <Leader>
+let mapleader = ","
+" <LocalLeader>
+let maplocalleader = "\\"
+
 " Setting python hosts location, this is needed for some of the plugins
 " Mainly Shougos plugins (deoplete, denite)
 let g:python_host_prog = '/usr/bin/python2'
@@ -37,6 +43,57 @@ set number
 " Not compatible with vi, does nothing on Nvim
 set nocompatible
 filetype plugin indent on
+
+" Indenting the next lines in a scope by 4 spaces
+set shiftwidth=4
+
+" Tabs are expanded to spaces
+set expandtab
+
+" Backspace can do: (Delete full indents, delete over newline, and delete over
+" the start point of the insert mode), In new vims this is usually the default
+" 2 means all this things in older versions
+set backspace=indent,eol,start
+
+" Tab is 4 spaces
+set tabstop=4
+
+" Highlight search"
+set hlsearch
+
+" Case insensitive search
+set ignorecase
+
+" Escape modes faster
+set timeoutlen=1000 ttimeoutlen=0
+
+" Setting special chars"
+set list
+set listchars=tab:→\ ,trail:·,extends:>,precedes:<
+
+" VimTip 20: Are *.swp and *~ files littering your working directory?
+" {{{
+    set backup
+    set backupext=~
+    set backupdir=~/nvim.local/tmp
+    set directory=~/nvim.local/tmp
+
+    " let's add undo
+    set undofile
+    set undodir=~/nvim.local/undo
+" }}}
+
+" Automatically change window's cwd to file's dir
+set autochdir
+
+
+" Setting vim to load local vimrc files
+set exrc
+set secure
+
+" Switch spell check on/off (grammar check)
+setlocal spell spelllang=en_us      "let's use English by default
+set nospell                         "by default spell is off
 
 " Enable syntax
 if !exists("g:syntax_on")
@@ -90,6 +147,10 @@ set clipboard=unnamed
     endif
 " }}}
 
+" ====================================================================
+" Plugins start
+" ====================================================================
+
 " This is the start of the plugins section
 call plug#begin('~/nvim.local/plugged')
 
@@ -97,26 +158,10 @@ call plug#begin('~/nvim.local/plugged')
 " Color schemes
 " ====================================================================
 
-    "colorscheme onedark
-    " {{{
-        "set background=dark
-    " }}}
-" }}}
-" colorscheme advantage
-" colorscheme elflord
-" hi lineNr       term=bold cterm=bold ctermfg=2 guifg=DarkGrey guibg=#334C75
-" hi lineNr       term=bold cterm=bold ctermfg=2 guifg=Grey
-" guibg=Grey90
-" colorscheme PaperColor
-" colorscheme wombat256mod
-" }}}
 Plug 'michalbachowski/vim-wombat256mod'
 Plug 'joshdick/onedark.vim'
 Plug 'https://github.com/ninja/sky'
 Plug 'freeo/vim-kalisi'
-" {{{
-    set background=dark
-" }}}
 
 " ====================================================================
 " Visuals
@@ -464,6 +509,10 @@ Plug 'vimwiki/vimwiki'
 " {{{
 " }}}
 
+" ====================================================================
+" Plugins end
+" ====================================================================
+
 " Ending of plugins section
 call plug#end()
 
@@ -477,102 +526,19 @@ call plug#end()
     hi NonText ctermbg=None guifg=None guibg=None gui=none
 " }}}
 
-" ----
+" ====================================================================
+" Functions and keymaps
+" ====================================================================
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
 " Only define it when not defined already.
 if !exists(":DiffOrig")
-  command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-          \ | wincmd p | diffthis
+    command! DiffOrig let g:diffline = line('.') | vert new | set bt=nofile | r ++edit # | 0d_ | diffthis | :exe "norm! ".g:diffline."G" | wincmd p | diffthis | wincmd p
 endif
 
-
-" ============== Settings =========================
-" Indenting the next lines in a scope by 4 spaces
-set shiftwidth=4
-
-" Tabs are expanded to spaces
-set expandtab
-
-" Dont know what this do yet,
-" set backspace=2,indent,eol,start
-
-" Tab is 4 spaces
-set tabstop=4
-
-" Highlight search"
-set hlsearch
-
-" Case insensitive search
-set ignorecase
-
-" Trying to escape modes faster
-set timeoutlen=1000 ttimeoutlen=0
-
-" Setting special chars"
-set list
-set listchars=tab:→\ ,trail:·,extends:>,precedes:<
-
-
-" Setting visual mode colors"
-" hi Visual term=reverse cterm=reverse guibg=Grey
-
-" VimTip 20: Are *.swp and *~ files littering your working directory?
-" {{{
-    set backup
-    set backupext=~
-    set backupdir=~/nvim.local/tmp
-    set directory=~/nvim.local/tmp
-
-    " let's add undo
-    set undofile
-    set undodir=~/nvim.local/undo
-" }}}
-
-" Automatically change window's cwd to file's dir
-set autochdir
-
-
-" Remove trailing whitespaces, strip, trim
-" {{{
-    autocmd BufWritePre *.txt :%s/\s\+$//e
-    autocmd BufWritePre *.py :%s/\s\+$//e
-    autocmd BufWritePre *.scala :%s/\s\+$//e
-    autocmd BufWritePre *.pl :%s/\s\+$//e
-    autocmd BufWritePre *.php :%s/\s\+$//e
-    autocmd BufWritePre *.java :%s/\s\+$//e
-    autocmd BufWritePre *.md :%s/\s\+$//e
-    autocmd BufWritePre *.h :%s/\s\+$//e
-    autocmd BufWritePre *.cpp :%s/\s\+$//e
-    autocmd BufWritePre *.tex :%s/\s\+$//e
-    autocmd BufWritePre *.vim :%s/\s\+$//e
-    autocmd BufWritePre *.nfo :%s/\s\+$//e
-    autocmd BufWritePre *.json :%s/\s\+$//e
-    autocmd BufWritePre *.rs :%s/\s\+$//e
-    autocmd BufWritePre *.config :%s/\s\+$//e
-    autocmd BufWritePre *.wiki :%s/\s\+$//e
-" }}}
-
-
-" Setting vim to load local vimrc files
-set exrc
-set secure
-
-
-" Switch spell check on/off (grammar check)
-setlocal spell spelllang=en_us      "let's use English by default
-set nospell                         "by default spell is off
-
-
-
-" ================= Keys ===========================
-
-" Set up leaders:
-" <Leader>
-let mapleader = ","
-" <LocalLeader>
-let maplocalleader = "\\"
+nnoremap <Leader>do :DiffOrig<cr>
+nnoremap <leader>dc :q<cr>:diffoff<cr>:exe "norm! ".g:diffline."G"<cr>
 
 " Don't use Ex mode, use Q for formatting
 map Q gq
@@ -586,7 +552,6 @@ cmap w!! w !sudo tee > /dev/null %
 
 " XML Lint
 map @@x !%xmllint --format --recover -^M
-
 
 " Map up/down arrow keys to unimpaired commands
 nmap <Up> [e
@@ -616,8 +581,7 @@ inoremap <Down> <nop>
 " Search and replace current hightlighted visual
 vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 
-
-" VimTip 305: make it easy to update/reload .vimrc
+" Make it easy to update/reload .vimrc
 " {{{
     "src: source rc file
     "erc: edit rc file
@@ -629,23 +593,32 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 " Counting all occurances under cursor
 map ,* *<C-O>:%s///gn<CR>
 
-
-" Setting C-l to denite
-nnoremap <C-l> :Denite file file_rec buffer file_mru everything<CR>
+" Remove trailing whitespaces, strip, trim
+" {{{
+    autocmd BufWritePre *.txt :%s/\s\+$//e
+    autocmd BufWritePre *.py :%s/\s\+$//e
+    autocmd BufWritePre *.scala :%s/\s\+$//e
+    autocmd BufWritePre *.pl :%s/\s\+$//e
+    autocmd BufWritePre *.php :%s/\s\+$//e
+    autocmd BufWritePre *.java :%s/\s\+$//e
+    autocmd BufWritePre *.md :%s/\s\+$//e
+    autocmd BufWritePre *.h :%s/\s\+$//e
+    autocmd BufWritePre *.cpp :%s/\s\+$//e
+    autocmd BufWritePre *.tex :%s/\s\+$//e
+    autocmd BufWritePre *.vim :%s/\s\+$//e
+    autocmd BufWritePre *.nfo :%s/\s\+$//e
+    autocmd BufWritePre *.json :%s/\s\+$//e
+    autocmd BufWritePre *.rs :%s/\s\+$//e
+    autocmd BufWritePre *.config :%s/\s\+$//e
+    autocmd BufWritePre *.wiki :%s/\s\+$//e
+" }}}
 
 " This block sets tmux activity to off, since for some reason NeoVim causes an
 " activity when leaving the pane
 if exists('$TMUX')
-
     augroup tmux_no_activity
         autocmd!
-        autocmd VimEnter * !tmux set-window-option monitor-activity off
-        autocmd VimLeave * !tmux set-window-option monitor-activity on
+        autocmd VimEnter * silent! !tmux set-window-option monitor-activity off
+        autocmd VimLeave * silent! !tmux set-window-option monitor-activity on
     augroup end
-
 endif
-
-"" black background:
-"hi Normal  ctermbg=None
-"" black background at the end of file too (with lines ~):
-"hi NonText ctermbg=None
