@@ -130,6 +130,12 @@ set incsearch
 " Draw only what needed, helps scroll performance
 set lazyredraw
 
+" Setting the maximum culomns to parse syntax, also helps with scroll performance
+set synmaxcol=128
+
+" Minimum sync lines element to search for syntax parsing, aslo helps with scroll performance
+syntax sync minlines=256
+
 " In many terminal emulators the mouse works just fine
 if has('mouse')
     set mouse=a
