@@ -1,5 +1,7 @@
 = Dotfiles TODO =
 
+----
+
 " Async make
 Plug 'Shougo/vimproc.vim', { 'do': 'make' } " interactive command execution in vim
  Choose Files Choose Files
@@ -172,3 +174,14 @@ check whether should use xsel or xclip
 ----
 
 Check how folds work and how to use it
+learn how to fold in vim and see if it matters
+
+
+----
+learn how to fold in vim and see if it matters
+
+----
+
+Run async clipboard setup lazyly
+----
+

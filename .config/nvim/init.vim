@@ -136,7 +136,9 @@ if has('mouse')
 endif
 
 " Setting copy to system clipboard
-set clipboard=unnamed
+" set clipboard=unnamed
+" Disabling clipboard for faster load times
+set clipboard=""
 
 " netrw settings
 " {{{
@@ -347,17 +349,6 @@ Plug 'neomake/neomake'
         \ ]}
 " }}}
 
-" Vim -b : edit binary using xxd-format!
-augroup Binary
-    au!
-    au BufReadPre  *.bin let &bin=1
-    au BufReadPost *.bin if &bin | %!xxd
-    au BufReadPost *.bin set ft=xxd | endif
-    au BufWritePre *.bin if &bin | %!xxd -r
-    au BufWritePre *.bin endif
-    au BufWritePost *.bin if &bin | %!xxd
-    au BufWritePost *.bin set nomod | endif
-augroup END
 
 " Unimpaired adds various shortcuts
 Plug 'tpope/vim-unimpaired'
@@ -552,7 +543,7 @@ call plug#end()
 " }}}
 
 " ====================================================================
-" Functions and keymaps
+" Functions, Keymaps, Autocommands
 " ====================================================================
 
 " Convenient command to see the difference between the current buffer and the
@@ -618,6 +609,18 @@ vnoremap <C-r> "hy:%s/<C-r>h//gc<left><left><left>
 " Counting all occurances under cursor
 map ,* *<C-O>:%s///gn<CR>
 
+" Vim -b : edit binary using xxd-format!
+augroup Binary
+    au!
+    au BufReadPre  *.bin let &bin=1
+    au BufReadPost *.bin if &bin | %!xxd
+    au BufReadPost *.bin set ft=xxd | endif
+    au BufWritePre *.bin if &bin | %!xxd -r
+    au BufWritePre *.bin endif
+    au BufWritePost *.bin if &bin | %!xxd
+    au BufWritePost *.bin set nomod | endif
+augroup END
+
 " Remove trailing whitespaces, strip, trim
 " {{{
     autocmd BufWritePre *.txt :%s/\s\+$//e
@@ -643,7 +646,8 @@ map ,* *<C-O>:%s///gn<CR>
 if exists('$TMUX')
     augroup tmux_no_activity
         autocmd!
-        autocmd VimEnter * silent! !tmux set-window-option monitor-activity off
+        autocmd VimEnter * silent! !tmux set-window-option monitor-activity off > /dev/null 2>&1
         autocmd VimLeave * silent! !tmux set-window-option monitor-activity on
     augroup end
 endif
+
