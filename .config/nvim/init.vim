@@ -221,10 +221,27 @@ Plug 'elzr/vim-json'
 " Completion
 " ====================================================================
 
+" Complete code snippets
+Plug 'SirVer/ultisnips'
+" {{{
+    " Trigger configuration. Do not use <tab> if you use it for completion
+    let g:UltiSnipsExpandTrigger="<tab>"
+    " let g:UltiSnipsExpandTrigger="<C-j>"
+    let g:UltiSnipsJumpForwardTrigger="<tab>"
+    let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+    " If you want :UltiSnipsEdit to split your window.
+    let g:UltiSnipsEditSplit="vertical"
+" }}}
+
+" Ready made snippets for ultisnips and snipmate
+Plug 'honza/vim-snippets'
+" {{{
+" }}}
+
 " Dark powered async autocomplete
 Plug 'Shougo/deoplete.nvim'
 " {{{
-
     let g:deoplete#enable_at_startup = 1
     if !exists('g:deoplete#omni#input_patterns')
       let g:deoplete#omni#input_patterns = {}
@@ -262,6 +279,7 @@ Plug 'zchee/deoplete-clang'
     let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/lib/clang'
 " }}}
 
+
 " Add ability to surround given strings with characters
 Plug 'tpope/vim-surround'
 " {{{
@@ -286,6 +304,11 @@ Plug 'tpope/vim-repeat'
     vnoremap <Leader>'  <esc>`<i'<esc>`>la'<esc>
     vnoremap <Leader>"  <esc>`<i"<esc>`>la"<esc>
     vnoremap <Leader>`  <esc>`<i`<esc>`>la`<esc>
+" }}}
+
+" Enhance surround, add closing completion for tags(HTML, XML, etx...)
+Plug 'tpope/vim-ragtag'
+" {{{
 " }}}
 
 " Automatic closing of quotes, parenthesis, brackets, etc.
