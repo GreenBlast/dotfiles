@@ -399,14 +399,8 @@ Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 " ====================================================================
 
 " Manages vim session save and restore
-Plug 'xolox/vim-misc' | Plug 'xolox/vim-session'
+Plug 'tpope/vim-obsession'
 " {{{
-    " allows you to save and restore the current session (restart vim)
-    " :SaveSession    -> save the session
-    " :OpenSession    -> load the saved session
-    let g:session_autosave = 'no'
-    let g:session_autoload = 'no'
-    let g:session_directory = '~/nvim.local/sessions'
 " }}}
 
 " ====================================================================

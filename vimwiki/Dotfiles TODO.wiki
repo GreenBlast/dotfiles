@@ -1,8 +1,5 @@
 = Dotfiles TODO =
 
-" Session management needs to compare with the current
-tpope/vim-obsession
-
 Also check tmux resurrect for vim sessions:
 # for vi
 set -g @resurrect-strategy-vim 'session'
@@ -175,4 +172,9 @@ learn how to fold in vim and see if it matters
 
 Run async clipboard setup lazyly
 ----
+
+Ask yourself if vim obsession works well
+" Session management needs to compare with the current
+
+tpope/vim-obsession
 
