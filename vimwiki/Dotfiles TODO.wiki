@@ -1,4 +1,7 @@
 = Dotfiles TODO =
+----
+
+Check FZF to directories include hidden
 
 ----
 " CtrlP keys
