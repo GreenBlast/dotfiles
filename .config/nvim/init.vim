@@ -225,8 +225,8 @@ Plug 'elzr/vim-json'
 Plug 'SirVer/ultisnips'
 " {{{
     " Trigger configuration. Do not use <tab> if you use it for completion
-    let g:UltiSnipsExpandTrigger="<tab>"
-    " let g:UltiSnipsExpandTrigger="<C-j>"
+    " let g:UltiSnipsExpandTrigger="<tab>"
+    let g:UltiSnipsExpandTrigger="<C-j>"
     let g:UltiSnipsJumpForwardTrigger="<tab>"
     let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 

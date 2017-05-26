@@ -1,35 +1,5 @@
 = Dotfiles TODO =
 
-Also check tmux resurrect for vim sessions:
-# for vi
-set -g @resurrect-strategy-vim 'session'
-# for neovim
-set -g @resurrect-strategy-nvim 'session'
-
-----
-
-" buffer keys
-nnoremap <Leader>bb :b#<CR>
-nnoremap <Leader>bn :bn<CR>
-nnoremap <Leader>bp :bp<CR>
-nnoremap <Leader>bf :bf<CR>
-nnoremap <Leader>bl :bl<CR>
-nnoremap <Leader>bw :w<CR>:bd<CR>
-nnoremap <Leader>bd :bd!<CR>
-" new buffer/tab
-nnoremap <Leader>e :enew<CR>
-
-" window keys
-nnoremap <Leader>w< <C-w><
-nnoremap <Leader>w> <C-w>>
-nnoremap <Leader>w- <C-w>-
-nnoremap <Leader>w+ <C-w>+
-nnoremap <Leader>ws :split<CR>
-nnoremap <Leader>wv :vsplit<CR>
-nnoremap <Leader>wx :close<CR>
-
-" %% to expand active buffer location on cmdline
-cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 ----
 " CtrlP keys
 nnoremap <Leader>pp :CtrlP<CR>

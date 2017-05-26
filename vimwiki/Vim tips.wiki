@@ -1,5 +1,7 @@
 = Vim tips =
 
+== Misc ==
+
 * gx
 Open URL under cursor in your browser
 
@@ -23,6 +25,31 @@ If expandtab is not OK, then find out which config file changed it for the last 
 
 * :set ft=json
 Treat the file as a json file (even if it has a different extension) [ft: filetype]
+
+== Mappings ==
+
+" buffer keys
+nnoremap <Leader>bb :b#<CR>
+nnoremap <Leader>bn :bn<CR>
+nnoremap <Leader>bp :bp<CR>
+nnoremap <Leader>bf :bf<CR>
+nnoremap <Leader>bl :bl<CR>
+nnoremap <Leader>bw :w<CR>:bd<CR>
+nnoremap <Leader>bd :bd!<CR>
+" new buffer/tab
+nnoremap <Leader>e :enew<CR>
+
+" window keys
+nnoremap <Leader>w< <C-w><
+nnoremap <Leader>w> <C-w>>
+nnoremap <Leader>w- <C-w>-
+nnoremap <Leader>w+ <C-w>+
+nnoremap <Leader>ws :split<CR>
+nnoremap <Leader>wv :vsplit<CR>
+nnoremap <Leader>wx :close<CR>
+
+" %% to expand active buffer location on cmdline
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
 
 == Variables ==

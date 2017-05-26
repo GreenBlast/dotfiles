@@ -6,4 +6,5 @@ http://learnvimscriptthehardway.stevelosh.com/chapters/03.html
 http://vimcasts.org/episodes/page/7/
 * Github tips
 http://xenon.stanford.edu/~blynn/gitmagic/index.html
-
+SEI CERT C++ Coding Standard (Secured development standard)
+* https://www.securecoding.cert.org/confluence/plugins/servlet/mobile#content/view/637
