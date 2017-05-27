@@ -1,3 +1,6 @@
+# Sourcing specific config file
+source $HOME/.config/zsh/config.zsh
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -86,7 +89,8 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-NVIM_PATH=/usr/bin/nvim
+
+# Nvim path should be set in config file
 if [ -f $NVIM_PATH ]; then
     alias vim=$NVIM_PATH
     export GIT_EDITOR=$NVIM_PATH
