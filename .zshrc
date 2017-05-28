@@ -146,6 +146,8 @@ export SPACESHIP_PROMPT_SYMBOL='➔>'
 export FZF_DEFAULT_COMMAND='ag --files-with-matches --skip-vcs-ignore --hidden --follow --ignore ".git/*"'
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+# Find also dot directories in ALT-C
+export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" -o -fstype "devfs" -o -fstype "devtmpfs" -o -fstype "proc" -prune -o -type d -print 2> /dev/null | cut -b3-'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Exporting editor
