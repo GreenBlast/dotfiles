@@ -481,6 +481,24 @@ Plug 'easymotion/vim-easymotion'
     omap s <Plug>(easymotion-tn)
 " }}}
 
+" Additions to easymotion
+Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
+
+function! s:config_easyfuzzymotion(...) abort
+  return extend(copy({
+  \   'converters': [incsearch#config#fuzzy#converter()],
+  \   'modules': [incsearch#config#easymotion#module()],
+  \   'keymap': {"\<CR>": '<Over>(easymotion)'},
+  \   'is_expr': 0,
+  \   'is_stay': 1
+  \ }), get(a:, 1, {}))
+endfunction
+
+let g:incsearch#auto_nohlsearch = 1
+noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
+
 " Fzf is a fuzzy searcher that uses ag - The Silver Searcher
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
@@ -519,7 +537,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'lvht/fzf-mru'
 " {{{
     " set max lenght for the mru file list
-    let g:fzf_mru_file_list_size = 10 " default value
+    let g:fzf_mru_file_list_size = 100 " default value
     " set path pattens that should be ignored
     let g:fzf_mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
 " }}}
