@@ -531,6 +531,33 @@ Plug 'junegunn/fzf.vim'
         return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
     endfunction
     command! ProjectFiles execute 'Files' s:find_git_root()
+
+    " FZF keymaps
+    " Git files or current directory
+    nnoremap <Leader>kk :ProjectFiles<CR>
+
+    " Recent files
+    nnoremap <Leader>kr :FZFMru<CR>
+
+    " Open buffers
+    nnoremap <Leader>kb :Buffers<CR>
+
+    " Lines in buffer
+    nnoremap <Leader>kl :BLines<CR>
+
+    " Git status files
+    nnoremap <Leader>kg :GFiles?<CR>
+
+    " Tags in buffer
+    nnoremap <Leader>kt :BTags<CR>
+
+    " Ag pattern
+    nnoremap <Leader>ka :Ag<CR>
+
+    command! -nargs=+ -complete=file -bar FZFLocation FZF <args>
+
+    " FZF pattern
+    nnoremap <Leader>kf :FZFLocation<space>
 " }}}
 
 " Most Recent Used for fzf
