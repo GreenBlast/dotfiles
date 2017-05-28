@@ -1,1 +1,0 @@
-/home/aviad/.config/zsh/config.zsh##
