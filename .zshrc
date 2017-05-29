@@ -133,6 +133,7 @@ export REPORTTIME=10
 # Disable zsh double rm verification
 setopt rm_star_silent
 
+# TODO move to prompt file, and remove deprecated commented
 # Setting to show timestamp at prompt
 SPACESHIP_TIME_SHOW=true
 
@@ -168,6 +169,13 @@ export SPACESHIP_PROMPT_SEPARATE_LINE=false
 
 # Don't truncate dirpath
 export SPACESHIP_DIR_TRUNC=0
+#export SPACESHIP_PROMPT_TRUNC=0
+
+# Disable git prefix
+export SPACESHIP_GIT_PREFIX=''
+
+# Don't show git prompt
+#export SPACESHIP_GIT_SHOW=false
 
 # Set prompt symbol
 export SPACESHIP_PROMPT_SYMBOL='➔>'
