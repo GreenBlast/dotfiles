@@ -12,8 +12,6 @@ export ZSH=$HOME/.oh-my-zsh
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
 ZSH_THEME="spaceship"
-# Setting to show timestamp at prompt
-SPACESHIP_TIME_SHOW=true
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -135,10 +133,43 @@ export REPORTTIME=10
 # Disable zsh double rm verification
 setopt rm_star_silent
 
+# Setting to show timestamp at prompt
+SPACESHIP_TIME_SHOW=true
+
+# Timestamp format
+SPACESHIP_TIME_FORMAT="[%D{%T}]"
+
+# Setting suffix for time
+SPACESHIP_TIME_SUFFIX=' '
+
+# Setting user prefix
+SPACESHIP_USER_PREFIX=''
+
+# Setting user suffix
+SPACESHIP_USER_SUFFIX=''
+
+# Setting user color
+SPACESHIP_USER_COLOR='cyan'
+
+# Setting host prefix
+SPACESHIP_HOST_PREFIX='\033[01;35m@'
+
+# Setting host prefix
+SPACESHIP_HOST_SUFFIX=''
+
+# Directory prefix
+SPACESHIP_DIR_PREFIX='\033[01;33m:'
+
 # Set no newline in spaceship prompt
 export SPACESHIP_PROMPT_ADD_NEWLINE=false
+
+# Command line is one line
 export SPACESHIP_PROMPT_SEPARATE_LINE=false
-export SPACESHIP_PROMPT_TRUNC=0
+
+# Don't truncate dirpath
+export SPACESHIP_DIR_TRUNC=0
+
+# Set prompt symbol
 export SPACESHIP_PROMPT_SYMBOL='➔>'
 
 # Fzf is a fuzzy searcher written in go
