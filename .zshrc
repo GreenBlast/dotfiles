@@ -96,8 +96,6 @@ fi
 
 # This should be temporary, should just load all zsh in this dir after dealing with the prompt
 source $HOME/.config/zsh/aliases.zsh
-# TODO Check how and what to add completions
-#for config ($ZSH/**/*completion.zsh) source $config
 
 # Adding scripts dir
 if [[ ! "$PATH" == *$HOME/.scripts* ]]; then
@@ -111,158 +109,27 @@ else
     export TERM='xterm-color'
 fi
 
-# Uncomment this after checking the ohmyzsh files to make sure they are setting things that concerning it
-# Lines configured by zsh-newuser-install
-#HISTFILE=~/.histfile
-#HISTSIZE=1000
-#SAVEHIST=1000
-#setopt appendhistory autocd extendedglob
-#unsetopt beep
-#bindkey -v
-## End of lines configured by zsh-newuser-install
-## The following lines were added by compinstall
-#zstyle :compinstall filename '$HOME/.zshrc'
-#
-#autoload -Uz compinit
-#compinit
-## End of lines added by compinstall
-
 # display how long all tasks over 10 seconds take
 export REPORTTIME=10
 
 # Disable zsh double rm verification
 setopt rm_star_silent
 
-# TODO move to prompt file, and remove deprecated commented
-# Setting to show timestamp at prompt
-SPACESHIP_TIME_SHOW=true
-
-# Timestamp format
-SPACESHIP_TIME_FORMAT="[%D{%T}]"
-
-# Setting suffix for time
-SPACESHIP_TIME_SUFFIX=' '
-
-# Setting user prefix
-SPACESHIP_USER_PREFIX=''
-
-# Setting user suffix
-SPACESHIP_USER_SUFFIX=''
-
-# Setting user color
-SPACESHIP_USER_COLOR='cyan'
-
-# Setting host prefix
-SPACESHIP_HOST_PREFIX='\033[01;35m@'
-
-# Setting host prefix
-    SPACESHIP_HOST_SUFFIX='\033[01;33m:'
-
-# Directory prefix
-SPACESHIP_DIR_PREFIX=''
-
-# Set no newline in spaceship prompt
-export SPACESHIP_PROMPT_ADD_NEWLINE=false
-
-# Command line is one line
-export SPACESHIP_PROMPT_SEPARATE_LINE=false
-
-# Don't truncate dirpath
-export SPACESHIP_DIR_TRUNC=0
-#export SPACESHIP_PROMPT_TRUNC=0
-
-# Disable git prefix
-export SPACESHIP_GIT_PREFIX=''
-
-# Setting different user and host function (Always shown)
-# USER
-# If user is root, then paint it in red. Otherwise, just print in yellow.
-spaceship_user() {
-  [[ $SPACESHIP_USER_SHOW == false ]] && return
-
-    local user_color
-
-    if [[ $USER == 'root' ]]; then
-      user_color=$SPACESHIP_USER_COLOR_ROOT
-    else
-      user_color="$SPACESHIP_USER_COLOR"
-    fi
-
-    _prompt_section \
-      "$user_color" \
-      "$SPACESHIP_USER_PREFIX" \
-      '%n' \
-      "$SPACESHIP_USER_SUFFIX"
-}
-
-# HOST
-# If there is an ssh connections, current machine name.
-spaceship_host() {
-  [[ $SPACESHIP_HOST_SHOW == false ]] && return
-
-  _prompt_section \
-    "$SPACESHIP_HOST_COLOR" \
-    "$SPACESHIP_HOST_PREFIX" \
-    '%m' \
-    "$SPACESHIP_HOST_SUFFIX"
-}
-
-# BACKGROUND JOBS
-SPACESHIP_BACKGROUND_JOBS_SHOW="${SPACESHIP_BACKGROUND_JOBS_SHOW:-true}"
-SPACESHIP_BACKGROUND_JOBS_SYMBOL="${SPACESHIP_BACKGROUND_JOBS_SYMBOL:-⚙}"
-export SPACESHIP_BACKGROUND_JOBS_SYMBOL="%{$FG[208]%}✱%f"
-
-# Are there background jobs running?
-spaceship_background_jobs_status() {
-  [[ $SPACESHIP_BACKGROUND_JOBS_SHOW == false ]] && return
-
-  [[ $(jobs -l | wc -l) -gt 0 ]] && echo -n "${SPACESHIP_BACKGROUND_JOBS_SYMBOL} "
-}
-
-
-# Setting right prompt to git
-export RPROMPT='$(spaceship_git)'
-
-# Setting order of prompt objects, excluding git
-export SPACESHIP_PROMPT_ORDER=(
-    time
-    user
-    host
-    dir
-    git
-    hg
-    node
-    ruby
-    xcode
-    swift
-    golang
-    php
-    rust
-    julia
-    docker
-    venv
-    pyenv
-    line_sep
-    vi_mode
-    background_jobs_status
-    char
-)
-
-# Set prompt symbol
-export SPACESHIP_PROMPT_SYMBOL='➔>'
+# Sourcing prompt options
+source $HOME/.config/zsh/prompt.zsh
 
 # Fzf is a fuzzy searcher written in go
-#export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_DEFAULT_COMMAND='ag --files-with-matches --skip-vcs-ignore --hidden --follow --ignore ".git/*"'
+
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
 # Find also dot directories in ALT-C
-export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" -o -fstype "devfs" -o -fstype "devtmpfs" -o -fstype "proc" -prune -o -type d -print 2> /dev/null | cut -b3-'
+export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" -o -fstype "devfs" -o -fstype "devtmpfs" \
+    -o -fstype "proc" -prune -o -type d -print 2> /dev/null | cut -b3-'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Exporting editor
 export VISUAL=$NVIM_PATH
 export EDITOR="$VISUAL"
-
-
 

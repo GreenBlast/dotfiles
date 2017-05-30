@@ -1,131 +1,114 @@
-autoload -U colors && colors
+# Setting to show timestamp at prompt
+SPACESHIP_TIME_SHOW=true
 
-# Colors: black|red|blue|green|yellow|magenta|cyan|white
-local black=$fg[black]
-local red=$fg[red]
-local blue=$fg[blue]
-local green=$fg[green]
-local yellow=$fg[yellow]
-local magenta=$fg[magenta]
-local cyan=$fg[cyan]
-local white=$fg[white]
+# Timestamp format
+SPACESHIP_TIME_FORMAT="[%D{%T}]"
 
-local black_bold=$fg_bold[black]
-local red_bold=$fg_bold[red]
-local blue_bold=$fg_bold[blue]
-local green_bold=$fg_bold[green]
-local yellow_bold=$fg_bold[yellow]
-local magenta_bold=$fg_bold[magenta]
-local cyan_bold=$fg_bold[cyan]
-local white_bold=$fg_bold[white]
+# Setting suffix for time
+SPACESHIP_TIME_SUFFIX=' '
 
-local highlight_bg=$bg[red]
+# Setting user prefix
+SPACESHIP_USER_PREFIX=''
 
-# Machine name.
-function get_box_name {
-    if [ -f ~/.box-name ]; then
-        cat ~/.box-name
+# Setting user suffix
+SPACESHIP_USER_SUFFIX=''
+
+# Setting user color
+SPACESHIP_USER_COLOR='blue'
+
+# Setting host prefix
+SPACESHIP_HOST_PREFIX="%{$FG[247]%}@%f"
+
+# Setting host prefix
+SPACESHIP_HOST_SUFFIX="%{$FG[226]%}:%f"
+
+# Directory prefix
+SPACESHIP_DIR_PREFIX=''
+
+# Set no newline in spaceship prompt
+export SPACESHIP_PROMPT_ADD_NEWLINE=false
+
+# Command line is one line
+export SPACESHIP_PROMPT_SEPARATE_LINE=false
+
+# Don't truncate dirpath
+export SPACESHIP_DIR_TRUNC=0
+
+# Disable git prefix
+export SPACESHIP_GIT_PREFIX=''
+
+# Setting different user and host function (Always shown)
+# USER
+# If user is root, then paint it in red. Otherwise, just print in yellow.
+spaceship_user() {
+  [[ $SPACESHIP_USER_SHOW == false ]] && return
+
+    local user_color
+
+    if [[ $USER == 'root' ]]; then
+      user_color=$SPACESHIP_USER_COLOR_ROOT
     else
-        echo $HOST
+      user_color="$SPACESHIP_USER_COLOR"
     fi
+
+    _prompt_section \
+      "$user_color" \
+      "$SPACESHIP_USER_PREFIX" \
+      '%n' \
+      "$SPACESHIP_USER_SUFFIX"
+}
+
+# HOST
+# If there is an ssh connections, current machine name.
+spaceship_host() {
+  [[ $SPACESHIP_HOST_SHOW == false ]] && return
+
+  _prompt_section \
+    "$SPACESHIP_HOST_COLOR" \
+    "$SPACESHIP_HOST_PREFIX" \
+    '%m' \
+    "$SPACESHIP_HOST_SUFFIX"
+}
+
+# BACKGROUND JOBS
+SPACESHIP_BACKGROUND_JOBS_SHOW="${SPACESHIP_BACKGROUND_JOBS_SHOW:-true}"
+SPACESHIP_BACKGROUND_JOBS_SYMBOL="${SPACESHIP_BACKGROUND_JOBS_SYMBOL:-⚙}"
+export SPACESHIP_BACKGROUND_JOBS_SYMBOL="%{$FG[208]%}✱%f"
+
+# Are there background jobs running?
+spaceship_background_jobs_status() {
+  [[ $SPACESHIP_BACKGROUND_JOBS_SHOW == false ]] && return
+
+  [[ $(jobs -l | wc -l) -gt 0 ]] && echo -n "${SPACESHIP_BACKGROUND_JOBS_SYMBOL} "
 }
 
 
-# User name.
-function get_usr_name {
-    local name="%n"
-    if [[ "$USER" == 'root' ]]; then
-        name="%{$highlight_bg%}%{$white_bold%}$name%{$reset_color%}"
-    fi
-    echo $name
-}
+# Setting right prompt to git
+RPROMPT='$(spaceship_git)'
 
-# Directory info.
-function get_current_dir {
-    echo "${PWD/#$HOME/~}"
-}
+# Setting order of prompt objects, excluding git
+export SPACESHIP_PROMPT_ORDER=(
+    time
+    user
+    host
+    dir
+    hg
+    node
+    ruby
+    xcode
+    swift
+    golang
+    php
+    rust
+    julia
+    docker
+    venv
+    pyenv
+    line_sep
+    vi_mode
+    background_jobs_status
+    char
+)
 
-
-function get_time_stamp {
-    echo "%*"
-}
-
-# needed to get things like current git branch
-autoload -Uz vcs_info
-zstyle ':vcs_info:*' enable git # You can add hg too if needed: `git hg`
-zstyle ':vcs_info:git*' use-simple true
-zstyle ':vcs_info:git*' max-exports 2
-zstyle ':vcs_info:git*' formats ' %b' 'x%R'
-zstyle ':vcs_info:git*' actionformats ' %b|%a' 'x%R'
-
-autoload colors && colors
-
-git_dirty() {
-    # check if we're in a git repo
-    command git rev-parse --is-inside-work-tree &>/dev/null || return
-
-    # check if it's dirty
-    command git diff --quiet --ignore-submodules HEAD &>/dev/null;
-    if [[ $? -eq 1 ]]; then
-        echo "%F{red}✗%f"
-    else
-        echo "%F{green}✔%f"
-    fi
-}
-
-# get the status of the current branch and it's remote
-# If there are changes upstream, display a ⇣
-# If there are changes that have been committed but not yet pushed, display a ⇡
-git_arrows() {
-    # do nothing if there is no upstream configured
-    command git rev-parse --abbrev-ref @'{u}' &>/dev/null || return
-
-    local arrows=""
-    local status
-    arrow_status="$(command git rev-list --left-right --count HEAD...@'{u}' 2>/dev/null)"
-
-    # do nothing if the command failed
-    (( !$? )) || return
-
-    # split on tabs
-    arrow_status=(${(ps:\t:)arrow_status})
-    local left=${arrow_status[1]} right=${arrow_status[2]}
-
-    (( ${right:-0} > 0 )) && arrows+="%F{011}⇣%f"
-    (( ${left:-0} > 0 )) && arrows+="%F{012}⇡%f"
-
-    echo $arrows
-}
-
-
-# indicate a job (for example, vim) has been backgrounded
-# If there is a job in the background, display a ✱
-suspended_jobs() {
-    local sj
-    sj=$(jobs 2>/dev/null | tail -n 1)
-    if [[ $sj == "" ]]; then
-        echo ""
-    else
-        echo "%{$FG[208]%}✱%f"
-    fi
-}
-
-
-precmd() {
-    vcs_info
-#    print -P '\n%F{51}%~'
-    print -P ''
-}
-
-
-local left_prompt="%{$green%}\
-[$(get_time_stamp)] \
-%{$green_bold%}$(get_usr_name)\
-%{$blue%}@\
-%{$cyan_bold%}$(get_box_name): \
-%{$yellow_bold%}$(get_current_dir)%{$reset_color%}\
- ⇨ "
-
-#export PROMPT='%(?.%F{205}.%F{red})⇨%f '
-export PROMPT=$left_prompt
-export RPROMPT='`git_dirty`%F{241}$vcs_info_msg_0_%f `git_arrows``suspended_jobs`'
+# Set prompt symbol
+export SPACESHIP_PROMPT_SYMBOL='➔>'

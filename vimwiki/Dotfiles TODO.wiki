@@ -1,11 +1,5 @@
 = Dotfiles TODO =
 
-Tweak spaceship further
-rm ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme
-curl -Lfo ~/.oh-my-zsh/custom/themes/spaceship.zsh-theme https://raw.githubusercontent.com/denysdovhan/spaceship-zsh-theme/master/spaceship.zsh
-
-Remove prompt truncate
-----
 
 https://github.com/powerline/fonts
 
