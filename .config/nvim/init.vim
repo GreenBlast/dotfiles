@@ -410,31 +410,34 @@ Plug 'tpope/vim-obsession'
 " Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline'
 " {{{
-    let g:airline_powerline_fonts = 1
+    " if fonts are not installed, add a workaround
+    if empty($FONTS_INSTALLED)
+        let g:airline_powerline_fonts = 1
 
-    if !exists('g:airline_symbols')
-        let g:airline_symbols = {}
+        if !exists('g:airline_symbols')
+            let g:airline_symbols = {}
+        endif
+
+        " old vim-powerline symbols
+        let g:airline_left_sep = '⮀'
+        let g:airline_left_alt_sep = '⮁'
+        let g:airline_right_sep = '⮂'
+        let g:airline_right_alt_sep = '⮃'
+        let g:airline_symbols.branch = '⭠'
+        let g:airline_symbols.readonly = '⭤'
+        let g:airline_symbols.linenr = '⭡'
+
+        " Unicode symbols
+        let g:airline_left_sep = '»'
+        let g:airline_left_sep = '▶'
+        let g:airline_right_sep = '«'
+        let g:airline_right_sep = '◀'
+        let g:airline_symbols.linenr = '¶'
+        let g:airline_symbols.paste = 'ρ'
+        let g:airline_symbols.paste = 'Þ'
+        let g:airline_symbols.paste = '∥'
+        let g:airline_symbols.whitespace = 'Ξ'
     endif
-
-    " old vim-powerline symbols
-    let g:airline_left_sep = '⮀'
-    let g:airline_left_alt_sep = '⮁'
-    let g:airline_right_sep = '⮂'
-    let g:airline_right_alt_sep = '⮃'
-    let g:airline_symbols.branch = '⭠'
-    let g:airline_symbols.readonly = '⭤'
-    let g:airline_symbols.linenr = '⭡'
-
-    " Unicode symbols
-    let g:airline_left_sep = '»'
-    let g:airline_left_sep = '▶'
-    let g:airline_right_sep = '«'
-    let g:airline_right_sep = '◀'
-    let g:airline_symbols.linenr = '¶'
-    let g:airline_symbols.paste = 'ρ'
-    let g:airline_symbols.paste = 'Þ'
-    let g:airline_symbols.paste = '∥'
-    let g:airline_symbols.whitespace = 'Ξ'
 " }}}
 
 " Themes for vim airline
@@ -477,8 +480,8 @@ Plug 'easymotion/vim-easymotion'
 " {{{
 
     " Setting an easymotion search
-    map s  <Plug>(easymotion-sn)
-    omap s <Plug>(easymotion-tn)
+    map <Space>s <Plug>(easymotion-sn)
+    omap <Space>s <Plug>(easymotion-tn)
 " }}}
 
 " Additions to easymotion
@@ -497,7 +500,7 @@ function! s:config_easyfuzzymotion(...) abort
 endfunction
 
 let g:incsearch#auto_nohlsearch = 1
-noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
+noremap <silent><expr> s incsearch#go(<SID>config_easyfuzzymotion())
 
 " Fzf is a fuzzy searcher that uses ag - The Silver Searcher
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
