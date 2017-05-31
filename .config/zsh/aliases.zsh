@@ -7,6 +7,7 @@ alias yadm=~/.local/bin/yadm
 alias yst='yadm status'
 alias yau='yadm add -u'
 alias yc='yadm commit -v'
+alias yp='yadm push'
 
 # Reload zsh config
 alias reload!='RELOAD=1 source ~/.zshrc'
