@@ -4,6 +4,10 @@
 # Setting yadm
 alias yadm=~/.local/bin/yadm
 
+alias yst='yadm status'
+alias yau='yadm add -u'
+alias yc='yadm commit -v'
+
 # Reload zsh config
 alias reload!='RELOAD=1 source ~/.zshrc'
 
@@ -13,9 +17,6 @@ if ls --color > /dev/null 2>&1; then # GNU `ls`
 else # OS X `ls`
     colorflag="-G"
 fi
-
-# TODO change after nvim install
-#alias vim="nvim"
 
 # Filesystem aliases
 alias ..='cd ..'

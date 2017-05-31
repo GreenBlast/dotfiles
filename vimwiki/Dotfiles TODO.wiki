@@ -1,47 +1,5 @@
 = Dotfiles TODO =
 
-
-https://github.com/powerline/fonts
-
-----
-
-Check if FZFMix is used (A function in the init file, ) If not remove it
-
-----
-Scheme quest:
-
-Tried:
-Now that I know how to set the background to black, Should check again,
-also remember to check diff mode
-
-Plug 'freeo/vim-kalisi'
-Plug 'michalbachowski/vim-wombat256mod'
-Plug 'joshdick/onedark.vim'
-
-Plug 'https://github.com/lu-ren/SerialExperimentsLain'
-Plug 'https://github.com/Reewr/vim-monokai-phoenix'
-
-
-Plug 'https://github.com/liuchengxu/space-vim-dark'
-Plug 'https://github.com/smancill/darkglass'
-Plug 'https://github.com/colepeters/spacemacs-theme.vim'
-Plug 'https://github.com/euclio/vim-nocturne'
-Plug 'https://github.com/philpl/vim-adventurous'
-Plug 'https://github.com/snowcrshd/cyberpunk.vim'
-Plug 'https://github.com/tristanheaven/vim-colorscheme-aquamarine'
-
-Plug 'flazz/vim-colorschemes'
-Plug 'https://github.com/marcopaganini/mojave-vim-theme'
-Plug 'https://github.com/aperezdc/vim-elrond'
-Plug 'https://github.com/changyuheng/color-scheme-holokai-for-vim'
-Plug 'https://github.com/vim-scripts/xterm16.vim'
-Plug 'https://github.com/lanox/lanox-vim-theme'
-Plug 'https://github.com/acoustichero/simple_dark'
-Plug 'https://github.com/ninja/sky'
-Plug 'https://github.com/nanotech/jellybeans.vim'
-
-----
-
 check whether should use xsel or xclip
 
 ----
@@ -63,3 +21,8 @@ Ask yourself if vim obsession works well
 
 tpope/vim-obsession
 
+----
+
+Check if FZFMix is used (A function in the init file, ) If not remove it
+
+----
