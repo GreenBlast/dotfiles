@@ -87,7 +87,7 @@ spaceship_background_jobs_status() {
 RPROMPT='$(spaceship_git)'
 
 # Setting order of prompt objects, excluding git
-export SPACESHIP_PROMPT_ORDER=(
+SPACESHIP_PROMPT_ORDER=(
     time
     user
     host

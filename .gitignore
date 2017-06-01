@@ -23,9 +23,11 @@
 !.fzf
 !.oh-my-zsh
 !.scripts
+!.spaceship-zsh-theme
 !.tmux/plugins/tpm
 !.yadm
 !vimwiki
+!zsh_custom
 
 # And this files
 !.gitmodules
