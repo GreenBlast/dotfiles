@@ -7,6 +7,9 @@ source $HOME/.config/zsh/config.zsh
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
+# Setting custom plugins and themes location
+export ZSH_CUSTOM=$HOME/zsh_custom
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -55,7 +58,7 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git wd)
+plugins=(git wd zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 

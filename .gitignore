@@ -27,7 +27,7 @@
 !.tmux/plugins/tpm
 !.yadm
 !vimwiki
-!zsh_custom
+!zsh_custom/plugins/zsh-syntax-highlighting
 
 # And this files
 !.gitmodules
