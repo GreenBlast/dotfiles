@@ -28,6 +28,7 @@
 !.yadm
 !vimwiki
 !zsh_custom/plugins/zsh-syntax-highlighting
+!zsh_custom/plugins/zsh-autosuggestions
 
 # And this files
 !.gitmodules
