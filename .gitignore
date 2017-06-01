@@ -28,6 +28,7 @@
 !vimwiki
 
 # And this files
+!.gitmodules
 !.config/nvim/init.vim
 !.tmux.conf
 !.warprc##*

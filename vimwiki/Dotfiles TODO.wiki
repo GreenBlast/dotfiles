@@ -1,5 +1,8 @@
 = Dotfiles TODO =
 
+autohighlight and autocomplete
+----
+
 check whether should use xsel or xclip
 
 ----
