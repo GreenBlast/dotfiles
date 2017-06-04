@@ -1,15 +1,15 @@
 = Dotfiles TODO =
 
+Run async clipboard setup lazyly
+----
 Check yadm installation on root, add snapshot before
 ----
 
 Check how folds work and how to use it
 learn how to fold in vim and see if it matters
 
-
 ----
 
-Run async clipboard setup lazyly
 ----
 
 Ask yourself if vim obsession works well
