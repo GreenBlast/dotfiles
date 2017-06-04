@@ -1,5 +1,8 @@
 = Dotfiles TODO =
 
+Check the status of the arrow symbols appearance in spaceship, fix if necessary
+----
+
 Run async clipboard setup lazyly
 ----
 Check yadm installation on root, add snapshot before
