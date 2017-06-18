@@ -1,5 +1,9 @@
 = Dotfiles TODO =
 
+----
+Toggle ctrl b ctrl a in tmux
+----
+
 Check the status of the arrow symbols appearance in spaceship, fix if necessary
 ----
 
