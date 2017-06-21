@@ -1,26 +1,19 @@
 = Dotfiles TODO =
 
-----
-Toggle ctrl b ctrl a in tmux
-----
+* [X] Toggle ctrl b ctrl a in tmux
+* [ ] Check the status of the arrow symbols appearance in spaceship, fix if necessary
+* [ ] Run async clipboard setup lazyly
+* [ ] Check yadm installation on root, add snapshot before
+* [ ] Check how folds work and how to use it
+* [ ] learn how to fold in vim and see if it matters
+* [ ] Ask yourself if vim obsession works well
+* [ ] " Session management needs to compare with the current
+* [ ] tpope/vim-obsession
 
-Check the status of the arrow symbols appearance in spaceship, fix if necessary
-----
 
-Run async clipboard setup lazyly
-----
-Check yadm installation on root, add snapshot before
-----
+== Missions ==
 
-Check how folds work and how to use it
-learn how to fold in vim and see if it matters
-
-----
-
-----
-
-Ask yourself if vim obsession works well
-" Session management needs to compare with the current
-
-tpope/vim-obsession
-
+* [ ] Find how to database python (dataset)
+    * [ ] Check datasets
+* [ ] Find how to save config files
+* [ ] Improve cctor performance
