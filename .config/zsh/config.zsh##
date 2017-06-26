@@ -1,2 +1,5 @@
 # Setting nvim path
 NVIM_PATH=/usr/bin/nvim
+
+# Setting installed fonts
+export FONTS_INSTALLED=true

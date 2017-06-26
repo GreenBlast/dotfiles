@@ -7,12 +7,12 @@ export PATH=$HOME/.local/bin:$PATH
 echo "Init submodules"
 yadm submodule update --recursive --init
 
+# linking theme
+mkdir -p $HOME/zsh_custom/themes
+ln -s $HOME/.spaceship-zsh-theme/spaceship.zsh-theme $HOME/zsh_custom/themes/spaceship.zsh-theme
+
 echo "Install essentials"
 source $HOME/.scripts/install/install_essentials.sh
-
-# linking theme
-mkdir -p $HOME/.oh-my-zsh/custom/themes
-ln -s $HOME/.config/zsh/spaceship.zsh-theme $HOME/.oh-my-zsh/custom/themes/spaceship.zsh-theme
 
 # Setting yadm config to show untracked files
 # This is used to make some directories monitored for changes by yadm

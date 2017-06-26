@@ -7,3 +7,12 @@
 [submodule ".tmux/plugins/tpm"]
 	path = .tmux/plugins/tpm
 	url = https://github.com/tmux-plugins/tpm
+[submodule ".spaceship-zsh-theme"]
+	path = .spaceship-zsh-theme
+	url = https://github.com/denysdovhan/spaceship-zsh-theme.git
+[submodule "zsh_custom/plugins/zsh-syntax-highlighting"]
+	path = zsh_custom/plugins/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting
+[submodule "zsh_custom/plugins/zsh-autosuggestions"]
+	path = zsh_custom/plugins/zsh-autosuggestions
+	url = git://github.com/zsh-users/zsh-autosuggestions

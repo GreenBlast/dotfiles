@@ -97,4 +97,74 @@ hi link EasyMotionTarget2Second Statement
 }}}
 
 
-----
+=== FZF.Vim ===
+
+
+" Files (similar to :FZF)
+Files [PATH]
+
+" Git files (git ls-files)
+GFiles [OPTS]
+
+" Git files (git status)
+GFiles?
+
+" Open buffers
+Buffers
+
+" Color schemes
+Colors
+
+" ag search result (ALT-A to select all, ALT-D to deselect all)
+Ag [PATTERN]
+
+" Lines in loaded buffers
+Lines [QUERY]
+
+" Lines in the current buffer
+BLines [QUERY]
+
+" Tags in the project (ctags -R)
+Tags [QUERY]
+
+" Tags in the current buffer
+BTags [QUERY]
+
+" Marks
+Marks
+
+" Windows
+Windows
+
+" locate command output
+Locate PATTERN
+
+" v:oldfiles and open buffers
+History
+
+" Command history
+History:
+
+" Search history
+History/
+
+" Snippets (UltiSnips)
+Snippets
+
+" Git commits (requires fugitive.vim)
+Commits
+
+" Git commits for the current buffer
+BCommits
+
+" Commands
+Commands
+
+" Normal mode mappings
+Maps
+
+" Help tags 1
+Helptags
+
+" File types
+Filetypes

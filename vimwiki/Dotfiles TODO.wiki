@@ -1,153 +1,19 @@
 = Dotfiles TODO =
-----
 
-Check FZF to directories include hidden
-
-----
-" CtrlP keys
-nnoremap <Leader>pp :CtrlP<CR>
-nnoremap <Leader>pf :CtrlP<CR>
-nnoremap <Leader>pm :CtrlPMRUFiles<CR>
-nnoremap <Leader>pr :CtrlPMRUFiles<CR>
-nnoremap <Leader>pb :CtrlPBuffer<CR>
-
-----
-
-" Additions to easymotion
-Plug 'haya14busa/incsearch.vim'
-Plug 'haya14busa/incsearch-fuzzy.vim'
-Plug 'haya14busa/incsearch-easymotion.vim'
-
-function! s:config_easyfuzzymotion(...) abort
-  return extend(copy({
-  \   'converters': [incsearch#config#fuzzy#converter()],
-  \   'modules': [incsearch#config#easymotion#module()],
-  \   'keymap': {"\<CR>": '<Over>(easymotion)'},
-  \   'is_expr': 0,
-  \   'is_stay': 1
-  \ }), get(a:, 1, {}))
-endfunction
-
-let g:incsearch#auto_nohlsearch = 1
-noremap <silent><expr> <Space>/ incsearch#go(<SID>config_easyfuzzymotion())
-----
-
-Check if FZFMix is used (A function in the init file, ) If not remove it
-
-----
-
-Should probably delete all this
-" Plug 'shougo/unite.vim' | Plug 'shougo/neomru.vim'
-" {{{
-"    " Ctrl-p    -> since we are used to it
-"    " http://vimawesome.com/plugin/unite-vim
-"    " https://github.com/shougo/neomru.vim , this is required for file_mru
-"    function! s:unite_settings()
-"       imap <buffer><tab>           <c-x><c-f>
-"       nmap <silent><buffer><esc>   :bd<cr>
-"       imap <buffer><c-p>   <Plug>(unite_select_previous_line)
-"       imap <buffer><c-n>   <Plug>(unite_select_next_line)
-"       inoremap <silent><buffer><expr> <C-s>     unite#do_action('split')
-"       inoremap <silent><buffer><expr> <C-v>     unite#do_action('vsplit')
-"       " for toggling (show / hide)
-"       " imap <silent><buffer><c-l>   <esc>:bd<cr>
-"       imap <silent><buffer><c-p>   <esc>:bd<cr>
-"       imap <F3>                    <esc>:bd<cr>
-"    endfunction
-"    " custom mappings for the unite buffer
-"    autocmd FileType unite call s:unite_settings()
-"
-"    " nnoremap <c-p> :Unite file file_rec -start-insert -vertical -direction=botright<cr>
-"
-"    "nnoremap <Leader>r :<C-u>Unite -start-insert file_rec<cr>
-"    nnoremap <c-p> :Unite file file_rec buffer<cr>
-"    " nnoremap <c-l> :Unite line<cr>
-"    noremap <F3> :Unite file_mru<cr>
-" }}}
-
-" Ack lets you search files
-" Disabled because using fzf, which also uses ag
-" "Plug 'mileszs/ack.vim'
-" " {{{
-"    if executable('ag')
-"      "let g:ackprg = 'ag --vimgrep'
-"      let g:ackprg = 'ag --nogroup --nocolor --column'
-"    endif
-" " }}}
-
-Plug 'Shougo/denite.nvim'
-" {{{
-" }}}
+* [X] Toggle ctrl b ctrl a in tmux
+* [ ] Check the status of the arrow symbols appearance in spaceship, fix if necessary
+* [ ] Run async clipboard setup lazyly
+* [ ] Check yadm installation on root, add snapshot before
+* [ ] Check how folds work and how to use it
+* [ ] learn how to fold in vim and see if it matters
+* [ ] Ask yourself if vim obsession works well
+* [ ] " Session management needs to compare with the current
+* [ ] tpope/vim-obsession
 
 
-" " these unite lines must be here, after vim-plug, otherwise vim drops an error when launched
-" " https://github.com/Shougo/neobundle.vim/issues/330
-" " {{{
-"    call unite#filters#matcher_default#use(['matcher_fuzzy'])
-"    call unite#custom#profile('default', 'context', {
-"    \   'prompt': '» ',
-"    \   'start_insert': 1,
-"    \   'vertical': 1,
-"    \   'direction': 'botright',
-"    \   'ignorecase': 1
-"    \ })
-" " }}}
+== Missions ==
 
-
-----
-
-Scheme quest:
-
-Tried:
-Now that I know how to set the background to black, Should check again,
-also remember to check diff mode
-
-Plug 'freeo/vim-kalisi'
-Plug 'michalbachowski/vim-wombat256mod'
-Plug 'joshdick/onedark.vim'
-
-Plug 'https://github.com/lu-ren/SerialExperimentsLain'
-Plug 'https://github.com/Reewr/vim-monokai-phoenix'
-
-
-Plug 'https://github.com/liuchengxu/space-vim-dark'
-Plug 'https://github.com/smancill/darkglass'
-Plug 'https://github.com/colepeters/spacemacs-theme.vim'
-Plug 'https://github.com/euclio/vim-nocturne'
-Plug 'https://github.com/philpl/vim-adventurous'
-Plug 'https://github.com/snowcrshd/cyberpunk.vim'
-Plug 'https://github.com/tristanheaven/vim-colorscheme-aquamarine'
-
-Plug 'flazz/vim-colorschemes'
-Plug 'https://github.com/marcopaganini/mojave-vim-theme'
-Plug 'https://github.com/aperezdc/vim-elrond'
-Plug 'https://github.com/changyuheng/color-scheme-holokai-for-vim'
-Plug 'https://github.com/vim-scripts/xterm16.vim'
-Plug 'https://github.com/lanox/lanox-vim-theme'
-Plug 'https://github.com/acoustichero/simple_dark'
-Plug 'https://github.com/ninja/sky'
-Plug 'https://github.com/nanotech/jellybeans.vim'
-
-----
-
-check whether should use xsel or xclip
-
-----
-
-Check how folds work and how to use it
-learn how to fold in vim and see if it matters
-
-
-----
-learn how to fold in vim and see if it matters
-
-----
-
-Run async clipboard setup lazyly
-----
-
-Ask yourself if vim obsession works well
-" Session management needs to compare with the current
-
-tpope/vim-obsession
-
+* [ ] Find how to database python (dataset)
+    * [ ] Check datasets
+* [ ] Find how to save config files
+* [ ] Improve cctor performance

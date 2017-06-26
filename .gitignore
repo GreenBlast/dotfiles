@@ -14,6 +14,7 @@
 .config/*
 !.config/zsh
 .config/zsh/local_aliases.zsh
+.config/zsh/config.zsh
 !.config/nvim
 .config/nvim/*
 !.config/nvim/colors
@@ -22,11 +23,15 @@
 !.fzf
 !.oh-my-zsh
 !.scripts
+!.spaceship-zsh-theme
 !.tmux/plugins/tpm
 !.yadm
 !vimwiki
+!zsh_custom/plugins/zsh-syntax-highlighting
+!zsh_custom/plugins/zsh-autosuggestions
 
 # And this files
+!.gitmodules
 !.config/nvim/init.vim
 !.tmux.conf
 !.warprc##*
