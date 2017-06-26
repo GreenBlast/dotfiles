@@ -410,31 +410,34 @@ Plug 'tpope/vim-obsession'
 " Plug 'bling/vim-airline'
 Plug 'vim-airline/vim-airline'
 " {{{
-    let g:airline_powerline_fonts = 1
+    " if fonts are not installed, add a workaround
+    if empty($FONTS_INSTALLED)
+        let g:airline_powerline_fonts = 1
 
-    if !exists('g:airline_symbols')
-        let g:airline_symbols = {}
+        if !exists('g:airline_symbols')
+            let g:airline_symbols = {}
+        endif
+
+        " old vim-powerline symbols
+        let g:airline_left_sep = '⮀'
+        let g:airline_left_alt_sep = '⮁'
+        let g:airline_right_sep = '⮂'
+        let g:airline_right_alt_sep = '⮃'
+        let g:airline_symbols.branch = '⭠'
+        let g:airline_symbols.readonly = '⭤'
+        let g:airline_symbols.linenr = '⭡'
+
+        " Unicode symbols
+        let g:airline_left_sep = '»'
+        let g:airline_left_sep = '▶'
+        let g:airline_right_sep = '«'
+        let g:airline_right_sep = '◀'
+        let g:airline_symbols.linenr = '¶'
+        let g:airline_symbols.paste = 'ρ'
+        let g:airline_symbols.paste = 'Þ'
+        let g:airline_symbols.paste = '∥'
+        let g:airline_symbols.whitespace = 'Ξ'
     endif
-
-    " old vim-powerline symbols
-    let g:airline_left_sep = '⮀'
-    let g:airline_left_alt_sep = '⮁'
-    let g:airline_right_sep = '⮂'
-    let g:airline_right_alt_sep = '⮃'
-    let g:airline_symbols.branch = '⭠'
-    let g:airline_symbols.readonly = '⭤'
-    let g:airline_symbols.linenr = '⭡'
-
-    " Unicode symbols
-    let g:airline_left_sep = '»'
-    let g:airline_left_sep = '▶'
-    let g:airline_right_sep = '«'
-    let g:airline_right_sep = '◀'
-    let g:airline_symbols.linenr = '¶'
-    let g:airline_symbols.paste = 'ρ'
-    let g:airline_symbols.paste = 'Þ'
-    let g:airline_symbols.paste = '∥'
-    let g:airline_symbols.whitespace = 'Ξ'
 " }}}
 
 " Themes for vim airline
@@ -477,9 +480,27 @@ Plug 'easymotion/vim-easymotion'
 " {{{
 
     " Setting an easymotion search
-    map s  <Plug>(easymotion-sn)
-    omap s <Plug>(easymotion-tn)
+    map <Space>s <Plug>(easymotion-sn)
+    omap <Space>s <Plug>(easymotion-tn)
 " }}}
+
+" Additions to easymotion
+Plug 'haya14busa/incsearch.vim'
+Plug 'haya14busa/incsearch-fuzzy.vim'
+Plug 'haya14busa/incsearch-easymotion.vim'
+
+function! s:config_easyfuzzymotion(...) abort
+  return extend(copy({
+  \   'converters': [incsearch#config#fuzzy#converter()],
+  \   'modules': [incsearch#config#easymotion#module()],
+  \   'keymap': {"\<CR>": '<Over>(easymotion)'},
+  \   'is_expr': 0,
+  \   'is_stay': 1
+  \ }), get(a:, 1, {}))
+endfunction
+
+let g:incsearch#auto_nohlsearch = 1
+noremap <silent><expr> s incsearch#go(<SID>config_easyfuzzymotion())
 
 " Fzf is a fuzzy searcher that uses ag - The Silver Searcher
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -513,13 +534,40 @@ Plug 'junegunn/fzf.vim'
         return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
     endfunction
     command! ProjectFiles execute 'Files' s:find_git_root()
+
+    " FZF keymaps
+    " Git files or current directory
+    nnoremap <Leader>kk :ProjectFiles<CR>
+
+    " Recent files
+    nnoremap <Leader>kr :FZFMru<CR>
+
+    " Open buffers
+    nnoremap <Leader>kb :Buffers<CR>
+
+    " Lines in buffer
+    nnoremap <Leader>kl :BLines<CR>
+
+    " Git status files
+    nnoremap <Leader>kg :GFiles?<CR>
+
+    " Tags in buffer
+    nnoremap <Leader>kt :BTags<CR>
+
+    " Ag pattern
+    nnoremap <Leader>ka :Ag<CR>
+
+    command! -nargs=+ -complete=file -bar FZFLocation FZF <args>
+
+    " FZF pattern
+    nnoremap <Leader>kf :FZFLocation<space>
 " }}}
 
 " Most Recent Used for fzf
 Plug 'lvht/fzf-mru'
 " {{{
     " set max lenght for the mru file list
-    let g:fzf_mru_file_list_size = 10 " default value
+    let g:fzf_mru_file_list_size = 100 " default value
     " set path pattens that should be ignored
     let g:fzf_mru_ignore_patterns = 'fugitive\|\.git/\|\_^/tmp/' " default value
 " }}}

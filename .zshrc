@@ -7,13 +7,14 @@ source $HOME/.config/zsh/config.zsh
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
+# Setting custom plugins and themes location
+export ZSH_CUSTOM=$HOME/zsh_custom
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
 ZSH_THEME="spaceship"
-# Setting to show timestamp at prompt
-SPACESHIP_TIME_SHOW=true
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -57,7 +58,7 @@ SPACESHIP_TIME_SHOW=true
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git wd)
+plugins=(git wd zsh-syntax-highlighting zsh-autosuggestions)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -98,8 +99,6 @@ fi
 
 # This should be temporary, should just load all zsh in this dir after dealing with the prompt
 source $HOME/.config/zsh/aliases.zsh
-# TODO Check how and what to add completions
-#for config ($ZSH/**/*completion.zsh) source $config
 
 # Adding scripts dir
 if [[ ! "$PATH" == *$HOME/.scripts* ]]; then
@@ -113,44 +112,27 @@ else
     export TERM='xterm-color'
 fi
 
-# Uncomment this after checking the ohmyzsh files to make sure they are setting things that concerning it
-# Lines configured by zsh-newuser-install
-#HISTFILE=~/.histfile
-#HISTSIZE=1000
-#SAVEHIST=1000
-#setopt appendhistory autocd extendedglob
-#unsetopt beep
-#bindkey -v
-## End of lines configured by zsh-newuser-install
-## The following lines were added by compinstall
-#zstyle :compinstall filename '$HOME/.zshrc'
-#
-#autoload -Uz compinit
-#compinit
-## End of lines added by compinstall
-
 # display how long all tasks over 10 seconds take
 export REPORTTIME=10
 
 # Disable zsh double rm verification
 setopt rm_star_silent
 
-# Set no newline in spaceship prompt
-export SPACESHIP_PROMPT_ADD_NEWLINE=false
-export SPACESHIP_PROMPT_SEPARATE_LINE=false
-export SPACESHIP_PROMPT_TRUNC=0
-export SPACESHIP_PROMPT_SYMBOL='➔>'
+# Sourcing prompt options
+source $HOME/.config/zsh/prompt.zsh
 
 # Fzf is a fuzzy searcher written in go
-#export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 export FZF_DEFAULT_COMMAND='ag --files-with-matches --skip-vcs-ignore --hidden --follow --ignore ".git/*"'
+
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# Find also dot directories in ALT-C
+export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" -o -fstype "devfs" -o -fstype "devtmpfs" \
+    -o -fstype "proc" -prune -o -type d -print 2> /dev/null | cut -b3-'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Exporting editor
 export VISUAL=$NVIM_PATH
 export EDITOR="$VISUAL"
-
-
 
