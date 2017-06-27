@@ -1,0 +1,61 @@
+= Code snippets =
+
+== python ==
+Using pyplot
+
+{{{python
+import matplotlib.pyplot as plt
+
+
+def print_plot_lines():
+    """
+    Prints the current result to an image
+    """
+    # Loading the json results
+    with open(JSON_FILE, 'r') as file_handle:
+        loaded_results_data = json.load(file_handle)
+
+    # filtering the results with missing fields
+    loaded_data_dictionaries = loaded_results_data.values()
+    filtered_loaded_data = loaded_data_dictionaries
+    for timestamp_key in loaded_data_dictionaries[0].keys():
+        if timestamp_key.endswith("_timestamp"):
+            filtered_loaded_data = [x for x in filtered_loaded_data if x.has_key(timestamp_key)]
+
+    # Sorting according to the first timstamp field
+    for timestamp_key in filtered_loaded_data[0].keys():
+        if timestamp_key.endswith("_timestamp"):
+            break
+
+    sorted_filtered_data = sorted(filtered_loaded_data, key=operator.itemgetter(timestamp_key))
+
+
+    # Save all the data to lists
+    plot_data = defaultdict(list)
+    for data_object in sorted_filtered_data:
+        for key in data_object.keys():
+            if not key.endswith("_timestamp") and not key == "packet_id":
+                plot_data[key].append(data_object[key])
+
+    last_file_name = ""
+    # Generate chart for each key
+    for key in plot_data.keys():
+        axis = plt.subplot()
+        axis.set_ylabel('processing time(seconds)')
+        axis.set_xlabel('packets_number')
+        axis.plot(range(len(plot_data[key])), plot_data[key])
+        plt.savefig("{}.png".format(key), dpi=2000)
+        plt.cla()
+        last_file_name += ("_" + key)
+
+    # Generate final unified chart
+    axis = plt.subplot()
+    for key in plot_data.keys():
+        axis.plot(range(len(plot_data[key])), plot_data[key], label=key)
+
+    axis.set_ylabel('processing time(seconds)')
+    axis.set_xlabel('packets_number')
+    plt.legend(plot_data.keys())
+    plt.savefig("{}.png".format(last_file_name), dpi=2000)
+    plt.cla()
+}}}
