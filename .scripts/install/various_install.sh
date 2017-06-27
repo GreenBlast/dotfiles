@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ "$(id -u)" != "0" ]; then
+    RUN_AS_ROOT='sudo'
+else
+    RUN_AS_ROOT=''
+fi
+
 # ncdu - Ncurses interface du
 # htop - Improved top
 # clang - C language framework
@@ -10,4 +16,4 @@
 # xsel - Clipboard utility
 
 
-sudo apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip xsel
+$RUN_AS_ROOT apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip xsel
