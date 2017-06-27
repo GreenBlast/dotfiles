@@ -5,4 +5,4 @@ bbx:~/dev/fides/src/sniffer/bbx
 mail:/var/mail
 logs:/var/log/fides
 alerts:/var/fides/alerts
-clion:~/clion-2016.3.3/bin
+clion:~/clion-2017.1.1
