@@ -1,0 +1,4 @@
+= Command snippets =
+
+== yadm ==
+yadm submodule add <git_url> <location_path_of_repo>

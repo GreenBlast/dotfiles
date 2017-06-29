@@ -7,6 +7,7 @@
 == Notes ==
 * [[Work notes]]
 * [[Code snippets]]
+* [[Command snippets]]
 
 == Knowledge ==
 * [[Linux]]
