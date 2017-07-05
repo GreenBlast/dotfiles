@@ -275,8 +275,14 @@ Plug 'zchee/deoplete-jedi'
 Plug 'zchee/deoplete-clang'
 " {{{
     " Settings for deoplete clang - Location is different for each machine
-    let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1'
-    let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/lib/clang'
+    if !empty(glob('/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1')) && !empty(glob('/usr/lib/llvm-3.8/lib/clang'))
+        let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1'
+        let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/lib/clang'
+    endif
+    elseif !empty(glob('/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1')) && !empty(glob('/usr/lib/llvm-3.5/lib/clang'))
+        let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1'
+        let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.5/lib/clang'
+    endif
 " }}}
 
 
