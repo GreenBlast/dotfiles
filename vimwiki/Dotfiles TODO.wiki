@@ -1,7 +1,7 @@
 = Dotfiles TODO =
 
 * [X] Toggle ctrl b ctrl a in tmux
-* [ ] Run async clipboard setup lazyly
+* [X] Run async clipboard setup lazyly
 * [ ] Check yadm installation on root, add snapshot before
 * [ ] Check how folds work and how to use it
 * [ ] learn how to fold in vim and see if it matters
