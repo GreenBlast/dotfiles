@@ -727,3 +727,5 @@ if exists('$TMUX')
     augroup end
 endif
 
+" Setting clipboard
+  nnoremap <leader>c :set clipboard=unnamed<CR>
