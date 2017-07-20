@@ -72,6 +72,9 @@ set timeoutlen=1000 ttimeoutlen=0
 set list
 set listchars=tab:→\ ,trail:·,extends:>,precedes:<
 
+" Setting fold columns (Add markings to the numbers bar for open folds)
+set foldcolumn=3
+
 " VimTip 20: Are *.swp and *~ files littering your working directory?
 " {{{
     set backup

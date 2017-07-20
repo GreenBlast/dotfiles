@@ -1,4 +1,7 @@
 = Vim tips =
+== Search and Replace  ==
+Tokenize string:
+:s/(\(.*\))/(\1) \1/g
 
 == Misc ==
 
