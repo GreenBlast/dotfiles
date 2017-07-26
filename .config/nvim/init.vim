@@ -406,7 +406,7 @@ Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 " Session management
 " ====================================================================
 
-" Manages vim session save and restore
+" Manages vim session save and restore in response to certain events
 Plug 'tpope/vim-obsession'
 " {{{
 " }}}
