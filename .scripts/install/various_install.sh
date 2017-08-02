@@ -17,3 +17,11 @@ fi
 
 
 $RUN_AS_ROOT apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip xsel
+
+# Add maybe later:
+# bmon - bandwidth monitor
+# slurm - network load monitor
+
+
+
+

@@ -562,6 +562,9 @@ Plug 'junegunn/fzf.vim'
     " Tags in buffer
     nnoremap <Leader>kt :BTags<CR>
 
+    " Key mappings
+    nnoremap <Leader>km :Maps<CR>
+
     " Ag pattern
     nnoremap <Leader>ka :Ag<CR>
 
@@ -569,6 +572,7 @@ Plug 'junegunn/fzf.vim'
 
     " FZF pattern
     nnoremap <Leader>kf :FZFLocation<space>
+
 " }}}
 
 " Most Recent Used for fzf

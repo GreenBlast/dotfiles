@@ -2,18 +2,12 @@
 
 * [X] Toggle ctrl b ctrl a in tmux
 * [X] Run async clipboard setup lazyly
-* [ ] Add script to download build and install neovim
+* [X] Add script to download build and install neovim
 * [ ] Check yadm installation on root, add snapshot before
 * [ ] Check how folds work and how to use it
 * [ ] learn how to fold in vim and see if it matters
-* [ ] Ask yourself if vim obsession works well
-* [ ] " Session management needs to compare with the current
-* [ ] tpope/vim-obsession
+* [X] Ask yourself if vim obsession works well
+* [X] " Session management needs to compare with the current
+* [X] tpope/vim-obsession
 * [ ] Check the status of the arrow symbols appearance in spaceship, fix if necessary
-
-== Missions ==
-
-* [ ] Find how to database python (dataset)
-    * [ ] Check datasets
-* [ ] Find how to save config files
-* [ ] Improve cctor performance
+* [ ] Check neovim build and install script
