@@ -653,7 +653,7 @@ inoremap <C-U> <C-G>u<C-U>
 cmap w!! w !sudo tee > /dev/null %
 
 " XML Lint
-map @@x !%xmllint --format --recover -^M
+map @@x !%xmllint --format --recover -
 
 " Map up/down arrow keys to unimpaired commands
 nmap <Up> [e
@@ -741,7 +741,6 @@ endif
   nnoremap <leader>c :set clipboard=unnamed<CR>
 
 
-
 " Sections folding, work in progress:
 """"""""""""""""""""""""
 "  THIS IS A CATEGORY  "
@@ -805,6 +804,6 @@ augroup fold_vimrc
      "              \ set foldcolumn=2 foldminlines=2
 augroup END
 
-" set foldmethod=expr
-" set foldexpr=VimFolds(v:lnum)
-" set foldtext=VimFoldText()
+set foldmethod=indent
+set foldlevel=1
+set foldclose=all
