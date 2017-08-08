@@ -15,6 +15,8 @@ cd $HOME/neovim_build/
 git clone https://github.com/neovim/neovim.git
 
 echo "Building neovim, this should take a lot of time"
+cd neovim
+$RUN_AS_ROOT make clean
 $RUN_AS_ROOT make CMAKE_BUILD_TYPE=RelWithDebInfo
 $RUN_AS_ROOT make install
 
