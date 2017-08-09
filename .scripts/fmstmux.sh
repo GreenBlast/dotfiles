@@ -22,6 +22,6 @@
 
 
 tmux split-window "bash --rcfile <(echo '. ~/.bashrc; tail -F -n 150 /var/log/fides/collector-stats.log')" \;\
-    rename-window 'bbx_logs'
+    rename-window 'fms_logs'
 tail -F -n 150 '/var/log/fides/collector.log'
 
