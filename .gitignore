@@ -43,6 +43,7 @@
 
 # Do ignore this subdirectories
 .yadm/repo.git
+.scripts/work
 
 
 # Do ignore these files
