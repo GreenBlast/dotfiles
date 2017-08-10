@@ -122,7 +122,7 @@ setopt rm_star_silent
 source $HOME/.config/zsh/prompt.zsh
 
 # Fzf is a fuzzy searcher written in go
-export FZF_DEFAULT_COMMAND='ag --files-with-matches --skip-vcs-ignore --hidden --follow --ignore ".git/*"'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
 
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
