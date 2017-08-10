@@ -1,5 +1,9 @@
 = Command snippets =
 
+== tcp rewrite macs ==
+
+tcprewrite --enet-dmac=<TCPREPLAY NIC-MAC #1> --enet-smac=<TCPREPLAY NIC-MAC #2> --infile=rt20-short.pcap --outfile=new.pcap
+
 == yadm ==
 yadm submodule add <git_url> <location_path_of_repo>
 
