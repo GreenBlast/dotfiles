@@ -14,9 +14,9 @@ fi
 # ipython - Python shell
 # xclip - Clipboard utility
 # xsel - Clipboard utility
+# ranger - Files manager and browser
 
-
-$RUN_AS_ROOT apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip xsel
+$RUN_AS_ROOT apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger
 
 # Add maybe later:
 # bmon - bandwidth monitor
