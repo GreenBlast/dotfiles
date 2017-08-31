@@ -30,4 +30,4 @@ function yadm_prepare() {
     zle accept-line
 }
 zle -N yadm_prepare
-bindkey "^y" yadm_prepare
+bindkey "^f" yadm_prepare
