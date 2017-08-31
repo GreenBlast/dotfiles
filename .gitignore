@@ -18,6 +18,10 @@
 !.config/nvim
 .config/nvim/*
 !.config/nvim/colors
+!.config/ranger
+.config/ranger/bookmarks
+.config/ranger/history
+.config/ranger/tagged
 
 # Exclude these directories
 !.fzf
