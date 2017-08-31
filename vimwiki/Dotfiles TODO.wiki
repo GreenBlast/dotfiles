@@ -1,13 +1,17 @@
 = Dotfiles TODO =
 
+* [ ] Explore ranger and it's functions:
+    * [ ] Check ranger wiki
+    * [ ] Check ranger rc file
+    * [ ] Add fzf
 * [X] Toggle ctrl b ctrl a in tmux
 * [X] Run async clipboard setup lazyly
 * [X] Add script to download build and install neovim
 * [ ] Check yadm installation on root, add snapshot before
-* [ ] Check how folds work and how to use it
+* [X] Check how folds work and how to use it
 * [ ] learn how to fold in vim and see if it matters
 * [X] Ask yourself if vim obsession works well
 * [X] " Session management needs to compare with the current
 * [X] tpope/vim-obsession
 * [ ] Check the status of the arrow symbols appearance in spaceship, fix if necessary
-* [ ] Check neovim build and install script
+* [X] Check neovim build and install script
