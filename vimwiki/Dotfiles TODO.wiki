@@ -1,5 +1,6 @@
 = Dotfiles TODO =
 
+* [ ] https://github.com/Parth/dotfiles
 * [ ] Explore ranger and it's functions:
     * [ ] Check ranger wiki
     * [ ] Check ranger rc file
