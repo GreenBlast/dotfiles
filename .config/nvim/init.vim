@@ -365,29 +365,35 @@ Plug 'airblade/vim-gitgutter'
 " Highlight python
 autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 
-" Neomake is async builder for neovim
-Plug 'neomake/neomake'
+
+" Asynchronous lint engine
+Plug 'w0rp/ale'
 " {{{
-    " run neomake on the current file on every write:
-    autocmd! BufWritePost * Neomake
-    let g:neomake_python_enabled_makers = ['pylint']
-    let g:neomake_python_pylint_maker = {
-        \ 'args': [
-            \ '--output-format=text',
-            \ '--msg-template="{path}:{line}:{column}:{C}: ({msg_id})[{symbol}] {msg}"',
-            \ '--reports=no'
-        \ ],
-        \ 'errorformat':
-            \ '%A%f:%l:%c:%t: %m,' .
-            \ '%A%f:%l: %m,' .
-            \ '%A%f:(%l): %m,' .
-            \ '%-Z%p^%.%#,' .
-            \ '%-G%.%#',
-        \ 'postprocess': [
-        \   function('neomake#postprocess#GenericLengthPostprocess'),
-        \   function('neomake#makers#ft#python#PylintEntryProcess'),
-        \ ]}
 " }}}
+
+" Neomake is async builder for neovim
+" Plug 'neomake/neomake'
+" " {{{
+"     " run neomake on the current file on every write:
+"     autocmd! BufWritePost * Neomake
+"     let g:neomake_python_enabled_makers = ['pylint']
+"     let g:neomake_python_pylint_maker = {
+"         \ 'args': [
+"             \ '--output-format=text',
+"             \ '--msg-template="{path}:{line}:{column}:{C}: ({msg_id})[{symbol}] {msg}"',
+"             \ '--reports=no'
+"         \ ],
+"         \ 'errorformat':
+"             \ '%A%f:%l:%c:%t: %m,' .
+"             \ '%A%f:%l: %m,' .
+"             \ '%A%f:(%l): %m,' .
+"             \ '%-Z%p^%.%#,' .
+"             \ '%-G%.%#',
+"         \ 'postprocess': [
+"         \   function('neomake#postprocess#GenericLengthPostprocess'),
+"         \   function('neomake#makers#ft#python#PylintEntryProcess'),
+"         \ ]}
+" " }}}
 
 
 " Unimpaired adds various shortcuts
