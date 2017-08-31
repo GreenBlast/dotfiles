@@ -1,6 +1,6 @@
 = Dotfiles TODO =
 
-* [ ] https://github.com/Parth/dotfiles
+* [X] https://github.com/Parth/dotfiles
 * [ ] Check powerline from the official
 * [ ] Explore ranger and it's functions:
     * [ ] Check ranger wiki
