@@ -13,3 +13,6 @@
 * [[Linux]]
 * [[Vim tips]]
 
+== Courses ==
+* [[Courses]]
+

@@ -1,7 +1,8 @@
 = Dotfiles TODO =
 
 * [X] https://github.com/Parth/dotfiles
-* [ ] Check powerline from the official
+* [X] Check powerline from the official:
+    * [X] Failed
 * [ ] Explore ranger and it's functions:
     * [ ] Check ranger wiki
     * [ ] Check ranger rc file
