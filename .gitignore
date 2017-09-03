@@ -12,6 +12,7 @@
 # Ignore specific paths in config dir
 !.config
 .config/*
+!.config/i3
 !.config/zsh
 .config/zsh/local_aliases.zsh
 .config/zsh/config.zsh
