@@ -15,8 +15,9 @@ fi
 # xclip - Clipboard utility
 # xsel - Clipboard utility
 # ranger - Files manager and browser
+# arandr - xrandr GUI utility, handle graphical screen configuration
 
-$RUN_AS_ROOT apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger
+$RUN_AS_ROOT apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr
 
 # Add maybe later:
 # bmon - bandwidth monitor
