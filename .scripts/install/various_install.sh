@@ -16,8 +16,9 @@ fi
 # xsel - Clipboard utility
 # ranger - Files manager and browser
 # arandr - xrandr GUI utility, handle graphical screen configuration
+# lxappearance - GUI gtk theme edit utility
 
-$RUN_AS_ROOT apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr
+$RUN_AS_ROOT apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance
 
 # Add maybe later:
 # bmon - bandwidth monitor

@@ -168,6 +168,9 @@ bar {
         status_command i3status
 }
 
+# Lock system
+bindsym $mod+shift+x exec i3lock
+
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
@@ -195,4 +198,8 @@ assign [class="Rhythmbox"] $workspace10
 # Executing on start
 # exec firefox
 # Execute on reload (Be careful with this, use only for simple stuff like setting wallpaper)
-# exec_always
+# exec_always firefox
+# Setting wallpaper
+# exec_always feh --bg-scale /path/to/wallpaper
+# Monitor configure using arandr and save ouput here
+exec_always xrandr --output Virtual3 --off --output Virtual2 --off --output Virtual1 --mode 1920x1080 --pos 0x0 --rotate normal --output Virtual7 --off --output Virtual6 --off --output Virtual5 --off --output Virtual4 --off --output Virtual8 --off
