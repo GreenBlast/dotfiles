@@ -17,6 +17,12 @@ gaps inner 15
 gaps outer 15
 font pango:hack 9
 set $mod Mod4
+# Change to urxvt later?
+# set $term urxvt
+set $video --no-startup-id bash ~/.config/scripts/video.sh
+set $stoprec --no-startup-id killall ffmpeg & killall screenkey
+set $flash --no-startup-id bash ~/.config/Scripts/flash_win.sh
+set $browser firefox
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.

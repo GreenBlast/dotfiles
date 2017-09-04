@@ -41,11 +41,11 @@
 !.config/nvim/init.vim
 !.tmux.conf
 !.warprc##*
+!.Xdefaults
 !.zshrc
 !LICENSE
 !pylintrc
 !README.md
-!TODO
 
 # Do ignore this subdirectories
 .yadm/repo.git

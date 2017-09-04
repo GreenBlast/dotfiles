@@ -5,15 +5,15 @@
 #Picks a file name for the output file based on availability:
 
 if [[ -f ~/output.mkv ]]
-	then
-		n=1
-		while [[ -f $HOME/output_$n.mkv ]]
-		do	
-			n=$((n+1))
-		done
-		filename="$HOME/output_$n.mkv"
-	else
-		filename="$HOME/output.mkv"
+    then
+        n=1
+        while [[ -f $HOME/output_$n.mkv ]]
+        do    
+            n=$((n+1))
+        done
+        filename="$HOME/output_$n.mkv"
+    else
+        filename="$HOME/output.mkv"
 fi
 
 #The actual ffmpeg command:
