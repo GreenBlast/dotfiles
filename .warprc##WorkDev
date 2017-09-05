@@ -7,3 +7,4 @@ logs:/var/log/fides
 alerts:/var/fides/alerts
 clion:~/clion-2017.2
 wireshark:~/dev/work/wireshark
+builds:~/builds
