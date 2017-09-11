@@ -17,8 +17,9 @@ fi
 # ranger - Files manager and browser
 # arandr - xrandr GUI utility, handle graphical screen configuration
 # lxappearance - GUI gtk theme edit utility
+# scrot - Command line screen capture utility
 
-$RUN_AS_ROOT apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance
+$RUN_AS_ROOT apt-get -y install htop vim ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot
 
 # Add maybe later:
 # bmon - bandwidth monitor
