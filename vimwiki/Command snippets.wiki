@@ -32,3 +32,12 @@ iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
 iptables -F
 iptables -X
+
+
+== update time ==
+{{{bash
+sudo dpkg-reconfigure tzdata
+sudo systemctl stop ntp
+sudo ntpd -gq
+sudo systemctl start ntp
+}}}
