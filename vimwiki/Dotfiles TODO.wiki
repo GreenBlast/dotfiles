@@ -3,6 +3,7 @@
 * [X] https://github.com/Parth/dotfiles
 * [X] Check powerline from the official:
     * [X] Failed
+* [ ] Check urxvt customization
 * [ ] Explore ranger and it's functions:
     * [ ] Check ranger wiki
     * [ ] Check ranger rc file
@@ -10,8 +11,8 @@
 * [ ] Check i3 customization:
     * [ ] Check gaps
     * [ ] https://www.youtube.com/watch?v=ARKIwOlazKI&t=2760s
-* [ ] Check urxvt customization
 * [ ] Check infinality
+* [ ] Check luke smith videos
 * [X] Toggle ctrl b ctrl a in tmux
 * [X] Run async clipboard setup lazyly
 * [X] Add script to download build and install neovim

@@ -52,8 +52,7 @@ and link the service to boot at startup
 
 ----
 
-
-
+https://raspberrypi.stackexchange.com/questions/68331/how-to-keep-watchdog-timer-running-during-reboot-shutdown
 
 In my research so far I've noticed there are two approaches to activating a watchdog timer on raspberry: using systemd or installing watchdog. It's all explained well here: https://www.raspberrypi.org/forums/viewtopic.php?f=29&t=147501#
 
