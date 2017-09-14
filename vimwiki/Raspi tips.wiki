@@ -1,0 +1,182 @@
+= Raspi tips =
+* [[Backup raspi config]]
+== Watch dog ==
+
+#* Deprecated *#
+sudo modprobe bcm2708_wdog
+sudo vim /etc/modules
+
+add to this file:
+bcm2708_wdog
+* Note: sometimes it's bcm2709_wdog or bcm2835_wdt as in raspi 3
+
+#* End of deprecated *#
+
+Instead open:
+sudo vim /boot/config.txt
+
+and add:
+# activating the hardware watchdog
+dtparam=watchdog=on
+
+
+
+Next you will need to setup the watchdog daemon.
+
+Install and configure it to start on bootup:
+
+sudo apt-get install watchdog chkconfig
+chkconfig watchdog on
+sudo /etc/init.d/watchdog start
+
+Next configure watchdog:
+
+sudo nano /etc/watchdog.conf
+
+Uncomment the lines:
+
+max-load-1              = 24
+min-memory              = 1
+watchdog-device = /dev/watchdog
+watchdog-timeout=15
+
+
+
+And add to file /lib/systemd/system/watchdog.service:
+[Install]
+WantedBy=multi-user.target
+
+and link the service to boot at startup
+
+
+
+----
+
+
+
+
+In my research so far I've noticed there are two approaches to activating a watchdog timer on raspberry: using systemd or installing watchdog. It's all explained well here: https://www.raspberrypi.org/forums/viewtopic.php?f=29&t=147501#
+
+And I've managed to get it working both ways, but not during reboot/shutdown. I used a forkbomb to test it and it does react to that, however when i try:
+
+sudo poweroff
+
+It just stays down. So I'm thinking is there way to force watchdog to keep running during reboot/shutdown so it resets it after a few seconds if it doesn't boot properly?
+
+Most approaches start watchdog during boot, but what if you need it running all the time? My raspberry once stopped in reboot and I had to manually unplug/plug it to get it working.
+
+UPDATE:
+
+Some stuff is much clearer to me now. There are 3 things to consider:
+
+    watchdog timer
+    watchdog daemon
+    watchdog service daemon
+
+watchdog timer: a register that triggers a reset when it overflows, each cycle of RPI it increments, needs to be cleared (kicked) regularly to avoid reset
+
+To run it on boot add following to /boot/config.txt:
+
+dtparam=watchdog=on
+
+watchdog daemon: a process responsible for clearing (kicking) the watchdog timer regularly
+
+Install it:
+
+sudo modprobe bcm2835_wdt
+echo "bcm2835_wdt" | sudo tee -a /etc/modules
+sudo apt-get install watchdog
+sudo update-rc.d watchdog defaults
+
+Configure /etc/watchdog.conf:
+
+watchdog-device = /dev/watchdog
+watchdog-timeout = 14
+realtime = yes
+priority = 1
+max-load-1 = 24
+
+Configure /etc/default/watchdog:
+
+watchdog_module="bcm2835_wdt"
+
+To configure it add following to /etc/modprobe.d/watchdog.conf:
+
+options bcm2835_wdt nowayout=1 heartbeat=10
+
+refernce: http://vk5tu.livejournal.com/35721.html
+
+    The heartbeat parameter to the kernel module is the maximum gap between heartbeats seen by the device before the hardware reboots
+
+    The nowayout parameter determines what happens when the /dev/watchdog device is closed: is a heartbeat still expected or not? A value of 1 says that the countdown to a reboot keeps running and if the device is not reopened and a heartbeat written then the machine will reboot.
+
+Enable it (If this doesn't work, first take care of watchdog.service and try again):
+
+sudo systemctl enable watchdog
+
+Monitor it:
+
+sudo systemctl status watchdog
+
+watchdog service daemon: acitvates when watchdog daemon fails/stops, usually runs a keepalive daemon which kicks the watchdog regularly
+
+Configure /lib/systemd/system/watchdog.service:
+
+# OnFailure=wd_keepalive.service - Commenting this out disables the keepalive daemon so once watchdog daemon fails/stops nothing will stop watchdog timer from rebooting RPI
+
+[Install]
+WantedBy=multi-user.target - bug fix
+
+Finally:
+
+Reboot RPI. Once raspberry is rebooted, everything should start (watchdog timer and watchdog daemon). To check this use:
+
+cat /var/log/syslog | grep watchdog
+
+Expected output:
+
+Jun 14 12:09:08 raspberrypi systemd[1]: Starting watchdog daemon...
+Jun 14 12:09:08 raspberrypi watchdog[813]: starting daemon (5.14):
+Jun 14 12:09:08 raspberrypi watchdog[813]: int=1s realtime=yes sync=no soft=no mla=24 mem=0
+Jun 14 12:09:08 raspberrypi watchdog[813]: ping: no machine to check
+Jun 14 12:09:08 raspberrypi watchdog[813]: file: no file to check
+Jun 14 12:09:08 raspberrypi watchdog[813]: pidfile: no server process to check
+Jun 14 12:09:08 raspberrypi watchdog[813]: interface: no interface to check
+Jun 14 12:09:08 raspberrypi watchdog[813]: temperature: no sensors to check
+Jun 14 12:09:08 raspberrypi watchdog[813]: test=none(0) repair=none(0) alive=/dev/watchdog heartbeat=none to=root no_act=no force=no
+Jun 14 12:09:08 raspberrypi watchdog[813]: watchdog now set to 14 seconds
+Jun 14 12:09:08 raspberrypi watchdog[813]: hardware watchdog identity: Broadcom BCM2835 Watchdog timer
+Jun 14 12:09:08 raspberrypi systemd[1]: Started watchdog daemon.
+
+And:
+
+ps aux|grep watchdog
+
+Expected output:
+
+root       813  0.0  0.2   1888  1760 ?        SLs  12:09   0:00 /usr/sbin/watchdog
+pi         900  0.0  0.2   4752  1992 pts/0    S+   12:10   0:00 grep --color=auto watchdog
+
+TEST :
+
+Kill watchdog daemon, run:
+
+ps aux|grep watchdog
+
+See process ID and kill it:
+
+root       812  0.0  0.2   1888  1760 ?        SLs  12:16   0:00 /usr/sbin/watchdog
+pi         898  0.0  0.2   4752  1992 pts/0    S+   12:16   0:00 grep --color=auto watchdog
+
+sudo kill -9 812
+
+Classic forkbomb test, run:
+
+: (){ :|:& };:
+
+To test will raspberry reset if reboot process fails, run:
+
+sudo poweroff - with this one I've had some problems
+
+Raspberry should reboot after cca 15s.
+

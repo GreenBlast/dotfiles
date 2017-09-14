@@ -12,6 +12,7 @@
 == Knowledge ==
 * [[Linux]]
 * [[Vim tips]]
+* [[Raspi tips]]
 
 == Courses ==
 * [[Courses]]

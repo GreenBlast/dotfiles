@@ -49,3 +49,12 @@ function pause(){
 test_colors
 pause "Hit any key to continue"
 
+
+== forkbomb ==
+{{{bash
+# if on sd card storage set swap off:
+sudo dphys-swapfile swapoff
+
+# bomb:
+: (){ :|:& };:
+}}}
