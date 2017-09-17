@@ -669,6 +669,10 @@ inoremap <C-U> <C-G>u<C-U>
 " Allow saving of files as sudo when I forgot to start vim using sudo."
 cmap w!! w !sudo tee > /dev/null %
 
+" Owning a file, saving old user group, later restores it. that way I can read
+" and write files without permission problems
+nnoremap <leader>oc :!sudo ${HOME}/.scripts/chown_or_restore.sh % ${USER}<CR> <BAR> e!
+
 " XML Lint
 map @@x !%xmllint --format --recover -
 
