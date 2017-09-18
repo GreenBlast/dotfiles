@@ -671,7 +671,7 @@ cmap w!! w !sudo tee > /dev/null %
 
 " Owning a file, saving old user group, later restores it. that way I can read
 " and write files without permission problems
-nnoremap <leader>oc :!sudo ${HOME}/.scripts/chown_or_restore.sh % ${USER}<CR>:e!<CR>
+nnoremap <leader>oc :!sudo ${HOME}/.scripts/chown_or_restore.sh % ${USER}<CR>:e<CR>
 
 " XML Lint
 map @@x !%xmllint --format --recover -
