@@ -42,6 +42,7 @@
 !.tmux.conf
 !.warprc##*
 !.Xdefaults
+!.Xresources
 !.zshrc
 !LICENSE
 !pylintrc
