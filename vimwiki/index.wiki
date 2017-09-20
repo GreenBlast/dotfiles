@@ -13,6 +13,7 @@
 * [[Linux]]
 * [[Vim tips]]
 * [[Raspi tips]]
+* [[Python tips]]
 
 == Courses ==
 * [[Courses]]
