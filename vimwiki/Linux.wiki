@@ -58,3 +58,9 @@ sudo dphys-swapfile swapoff
 # bomb:
 : (){ :|:& };:
 }}}
+
+== Wake up tmux server ==
+* When there are existing tmux sessions, but tmux a returns "no sessions" try:
+{{{bash
+killall -s SIGUSR1 tmux
+}}}
