@@ -75,6 +75,9 @@ set listchars=tab:→\ ,trail:·,extends:>,precedes:<
 " Default fold method is indent
 set foldmethod=indent
 
+" Don't close folds automatically when the cursor leaves them
+set foldclose=""
+
 " Setting fold columns (Add markings to the numbers bar for open folds)
 set foldcolumn=3
 
