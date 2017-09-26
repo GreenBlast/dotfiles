@@ -677,7 +677,7 @@ cmap w!! w !sudo tee > /dev/null %
 nnoremap <leader>oc :!sudo ${HOME}/.scripts/chown_or_restore.sh % ${USER}<CR>:e<CR>
 
 " XML Lint
-map @@x !%xmllint --format --recover -
+map @@x :%!xmllint --format --recover -
 
 " Map up/down arrow keys to unimpaired commands
 nmap <Up> [e
@@ -831,4 +831,3 @@ augroup END
 
 set foldmethod=indent
 set foldlevel=1
-set foldclose=all
