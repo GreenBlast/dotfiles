@@ -12,12 +12,18 @@
 # Ignore specific paths in config dir
 !.config
 .config/*
+!.config/i3
+!.config/scripts
 !.config/zsh
 .config/zsh/local_aliases.zsh
 .config/zsh/config.zsh
 !.config/nvim
 .config/nvim/*
 !.config/nvim/colors
+!.config/ranger
+.config/ranger/bookmarks
+.config/ranger/history
+.config/ranger/tagged
 
 # Exclude these directories
 !.fzf
@@ -35,16 +41,19 @@
 !.config/nvim/init.vim
 !.tmux.conf
 !.warprc##*
+!.Xdefaults
+!.Xresources
 !.zshrc
 !LICENSE
 !pylintrc
 !README.md
-!TODO
 
 # Do ignore this subdirectories
 .yadm/repo.git
+.scripts/work
 
 
 # Do ignore these files
 /vimwiki/Work notes.wiki
+/vimwiki/Courses.wiki
 

@@ -6,8 +6,10 @@ alias yadm=~/.local/bin/yadm
 
 alias yst='yadm status'
 alias yau='yadm add -u'
+alias yaa='yadm add --all'
 alias yc='yadm commit -v'
 alias yp='yadm push'
+alias yl='yadm pull'
 
 # Reload zsh config
 alias reload!='RELOAD=1 source ~/.zshrc'
@@ -53,6 +55,9 @@ alias cleanup="find . -name '*.DS_Store' -type f -ls -delete"
 
 # File size
 alias fs="stat -f \"%z bytes\""
+
+# Faster vim
+alias v="vim -p"
 
 # ROT13-encode text. Works for decoding, too! ;)
 #alias rot13='tr a-zA-Z n-za-mN-ZA-M'

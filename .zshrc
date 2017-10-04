@@ -4,6 +4,9 @@ source $HOME/.config/zsh/config.zsh
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
+# Adding ~/.local/bin to path
+export PATH=$HOME/.local/bin:$PATH
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -97,9 +100,6 @@ if [ -f $NVIM_PATH ]; then
     export GIT_EDITOR=$NVIM_PATH
 fi
 
-# This should be temporary, should just load all zsh in this dir after dealing with the prompt
-source $HOME/.config/zsh/aliases.zsh
-
 # Adding scripts dir
 if [[ ! "$PATH" == *$HOME/.scripts* ]]; then
   export PATH="$PATH:$HOME/.scripts"
@@ -118,11 +118,17 @@ export REPORTTIME=10
 # Disable zsh double rm verification
 setopt rm_star_silent
 
+# This should be temporary, should just load all zsh in this dir after dealing with the prompt
+source $HOME/.config/zsh/aliases.zsh
+
 # Sourcing prompt options
 source $HOME/.config/zsh/prompt.zsh
 
+# Sourcing keybindings
+source $HOME/.config/zsh/keybindings.zsh
+
 # Fzf is a fuzzy searcher written in go
-export FZF_DEFAULT_COMMAND='ag --files-with-matches --skip-vcs-ignore --hidden --follow --ignore ".git/*"'
+export FZF_DEFAULT_COMMAND='ag -U --hidden --ignore .git -g ""'
 
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"

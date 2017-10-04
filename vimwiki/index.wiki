@@ -6,8 +6,15 @@
 
 == Notes ==
 * [[Work notes]]
+* [[Code snippets]]
+* [[Command snippets]]
 
 == Knowledge ==
 * [[Linux]]
 * [[Vim tips]]
+* [[Raspi tips]]
+* [[Python tips]]
+
+== Courses ==
+* [[Courses]]
 

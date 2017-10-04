@@ -72,6 +72,15 @@ set timeoutlen=1000 ttimeoutlen=0
 set list
 set listchars=tab:→\ ,trail:·,extends:>,precedes:<
 
+" Default fold method is indent
+set foldmethod=indent
+
+" Don't close folds automatically when the cursor leaves them
+set foldclose=""
+
+" Setting fold columns (Add markings to the numbers bar for open folds)
+set foldcolumn=3
+
 " VimTip 20: Are *.swp and *~ files littering your working directory?
 " {{{
     set backup
@@ -275,8 +284,13 @@ Plug 'zchee/deoplete-jedi'
 Plug 'zchee/deoplete-clang'
 " {{{
     " Settings for deoplete clang - Location is different for each machine
-    let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1'
-    let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/lib/clang'
+    if !empty(glob('/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1')) && !empty(glob('/usr/lib/llvm-3.8/lib/clang'))
+        let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1'
+        let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.8/lib/clang'
+    elseif !empty(glob('/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1')) && !empty(glob('/usr/lib/llvm-3.5/lib/clang'))
+        let g:deoplete#sources#clang#libclang_path = '/usr/lib/x86_64-linux-gnu/libclang-3.5.so.1'
+        let g:deoplete#sources#clang#clang_header = '/usr/lib/llvm-3.5/lib/clang'
+    endif
 " }}}
 
 
@@ -354,29 +368,35 @@ Plug 'airblade/vim-gitgutter'
 " Highlight python
 autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 
-" Neomake is async builder for neovim
-Plug 'neomake/neomake'
+
+" Asynchronous lint engine
+Plug 'w0rp/ale'
 " {{{
-    " run neomake on the current file on every write:
-    autocmd! BufWritePost * Neomake
-    let g:neomake_python_enabled_makers = ['pylint']
-    let g:neomake_python_pylint_maker = {
-        \ 'args': [
-            \ '--output-format=text',
-            \ '--msg-template="{path}:{line}:{column}:{C}: ({msg_id})[{symbol}] {msg}"',
-            \ '--reports=no'
-        \ ],
-        \ 'errorformat':
-            \ '%A%f:%l:%c:%t: %m,' .
-            \ '%A%f:%l: %m,' .
-            \ '%A%f:(%l): %m,' .
-            \ '%-Z%p^%.%#,' .
-            \ '%-G%.%#',
-        \ 'postprocess': [
-        \   function('neomake#postprocess#GenericLengthPostprocess'),
-        \   function('neomake#makers#ft#python#PylintEntryProcess'),
-        \ ]}
 " }}}
+
+" Neomake is async builder for neovim
+" Plug 'neomake/neomake'
+" " {{{
+"     " run neomake on the current file on every write:
+"     autocmd! BufWritePost * Neomake
+"     let g:neomake_python_enabled_makers = ['pylint']
+"     let g:neomake_python_pylint_maker = {
+"         \ 'args': [
+"             \ '--output-format=text',
+"             \ '--msg-template="{path}:{line}:{column}:{C}: ({msg_id})[{symbol}] {msg}"',
+"             \ '--reports=no'
+"         \ ],
+"         \ 'errorformat':
+"             \ '%A%f:%l:%c:%t: %m,' .
+"             \ '%A%f:%l: %m,' .
+"             \ '%A%f:(%l): %m,' .
+"             \ '%-Z%p^%.%#,' .
+"             \ '%-G%.%#',
+"         \ 'postprocess': [
+"         \   function('neomake#postprocess#GenericLengthPostprocess'),
+"         \   function('neomake#makers#ft#python#PylintEntryProcess'),
+"         \ ]}
+" " }}}
 
 
 " Unimpaired adds various shortcuts
@@ -399,6 +419,17 @@ Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 " ====================================================================
 
 " Manages vim session save and restore
+Plug 'xolox/vim-misc' | Plug 'xolox/vim-session'
+" {{{
+    " allows you to save and restore the current session (restart vim)
+    " :SaveSession    -> save the session
+    " :OpenSession    -> load the saved session
+    let g:session_autosave = 'no'
+    let g:session_autoload = 'no'
+    let g:session_directory = '~/nvim.local/sessions'
+" }}}
+
+" Manages vim session save and restore in response to certain events
 Plug 'tpope/vim-obsession'
 " {{{
 " }}}
@@ -554,6 +585,9 @@ Plug 'junegunn/fzf.vim'
     " Tags in buffer
     nnoremap <Leader>kt :BTags<CR>
 
+    " Key mappings
+    nnoremap <Leader>km :Maps<CR>
+
     " Ag pattern
     nnoremap <Leader>ka :Ag<CR>
 
@@ -561,6 +595,7 @@ Plug 'junegunn/fzf.vim'
 
     " FZF pattern
     nnoremap <Leader>kf :FZFLocation<space>
+
 " }}}
 
 " Most Recent Used for fzf
@@ -637,8 +672,12 @@ inoremap <C-U> <C-G>u<C-U>
 " Allow saving of files as sudo when I forgot to start vim using sudo."
 cmap w!! w !sudo tee > /dev/null %
 
+" Owning a file, saving old user group, later restores it. that way I can read
+" and write files without permission problems
+nnoremap <leader>oc :!sudo ${HOME}/.scripts/chown_or_restore.sh % ${USER}<CR>:e<CR>
+
 " XML Lint
-map @@x !%xmllint --format --recover -^M
+map @@x :%!xmllint --format --recover -
 
 " Map up/down arrow keys to unimpaired commands
 nmap <Up> [e
@@ -710,6 +749,7 @@ augroup END
     autocmd BufWritePre *.rs :%s/\s\+$//e
     autocmd BufWritePre *.config :%s/\s\+$//e
     autocmd BufWritePre *.wiki :%s/\s\+$//e
+    autocmd BufWritePre *.zsh :%s/\s\+$//e
 " }}}
 
 " This block sets tmux activity to off, since for some reason NeoVim causes an
@@ -722,3 +762,72 @@ if exists('$TMUX')
     augroup end
 endif
 
+" Setting clipboard
+  nnoremap <leader>c :set clipboard=unnamed<CR>
+
+
+" Sections folding, work in progress:
+""""""""""""""""""""""""
+"  THIS IS A CATEGORY  "
+""""""""""""""""""""""""
+"" Autofolding .vimrc
+" see http://vimcasts.org/episodes/writing-a-custom-fold-expression/
+""" defines a foldlevel for each line of code
+function! VimFolds(lnum)
+  let s:thisline = getline(a:lnum)
+  if match(s:thisline, '^"" ') >= 0
+    return '>2'
+  endif
+  if match(s:thisline, '^""" ') >= 0
+    return '>3'
+  endif
+  let s:two_following_lines = 0
+  if line(a:lnum) + 2 <= line('$')
+    let s:line_1_after = getline(a:lnum+1)
+    let s:line_2_after = getline(a:lnum+2)
+    let s:two_following_lines = 1
+  endif
+  if !s:two_following_lines
+      return '='
+    endif
+  else
+    if (match(s:thisline, '^"""""') >= 0) &&
+       \ (match(s:line_1_after, '^"  ') >= 0) &&
+       \ (match(s:line_2_after, '^""""') >= 0)
+      return '>1'
+    else
+      return '='
+    endif
+  endif
+endfunction
+
+""" defines a foldtext
+function! VimFoldText()
+  " handle special case of normal comment first
+  let s:info = '('.string(v:foldend-v:foldstart).' l)'
+  if v:foldlevel == 1
+    let s:line = ' ◇ '.getline(v:foldstart+1)[3:-2]
+  elseif v:foldlevel == 2
+    let s:line = '   ●  '.getline(v:foldstart)[3:]
+  elseif v:foldlevel == 3
+    let s:line = '     ▪ '.getline(v:foldstart)[4:]
+  endif
+  if strwidth(s:line) > 80 - len(s:info) - 3
+    return s:line[:79-len(s:info)-3+len(s:line)-strwidth(s:line)].'...'.s:info
+  else
+    return s:line.repeat(' ', 80 - strwidth(s:line) - len(s:info)).s:info
+  endif
+endfunction
+
+""" set foldsettings automatically for vim files
+augroup fold_vimrc
+  autocmd!
+  autocmd FileType vim
+                   \ setlocal foldmethod=expr |
+                   \ setlocal foldexpr=VimFolds(v:lnum) |
+                   \ setlocal foldtext=VimFoldText() |
+     "              \ set foldcolumn=2 foldminlines=2
+augroup END
+
+set foldmethod=indent
+set foldlevel=1

@@ -1,0 +1,43 @@
+= Command snippets =
+
+== tcp rewrite macs ==
+
+tcprewrite --enet-dmac=<TCPREPLAY NIC-MAC #1> --enet-smac=<TCPREPLAY NIC-MAC #2> --infile=rt20-short.pcap --outfile=new.pcap
+
+== yadm ==
+yadm submodule add <git_url> <location_path_of_repo>
+
+== ping sweep ==
+for i in {1..254} ;do (ping 192.168.1.$i -c 1 -w 5  >/dev/null && echo "192.168.1.$i" &) ;done
+
+== Activate whenever file change ==
+inotifywait -e close_write,moved_to,create -m . |
+while read -r directory events filename; do
+  if [ "$filename" = "myfile.py" ]; then
+    ./myfile.py
+  fi
+done
+
+== Clear all iptables ==
+#!/bin/sh
+echo "Stopping firewall and allowing everyone..."
+iptables -t nat -F
+iptables -t nat -X
+iptables -t mangle -F
+iptables -t mangle -X
+iptables -t raw -F
+iptables -t raw -X
+iptables -P INPUT ACCEPT
+iptables -P FORWARD ACCEPT
+iptables -P OUTPUT ACCEPT
+iptables -F
+iptables -X
+
+
+== update time ==
+{{{bash
+sudo dpkg-reconfigure tzdata
+sudo systemctl stop ntp
+sudo ntpd -gq
+sudo systemctl start ntp
+}}}

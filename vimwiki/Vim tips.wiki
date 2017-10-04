@@ -1,4 +1,24 @@
 = Vim tips =
+== diff cheat sheet ==
+
+:diffupdate (to remove leftover spacing issues)
+:only (once you’re done reviewing all conflicts, this shows only the middle/merged file)
+:wq (save and quit)
+git add .
+git commit -m “Merge resolved”
+
+]c :        - next difference
+[c :        - previous difference
+do          - diff obtain
+dp          - diff put
+zo          - open folded text
+zc          - close folded text
+:diffupdate - re-scan the files for differences
+
+
+== Search and Replace  ==
+Tokenize string:
+:s/(\(.*\))/(\1) \1/g
 
 == Misc ==
 

@@ -1,19 +1,26 @@
 = Dotfiles TODO =
 
+* [X] https://github.com/Parth/dotfiles
+* [X] Check powerline from the official:
+    * [X] Failed
+* [ ] Check urxvt customization
+* [ ] Explore ranger and it's functions:
+    * [ ] Check ranger wiki
+    * [ ] Check ranger rc file
+    * [ ] Add fzf
+* [ ] Check i3 customization:
+    * [ ] Check gaps
+    * [ ] https://www.youtube.com/watch?v=ARKIwOlazKI&t=2760s
+* [ ] Check infinality
+* [ ] Check luke smith videos
 * [X] Toggle ctrl b ctrl a in tmux
-* [ ] Check the status of the arrow symbols appearance in spaceship, fix if necessary
-* [ ] Run async clipboard setup lazyly
+* [X] Run async clipboard setup lazyly
+* [X] Add script to download build and install neovim
 * [ ] Check yadm installation on root, add snapshot before
-* [ ] Check how folds work and how to use it
+* [X] Check how folds work and how to use it
 * [ ] learn how to fold in vim and see if it matters
-* [ ] Ask yourself if vim obsession works well
-* [ ] " Session management needs to compare with the current
-* [ ] tpope/vim-obsession
-
-
-== Missions ==
-
-* [ ] Find how to database python (dataset)
-    * [ ] Check datasets
-* [ ] Find how to save config files
-* [ ] Improve cctor performance
+* [X] Ask yourself if vim obsession works well
+* [X] " Session management needs to compare with the current
+* [X] tpope/vim-obsession
+* [ ] Check the status of the arrow symbols appearance in spaceship, fix if necessary
+* [X] Check neovim build and install script

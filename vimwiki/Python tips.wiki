@@ -1,0 +1,6 @@
+= Python tips =
+
+== Install requirements.txt by order ==
+{{{bash
+cat requirements.txt | xargs -n 1 -L 1 pip install
+}}}
