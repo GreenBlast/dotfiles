@@ -740,6 +740,7 @@ augroup END
 
 " Remove trailing whitespaces, strip, trim
 " {{{
+    autocmd BufWritePre *.patch :%s/\s\+$//e
     autocmd BufWritePre *.txt :%s/\s\+$//e
     autocmd BufWritePre *.py :%s/\s\+$//e
     autocmd BufWritePre *.scala :%s/\s\+$//e
