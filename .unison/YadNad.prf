@@ -37,7 +37,7 @@ root=/mnt/hgfs/YadNad/
 
 # Remote root (the double forward-slash between IP and remote path is correct)
 #root=ssh://1.2.3.4//var/www/html/
-root=/home/aviad/Projects/unitest/
+root=/home/aviad/Projects/YadNad/
 
 # Resolve conflicts in favor of local root
 prefer=/mnt/hgfs/YadNad/
@@ -48,4 +48,5 @@ prefer=/mnt/hgfs/YadNad/
 
 # Don't sync (can specify multiple ignore lines)
 ignore=Path .idea
-ignore=Path logs
+ignore=Path logs/*
+ignore=Name *.pyc
