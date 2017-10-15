@@ -50,3 +50,4 @@ prefer=/mnt/hgfs/YadNad/
 ignore=Path .idea
 ignore=Path logs/*
 ignore=Name *.pyc
+ignore=Path torrc/*
