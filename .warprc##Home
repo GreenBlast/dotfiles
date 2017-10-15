@@ -1,2 +1,4 @@
 scripts:~/.scripts
 mail:/var/mail
+Linger:/mnt/hgfs/Linger
+linger:/mnt/hgfs/Linger
