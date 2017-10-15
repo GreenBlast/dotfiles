@@ -47,4 +47,5 @@ prefer=/mnt/hgfs/YadNad/
 #path=somepath/
 
 # Don't sync (can specify multiple ignore lines)
-ignore=Path */.idea */logs
+ignore=Path .idea
+ignore=Path logs
