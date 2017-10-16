@@ -368,6 +368,15 @@ Plug 'airblade/vim-gitgutter'
 " Highlight python
 autocmd BufRead,BufNewFile *.py let python_highlight_all=1
 
+" Typescript
+Plug 'leafgarland/typescript-vim'
+" {{{
+    let g:typescript_compiler_binary = 'tsc'
+    let g:typescript_compiler_options = ''
+    autocmd QuickFixCmdPost [^l]* nested cwindow
+    autocmd QuickFixCmdPost    l* nested lwindow
+" }}}
+
 
 " Asynchronous lint engine
 Plug 'w0rp/ale'
