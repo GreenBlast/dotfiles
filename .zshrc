@@ -96,8 +96,8 @@ source $ZSH/oh-my-zsh.sh
 
 # Nvim path should be set in config file
 if [ -f $NVIM_PATH ]; then
-    alias vim="TERM=\"\"; ${NVIM_PATH}"
-    export GIT_EDITOR="TERM=\"\"; ${NVIM_PATH}"
+    alias vim=${NVIM_PATH}
+    export GIT_EDITOR=${NVIM_PATH}
 fi
 
 # Adding scripts dir
@@ -106,11 +106,11 @@ if [[ ! "$PATH" == *$HOME/.scripts* ]]; then
 fi
 
 # Setting colors for tmux
-if [ 'find /lib/terminfo /usr/share/terminfo -name "*256*" | grep xterm-256color' ]; then
-    export TERM='xterm-256color'
-else
-    export TERM='xterm-color'
-fi
+# if [ 'find /lib/terminfo /usr/share/terminfo -name "*256*" | grep xterm-256color' ]; then
+#     export TERM='xterm-256color'
+# else
+#     export TERM='xterm-color'
+# fi
 
 # display how long all tasks over 10 seconds take
 export REPORTTIME=10
@@ -139,6 +139,6 @@ export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 # Exporting editor
-export VISUAL="TERM=\"\"; ${NVIM_PATH}"
+export VISUAL=${NVIM_PATH}
 export EDITOR="$VISUAL"
 
