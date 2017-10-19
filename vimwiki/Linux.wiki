@@ -64,3 +64,8 @@ sudo dphys-swapfile swapoff
 {{{bash
 killall -s SIGUSR1 tmux
 }}}
+
+== Auth and vnc ==
+{{{bash
+sudo xhost +SI:localuser:user && x11vnc
+}}}
