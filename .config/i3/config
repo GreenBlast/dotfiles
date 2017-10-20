@@ -230,6 +230,10 @@ assign [class="Rhythmbox"] $workspace10
 exec_always xrandr --output Virtual3 --off --output Virtual2 --off --output Virtual1 --mode 1920x1080 --pos 0x0 --rotate normal --output Virtual7 --off --output Virtual6 --off --output Virtual5 --off --output Virtual4 --off --output Virtual8 --off
 
 
+# Function buttons
+bindsym $mod+F7 exec transset -a --dec .15
+bindsym $mod+F8 exec transset -a --inc .15
+
 # exec_always --no-startup-id /home/user/.config/scripts/compton_if_exist.sh
 exec_always $HOME/.config/scripts/compton_if_exist.sh
 
