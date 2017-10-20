@@ -204,8 +204,9 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 # Setting keypass shortcuts
-bindsym Control+Mod1+k exec /usr/bin/keypass
-bindsym Control+Mod1+a exec mono /usr/lib/keepass2/KeePass.exe --auto-
+bindsym Control+Mod1+k exec "mono /usr/lib/keepass2/KeePass.exe"
+bindsym Control+Mod1+a exec "mono /usr/lib/keepass2/KeePass.exe --auto-type"
+bindsym Control+Mod1+v exec "mono /usr/lib/keepass2/KeePass.exe --auto-type-selected"
 
 # Set language change
 exec "setxkbmap -model pc104 -layout us,il -variant ,, -option grp:alt_shift_toggle"
@@ -213,7 +214,7 @@ exec "setxkbmap -model pc104 -layout us,il -variant ,, -option grp:alt_shift_tog
 exec vmware-user-suid-wrapper --no-startup-id
 
 # Setting floating defaults
-for_window [class='KeePass'] floating enable
+# for_window [class='KeePass'] floating enable
 
 # Assigning specific program to specific default workspace
 # Use xprops to get WM_CLASS(STRING) and use the second value
@@ -231,3 +232,7 @@ exec_always xrandr --output Virtual3 --off --output Virtual2 --off --output Virt
 
 # exec_always --no-startup-id /home/user/.config/scripts/compton_if_exist.sh
 exec_always /home/user/.config/scripts/compton_if_exist.sh
+
+exec_always /usr/bin/nm-applet
+
+
