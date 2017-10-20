@@ -231,7 +231,7 @@ exec_always xrandr --output Virtual3 --off --output Virtual2 --off --output Virt
 
 
 # exec_always --no-startup-id /home/user/.config/scripts/compton_if_exist.sh
-exec_always /home/user/.config/scripts/compton_if_exist.sh
+exec_always $HOME/.config/scripts/compton_if_exist.sh
 
 exec_always /usr/bin/nm-applet
 
