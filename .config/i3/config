@@ -219,6 +219,8 @@ exec vmware-user-suid-wrapper --no-startup-id
 # Assigning specific program to specific default workspace
 # Use xprops to get WM_CLASS(STRING) and use the second value
 assign [class="Rhythmbox"] $workspace10
+assign [class="KeePass"] $workspace10
+assign [class="* - KeePass"] $workspace10
 
 # Executing on start
 # exec firefox
