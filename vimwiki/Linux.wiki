@@ -70,3 +70,7 @@ killall -s SIGUSR1 tmux
 -Xmx2048m
 -XX:ReservedCodeCacheSize=1024m
 -XX:+UseCompressedOops
+
+== Get key code ==
+Use xev and xmodmap -pm
+
