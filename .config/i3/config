@@ -203,6 +203,9 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
+# Set language change
+exec "setxkbmap -model pc104 -layout us,il -variant ,, -option grp:alt_shift_toggle"
+
 exec vmware-user-suid-wrapper --no-startup-id
 
 # Assigning specific program to specific default workspace
