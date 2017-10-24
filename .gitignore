@@ -49,6 +49,7 @@
 !LICENSE
 !pylintrc
 !README.md
+!.config/compton.conf
 
 # Do ignore this subdirectories
 .yadm/repo.git
