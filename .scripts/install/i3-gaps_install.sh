@@ -51,5 +51,5 @@ apt-get install -q -y   -o Dpkg::Options::="--force-confdef" \
                         -o Dpkg::Options::="--force-confold" \
 neofetch xsettingsd feh htop mlocate rxvt-unicode ranger w3m-img mpd ncmpcpp
 
-apt install rxvt-unicode-256color
+apt install rxvt-unicode-256color scrot imagemagick compton
 
