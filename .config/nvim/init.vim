@@ -139,6 +139,11 @@ set incsearch
 " Draw only what needed, helps scroll performance
 set lazyredraw
 
+" More performance settings
+set nocursorcolumn
+set nocursorline
+set ttyfast
+
 " Setting the maximum culomns to parse syntax, also helps with scroll performance
 set synmaxcol=128
 
@@ -517,8 +522,8 @@ Plug 'vim-scripts/BufOnly.vim'
 " lines)
 Plug 'takac/vim-hardtime'
 " {{{
-    let g:hardtime_default_on = 1
-    let g:hardtime_showmsg = 1
+    " let g:hardtime_default_on = 1
+    " let g:hardtime_showmsg = 1
 " }}}
 
 " Easymotion let you get fast to locations in buffer
