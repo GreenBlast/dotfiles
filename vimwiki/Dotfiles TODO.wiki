@@ -3,22 +3,25 @@
 * [X] https://github.com/Parth/dotfiles
 * [X] Check powerline from the official:
     * [X] Failed
-* [ ] Check urxvt customization
+* [X] Check urxvt customization
 * [ ] Explore ranger and it's functions:
     * [ ] Check ranger wiki
     * [ ] Check ranger rc file
     * [ ] Add fzf
-* [ ] Check i3 customization:
-    * [ ] Check gaps
+* [o] Check i3 customization:
+    * [X] Check gaps
     * [ ] https://www.youtube.com/watch?v=ARKIwOlazKI&t=2760s
 * [ ] Check infinality
-* [ ] Check luke smith videos
+* [X] Check Terminology
+* [ ] Check Termite
+* [ ] Check QuteBrowser
+* [X] Check luke smith videos
 * [X] Toggle ctrl b ctrl a in tmux
 * [X] Run async clipboard setup lazyly
 * [X] Add script to download build and install neovim
 * [ ] Check yadm installation on root, add snapshot before
 * [X] Check how folds work and how to use it
-* [ ] learn how to fold in vim and see if it matters
+* [X] learn how to fold in vim and see if it matters
 * [X] Ask yourself if vim obsession works well
 * [X] " Session management needs to compare with the current
 * [X] tpope/vim-obsession

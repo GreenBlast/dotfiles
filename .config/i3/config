@@ -183,7 +183,7 @@ bar {
 }
 
 # Lock system
-bindsym $mod+shift+x exec i3lock
+bindsym $mod+shift+x exec --no-startup-id "$HOME/.config/scripts/lock.sh $HOME/.config/scripts/lock.png"
 
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
@@ -203,11 +203,23 @@ bindsym XF86AudioPause exec playerctl pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
+# Setting keypass shortcuts
+bindsym Control+Mod1+k exec "mono /usr/lib/keepass2/KeePass.exe"
+bindsym Control+Mod1+a exec "mono /usr/lib/keepass2/KeePass.exe --auto-type"
+bindsym Control+Mod1+v exec "mono /usr/lib/keepass2/KeePass.exe --auto-type-selected"
+
+# Set language change
+exec "setxkbmap -model pc104 -layout us,il -variant ,, -option grp:alt_shift_toggle"
+
 exec vmware-user-suid-wrapper --no-startup-id
+
+# Setting floating defaults
+# for_window [class='KeePass'] floating enable
 
 # Assigning specific program to specific default workspace
 # Use xprops to get WM_CLASS(STRING) and use the second value
 assign [class="Rhythmbox"] $workspace10
+assign [class="* - KeePass"] $workspace10
 
 # Executing on start
 # exec firefox
@@ -216,8 +228,18 @@ assign [class="Rhythmbox"] $workspace10
 # Setting wallpaper
 # exec_always feh --bg-scale /path/to/wallpaper
 # Monitor configure using arandr and save ouput here
-exec_always xrandr --output Virtual3 --off --output Virtual2 --off --output Virtual1 --mode 1920x1080 --pos 0x0 --rotate normal --output Virtual7 --off --output Virtual6 --off --output Virtual5 --off --output Virtual4 --off --output Virtual8 --off
+# exec_always xrandr --output Virtual3 --off --output Virtual2 --off --output Virtual1 --mode 1920x1080 --pos 0x0 --rotate normal --output Virtual7 --off --output Virtual6 --off --output Virtual5 --off --output Virtual4 --off --output Virtual8 --off
 
+exec_always xrandr --output Virtual3 --off --output Virtual2 --off --output Virtual1 --mode 1920x1200 --pos 0x0 --rotate normal --output Virtual7 --off --output Virtual6 --off --output Virtual5 --off --output Virtual4 --off --output Virtual8 --off
+
+
+# Function buttons
+bindsym $mod+F7 exec transset -a --dec .15
+bindsym $mod+F8 exec transset -a --inc .15
 
 # exec_always --no-startup-id /home/user/.config/scripts/compton_if_exist.sh
-exec_always /home/user/.config/scripts/compton_if_exist.sh
+exec_always $HOME/.config/scripts/compton_if_exist.sh
+
+exec_always /usr/bin/nm-applet
+
+

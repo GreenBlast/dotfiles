@@ -31,6 +31,7 @@
 !.scripts
 !.spaceship-zsh-theme
 !.tmux/plugins/tpm
+!.unison
 !.yadm
 !vimwiki
 !zsh_custom/plugins/zsh-syntax-highlighting
@@ -40,6 +41,7 @@
 !.gitmodules
 !.config/nvim/init.vim
 !.tmux.conf
+!.tigrc
 !.warprc##*
 !.Xdefaults
 !.Xresources
@@ -47,11 +49,15 @@
 !LICENSE
 !pylintrc
 !README.md
+!.config/compton.conf
 
 # Do ignore this subdirectories
 .yadm/repo.git
 .scripts/work
 
+# Take only pattern matched files from this directory but not other files and subdirectories
+.unison/**
+!.unison/*.prf
 
 # Do ignore these files
 /vimwiki/Work notes.wiki

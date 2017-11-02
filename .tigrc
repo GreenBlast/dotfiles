@@ -1,0 +1,2 @@
+bind generic E !git format-patch -1 %(commit)
+

@@ -64,3 +64,19 @@ sudo dphys-swapfile swapoff
 {{{bash
 killall -s SIGUSR1 tmux
 }}}
+
+
+== Clion settings ==
+ -Xms1024m
+-Xmx2048m
+-XX:ReservedCodeCacheSize=1024m
+-XX:+UseCompressedOops
+
+== Get key code ==
+Use xev and xmodmap -pm
+
+
+== Auth and vnc ==
+{{{bash
+sudo xhost +SI:localuser:user && x11vnc
+}}}
