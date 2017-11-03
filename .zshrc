@@ -61,7 +61,7 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git wd zsh-syntax-highlighting zsh-autosuggestions)
+plugins=(git wd zsh-syntax-highlighting zsh-autosuggestions tmuxinator)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -142,3 +142,5 @@ export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" 
 export VISUAL=${NVIM_PATH}
 export EDITOR="$VISUAL"
 
+# Tmuxinator auto completion
+# source $HOME/.bin/
