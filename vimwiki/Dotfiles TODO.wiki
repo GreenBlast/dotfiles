@@ -8,12 +8,12 @@
     * [ ] Check ranger wiki
     * [ ] Check ranger rc file
     * [ ] Add fzf
-* [o] Check i3 customization:
+* [X] Check i3 customization:
     * [X] Check gaps
-    * [ ] https://www.youtube.com/watch?v=ARKIwOlazKI&t=2760s
-* [ ] Check infinality
+    * [X] https://www.youtube.com/watch?v=ARKIwOlazKI&t=2760s
+* [X] Check infinality
 * [X] Check Terminology
-* [ ] Check Termite
+* [X] Check Termite
 * [ ] Check QuteBrowser
 * [X] Check luke smith videos
 * [X] Toggle ctrl b ctrl a in tmux
