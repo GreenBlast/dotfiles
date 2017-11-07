@@ -9,35 +9,106 @@
 #
 # Please see http://i3wm.org/docs/userguide.html for a complete reference!
 
+# KEY DEFINITIONS TO REMEMBER
+
+# $Mod = WINDOWS key or Super key or Mod4
+# Mod1 = ALT key
+# Control = CTRL key
+# Shift = SHIFT key
+# Escape = ESCAPE key
+# Return = ENTER or RETURN key
+# Pause = PAUSE key
+# Print = PRINT key
+# Tab = TAB key
+
 ###---Basic Definitions---###
 #Needed for i3-gaps
 hide_edge_borders both
 for_window [class="^.*"] border pixel 0 
+
+# TODO Check if to insert this instead
+# #Needed for i3-gaps, remove 'for_window' to have titlebar name
+#for_window [class="^.*"] border pixel 3 
+# # hide edges borders both
+
 gaps inner 15
 gaps outer 15
+
+###---Appearance---###
+# TODO Check which font to use
 font pango:hack 9
+# Font for window titles. Will also be used by the bar unless a different font
+# is used in the bar {} block below.
+font pango:monospace 10
+
+# # Font for window titles. Will also be used by the bar unless a different font
+# # is used in the bar {} block above.
+# font pango:DroidSansMono 8
+
+# TODO Check
+# # Hybrid colors
+# set $black	#002B36
+# set $white	#839496
+# set $gray	#CCCCCC
+# set $darkgray	#666666
+# set $green 	#799F26
+# set $blue	#4D73AA
+# set $purple	#8473A7
+# set $red	#B58900
+# set $orange	#E59847
+# set $cyan	#2AA198
+# set $dark #00252E
+# set $mygray	#202020
+# set $mycyan #0087d7
+# set $offwhite #eee8d5
+# set $myorange #FF8A00
+
+
+# #### window colors
+# #class                  border  backgr. text    indicator
+# client.focused			$mygray  $mycyan  $offwhite    $dark
+# client.unfocused		$mygray   $mygray  $mycyan   $white
+# client.focused_inactive	$mygray $mygray   $mycyan   $white
+# client.urgent $orange $orange $dark $white
+
+
+###---Startup---###
+
 set $mod Mod4
-# Change to urxvt later?
-# set $term urxvt
+# TODO Check
+# set $term i3-sensible-terminal
+
 set $video --no-startup-id bash ~/.config/scripts/video.sh
 set $stoprec --no-startup-id killall ffmpeg & killall screenkey
 set $flash --no-startup-id bash ~/.config/Scripts/flash_win.sh
 set $browser firefox
 
-# Font for window titles. Will also be used by the bar unless a different font
-# is used in the bar {} block below.
-font pango:monospace 10
+exec --no-startup-id nm-applet
 
-# This font is widely installed, provides lots of unicode glyphs, right-to-left
-# text rendering and scalability on retina/hidpi displays (thanks to pango).
-#font pango:DejaVu Sans Mono 8
+# TODO Check conky
+## Conky
+#exec ~/.config/i3/start-conkys.sh
+##exec conky -c ~/.config/i3/conky-skeleton
+##exec conky -c ~/.config/i3/conky-system-info
+##exec --no-startup-id evolution
+##exec --no-startup-id conky
 
-# Before i3 v4.8, we used to recommend this one as the default:
-# font -misc-fixed-medium-r-normal--13-120-75-75-C-70-iso10646-1
-# The font above is very space-efficient, that is, it looks good, sharp and
-# clear in small sizes. However, its unicode glyph coverage is limited, the old
-# X core fonts rendering does not support right-to-left and this being a bitmap
-# font, it doesn’t scale on retina/hidpi displays.
+# TODO Check bumblbee
+# use bumblbee instead
+# bar {
+# 	#This status command requires bumblebee-status. You must change it to your desired settings!
+# 	#	https://github.com/tobi-wan-kenobi/bumblebee-status
+# 	status_command ~/.config/bumblebee-status/bumblebee-status -m cpu sensors memory nic datetime amixer battery -p nic.exclude="enp0s25,lo" datetime.format="%a, %b %d, %Y at %I:%M %p" -t cyangray
+# position top
+# font pango:DroidSansMono for Powerline 8
+# 	colors {
+# 			# Type             border  background font
+# 	focused_workspace  $mycyan $mycyan $offwhite
+# 	active_workspace   #333333 #5f676a #ffffff
+# 	inactive_workspace $mygray $mygray $mycyan
+# 	urgent_workspace   $myorange $myorange $offwhite
+# 	}
+# 	}
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -221,25 +292,19 @@ exec vmware-user-suid-wrapper --no-startup-id
 assign [class="Rhythmbox"] $workspace10
 assign [class="* - KeePass"] $workspace10
 
-# Executing on start
-# exec firefox
-# Execute on reload (Be careful with this, use only for simple stuff like setting wallpaper)
-# exec_always firefox
+# TODO Check set wallpaper
 # Setting wallpaper
 # exec_always feh --bg-scale /path/to/wallpaper
 # Monitor configure using arandr and save ouput here
-# exec_always xrandr --output Virtual3 --off --output Virtual2 --off --output Virtual1 --mode 1920x1080 --pos 0x0 --rotate normal --output Virtual7 --off --output Virtual6 --off --output Virtual5 --off --output Virtual4 --off --output Virtual8 --off
 
+# TODO Call the xrandr to the right setting by system
 exec_always xrandr --output Virtual3 --off --output Virtual2 --off --output Virtual1 --mode 1920x1200 --pos 0x0 --rotate normal --output Virtual7 --off --output Virtual6 --off --output Virtual5 --off --output Virtual4 --off --output Virtual8 --off
-
 
 # Function buttons
 bindsym $mod+F7 exec transset -a --dec .15
 bindsym $mod+F8 exec transset -a --inc .15
 
-# exec_always --no-startup-id /home/user/.config/scripts/compton_if_exist.sh
 exec_always $HOME/.config/scripts/compton_if_exist.sh
 
-exec_always /usr/bin/nm-applet
 
 

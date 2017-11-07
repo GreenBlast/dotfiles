@@ -8,9 +8,10 @@
     * [ ] Check ranger wiki
     * [ ] Check ranger rc file
     * [ ] Add fzf
-* [X] Check i3 customization:
+* [o] Check i3 customization:
     * [X] Check gaps
     * [X] https://www.youtube.com/watch?v=ARKIwOlazKI&t=2760s
+    * [ ] Check i3 config inline todos
 * [X] Check infinality
 * [X] Check Terminology
 * [X] Check Termite
@@ -27,3 +28,8 @@
 * [X] tpope/vim-obsession
 * [ ] Check the status of the arrow symbols appearance in spaceship, fix if necessary
 * [X] Check neovim build and install script
+* [ ] Check out guake:
+    * [ ] Add it to i3 config with:
+        * [ ] bindsym $mod+Shift+Return exec guake
+        * [ ] for_window [instance="guake"] floating enable
+
