@@ -142,3 +142,5 @@ export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" 
 export VISUAL=${NVIM_PATH}
 export EDITOR="$VISUAL"
 
+# Tmuxinator auto completion
+# source $HOME/.bin/
