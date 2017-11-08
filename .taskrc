@@ -37,3 +37,4 @@ report.in.filter            = status:pending limit:page (+in)
 report.in.labels            = ID,Description
 
 # Added "in" urgency
+urgency.user.tag.in.coefficient=15.0
