@@ -669,9 +669,9 @@ call plug#end()
     set background=dark
     colorscheme kalisi
     " black background:
-    hi Normal  ctermbg=None guifg=None guibg=None gui=none
+    hi Normal  ctermbg=NONE guifg=NONE guibg=NONE gui=NONE
     " black background at the end of file too (with lines ~):
-    hi NonText ctermbg=None guifg=None guibg=None gui=none
+    hi NonText ctermbg=NONE guifg=NONE guibg=NONE gui=NONE
 " }}}
 
 " ====================================================================
