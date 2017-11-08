@@ -98,6 +98,16 @@ source $ZSH/oh-my-zsh.sh
 if [ -f $NVIM_PATH ]; then
     alias vim=${NVIM_PATH}
     export GIT_EDITOR=${NVIM_PATH}
+    # Exporting editor
+    export VISUAL=${NVIM_PATH}
+    export EDITOR="$VISUAL"
+elif command -v vim > /dev/null 2>&1; then
+    VIM_PATH="$(command -v vim)"
+    alias vim=${VIM_PATH}
+    export GIT_EDITOR=${VIM_PATH}
+    # Exporting editor
+    export VISUAL=${VIM_PATH}
+    export EDITOR="$VISUAL"
 fi
 
 # Adding scripts dir
@@ -138,9 +148,6 @@ export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" 
     -o -fstype "proc" -prune -o -type d -print 2> /dev/null | cut -b3-'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-# Exporting editor
-export VISUAL=${NVIM_PATH}
-export EDITOR="$VISUAL"
 
 # Tmuxinator auto completion
 # source $HOME/.bin/
