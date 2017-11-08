@@ -1,0 +1,35 @@
+= Process Workflow =
+
+ - Taken from https://cs-syd.eu/posts/2015-07-05-gtd-with-taskwarrior-part-4-processing
+
+1.  Decide whether the item is actionable.
+    * It’s not: Decide whether to keep note of it in your reference system, whether you want think it over of just delete it. (Remember, when using think, you should enter a simple yes/no question.) Then check off the task.
+    * It is: go on.
+2.  Is there more than one action required?
+    * Yes: Start up a new project. Figure out the desired outcome for the project and add the first +next action to it: Don’t forget to add the +next tag.
+{{{bash
+task add +next pro:new.project "Set up a new git repository for the fancy new project"
+}}}
+Also add as many tasks as you can possibly think of for this project. Then check off the task.
+    * No: Decide what action the +in task represents and go on.
+3.  Decide how long the action is going to take.
+    * It will take no longer than two minutes: Do it right now. Then check off the task.
+    * It will take longer than two minutes: Estimate how long it would take to complete the action and go on.
+4.  Are you going to delegate the task?
+    * Yes: Modify the task to be a waiting task and annotate it with instructions on how to check whether the task is done yet. Then delegate the task. Let’s say the task has ID n.
+{{{bash
+task n modify -in +waiting
+task n annotate "Check: Call Dave and ask about the car tires." due:+1w wait:+1d
+}}}
+I added due:+1w, which means that Dave has a hard deadline of one week to complete this task and wait:+3d, which means that I can’t see this task until tomorrow so that I won’t pester Dave about it until at least three days from now.
+    * No: Go on.
+5.  Defer the task
+You know which project the task belongs to. Add your task to that project. If it’s the next action for that project, don’t forget to add the +next tag and check the in task.
+{{{bash
+task n done
+task pro:gtd add Call Jamie to schedule a meeting.
+}}}
+Make sure the action is really an action. It must be something that you can start doing immediately without thinking about “how?”, “where?” or “why?” thanks to the thought you put into it at this moment.
+When you get into the habit of asking yourself these questions, there should come a point where you don’t need the flowchart anymore.
+
+
