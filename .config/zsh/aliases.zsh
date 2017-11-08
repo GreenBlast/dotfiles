@@ -69,6 +69,9 @@ alias v="vim -p"
 #alias stfu="osascript -e 'set volume output muted true'"
 #alias pumpitup="osascript -e 'set volume 10'"
 
+# Settings alias for task inbox
+alias in='task add +in'
+
 # Setting local aliases
 source $HOME/.config/zsh/local_aliases.zsh
 
