@@ -69,8 +69,19 @@ alias v="vim -p"
 #alias stfu="osascript -e 'set volume output muted true'"
 #alias pumpitup="osascript -e 'set volume 10'"
 
-# Settings alias for task inbox
+# Settings alias for task
 alias in='task add +in'
+alias tin='task in'
+
+tickle () {
+    deadline=$1
+    shift
+    in +tickle wait:$deadline $@
+}
+alias tick=tickle
+
+alias think='tickle +1d'
+
 
 # Setting local aliases
 source $HOME/.config/zsh/local_aliases.zsh
