@@ -12,6 +12,7 @@
 # Ignore specific paths in config dir
 !.config
 .config/*
+!.config/bumblebee-status
 !.config/i3
 !.config/scripts
 !.config/zsh

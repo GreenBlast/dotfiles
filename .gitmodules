@@ -16,6 +16,6 @@
 [submodule "zsh_custom/plugins/zsh-autosuggestions"]
 	path = zsh_custom/plugins/zsh-autosuggestions
 	url = git://github.com/zsh-users/zsh-autosuggestions
-[submodule ".config/i3/bumblebee-status"]
-	path = .config/i3/bumblebee-status
+[submodule ".config/bumblebee-status"]
+	path = .config/bumblebee-status
 	url = git://github.com/tobi-wan-kenobi/bumblebee-status
