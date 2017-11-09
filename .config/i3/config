@@ -47,18 +47,18 @@ font pango:monospace 10
 
 # TODO Check
 # # Hybrid colors
-# set $black	#002B36
-# set $white	#839496
-# set $gray	#CCCCCC
-# set $darkgray	#666666
-# set $green 	#799F26
-# set $blue	#4D73AA
-# set $purple	#8473A7
-# set $red	#B58900
-# set $orange	#E59847
-# set $cyan	#2AA198
+# set $black    #002B36
+# set $white    #839496
+# set $gray #CCCCCC
+# set $darkgray #666666
+# set $green    #799F26
+# set $blue #4D73AA
+# set $purple   #8473A7
+# set $red  #B58900
+# set $orange   #E59847
+# set $cyan #2AA198
 # set $dark #00252E
-# set $mygray	#202020
+# set $mygray   #202020
 # set $mycyan #0087d7
 # set $offwhite #eee8d5
 # set $myorange #FF8A00
@@ -66,9 +66,9 @@ font pango:monospace 10
 
 # #### window colors
 # #class                  border  backgr. text    indicator
-# client.focused			$mygray  $mycyan  $offwhite    $dark
-# client.unfocused		$mygray   $mygray  $mycyan   $white
-# client.focused_inactive	$mygray $mygray   $mycyan   $white
+# client.focused            $mygray  $mycyan  $offwhite    $dark
+# client.unfocused      $mygray   $mygray  $mycyan   $white
+# client.focused_inactive   $mygray $mygray   $mycyan   $white
 # client.urgent $orange $orange $dark $white
 
 
@@ -93,22 +93,20 @@ exec --no-startup-id nm-applet
 ##exec --no-startup-id evolution
 ##exec --no-startup-id conky
 
-#TODO Check bumblbee
-#use bumblbee instead
 bar {
-	#This status command requires bumblebee-status. You must change it to your desired settings!
-	#	https://github.com/tobi-wan-kenobi/bumblebee-status
-	status_command ~/.config/i3/bumblebee-status/bumblebee-status -m cpu sensors memory nic datetime amixer battery -p nic.exclude="enp0s25,lo" datetime.format="%a, %b %d, %Y at %I:%M %p" -t cyangray
+    #This status command requires bumblebee-status. You must change it to your desired settings!
+    #   https://github.com/tobi-wan-kenobi/bumblebee-status
+    status_command ~/.config/bumblebee-status/bumblebee-status -m cpu sensors memory nic datetime amixer battery -p nic.exclude="enp0s25,lo" datetime.format="%a, %b %d, %Y at %I:%M %p" -t cyangray
 position top
 font pango:DroidSansMono for Powerline 8
-	colors {
-			# Type             border  background font
-	focused_workspace  $mycyan $mycyan $offwhite
-	active_workspace   #333333 #5f676a #ffffff
-	inactive_workspace $mygray $mygray $mycyan
-	urgent_workspace   $myorange $myorange $offwhite
-	}
-	}
+    colors {
+    # Type             border  background font
+    focused_workspace  $mycyan $mycyan $offwhite
+    active_workspace   #333333 #5f676a #ffffff
+    inactive_workspace $mygray $mygray $mycyan
+    urgent_workspace   $myorange $myorange $offwhite
+    }
+}
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -249,9 +247,6 @@ bindsym $mod+r mode "resize"
 
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
-# bar {
-#         status_command i3status
-# }
 
 # Lock system
 bindsym $mod+shift+x exec --no-startup-id "$HOME/.config/scripts/lock.sh $HOME/.config/scripts/lock.png"
