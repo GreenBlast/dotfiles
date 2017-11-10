@@ -31,12 +31,22 @@ data.location=~/.task
 
 
 # Added "in" report section
-report.in.columns           = id,description
+report.in.columns           = id,project,recur,due,description
 report.in.description       = Inbox
 report.in.filter            = status:pending limit:page (+in)
-report.in.labels            = ID,Description
+# report.in.labels            = ID,Description
 
 
 # Adding contexts:
 context.work=+@computer or +@phone or +@online
-context.home=+@home
+context.daily=+@daily
+context.reg=-@daily
+
+# Added by tasksh
+uda.reviewed.type=date
+uda.reviewed.label=Reviewed
+report._reviewed.description=Tasksh review report.  Adjust the filter to your needs.
+report._reviewed.columns=uuid
+report._reviewed.sort=reviewed+,modified+
+report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +PENDING or +WAITING )
+context=reg
