@@ -649,11 +649,16 @@ Plug 'majutsushi/tagbar'
 " }}}
 
 " ====================================================================
-" VimWiki
+" Added functionality
 " ====================================================================
 
 " A wiki system for vim for knowledge management
 Plug 'vimwiki/vimwiki'
+" {{{
+" }}}
+
+" Taskwarrior plugin for vim
+Plug 'blindFS/vim-taskwarrior'
 " {{{
 " }}}
 

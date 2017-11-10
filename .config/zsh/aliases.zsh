@@ -82,6 +82,9 @@ alias tick=tickle
 
 alias think='tickle +1d'
 
+alias nex='task +next -someday'
+alias som='task +someday'
+
 
 # Setting local aliases
 source $HOME/.config/zsh/local_aliases.zsh
