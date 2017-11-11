@@ -75,8 +75,8 @@ font pango:monospace 10
 ###---Startup---###
 
 set $mod Mod4
-# TODO Check
-# set $term i3-sensible-terminal
+# TODO Check that terimnal works
+set $term i3-sensible-terminal
 
 set $video --no-startup-id bash ~/.config/scripts/video.sh
 set $stoprec --no-startup-id killall ffmpeg & killall screenkey
@@ -93,19 +93,51 @@ exec --no-startup-id nm-applet
 ##exec --no-startup-id evolution
 ##exec --no-startup-id conky
 
+# TODO check bumblebee config
+#bar {
+#    #This status command requires bumblebee-status. You must change it to your desired settings!
+#    #   https://github.com/tobi-wan-kenobi/bumblebee-status
+#    status_command ~/.config/bumblebee-status/bumblebee-status -m cpu memory nic datetime amixer battery -p nic.exclude="enp0s25,lo" datetime.format="%a, %b %d, %Y at %I:%M %p" -t solarized-powerline
+#position top
+#font pango:DroidSansMono for Powerline 8
+#    colors {
+#    # Type             border  background font
+#    focused_workspace  $mycyan $mycyan $offwhite
+#    active_workspace   #333333 #5f676a #ffffff
+#    inactive_workspace $mygray $mygray $mycyan
+#    urgent_workspace   $myorange $myorange $offwhite
+#    }
+#}
+
+
+# TODO check this script
+# exec_always $HOME/.config/i3/i3-autoname-workspaces.py
+
 bar {
-    #This status command requires bumblebee-status. You must change it to your desired settings!
-    #   https://github.com/tobi-wan-kenobi/bumblebee-status
-    status_command ~/.config/bumblebee-status/bumblebee-status -m cpu memory nic datetime amixer battery -p nic.exclude="enp0s25,lo" datetime.format="%a, %b %d, %Y at %I:%M %p" -t solarized-powerline
-position top
-font pango:DroidSansMono for Powerline 8
-    colors {
-    # Type             border  background font
-    focused_workspace  $mycyan $mycyan $offwhite
-    active_workspace   #333333 #5f676a #ffffff
-    inactive_workspace $mygray $mygray $mycyan
-    urgent_workspace   $myorange $myorange $offwhite
-    }
+  position top
+  # tray_output none
+  status_command ~/.config/bumblebee-status/bumblebee-status -m layout caffeine battery brightness pasource pasink date time -p date.format="%a, %d. %b %Y" time.format="%H:%M:%S" weather.apikey="9c672428ac92772c6437191a43a5b13f" -t solarized-powerline
+font pango:Knack Nerd Font Mono 12
+  colors {
+      background #1d2021
+      focused_workspace  #cb9e83 #665c54 #ebdbb2
+      active_workspace   #665c54 #463c34 #dbae93
+      inactive_workspace #383838 #1d2021 #766c64
+      urgent_workspace   #fb4934 #cc241d #ebdbb2
+  }
+}
+
+bar {
+    position bottom
+    status_command ~/.config/bumblebee-status/bumblebee-status -m nic cpu memory -t solarized-powerline
+font pango:Knack Nerd Font Mono 12
+  colors {
+      background #1d2021
+      focused_workspace  #cb9e83 #665c54 #ebdbb2
+      active_workspace   #665c54 #463c34 #dbae93
+      inactive_workspace #383838 #1d2021 #766c64
+      urgent_workspace   #fb4934 #cc241d #ebdbb2
+  }
 }
 
 # Use Mouse+$mod to drag floating windows to their wanted position
@@ -300,6 +332,5 @@ bindsym $mod+F7 exec transset -a --dec .15
 bindsym $mod+F8 exec transset -a --inc .15
 
 exec_always $HOME/.config/scripts/compton_if_exist.sh
-
 
 
