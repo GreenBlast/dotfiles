@@ -18,6 +18,14 @@ while read -r directory events filename; do
   fi
 done
 
+while true; do
+    inotifywait -e close_write,moved_to,create -m . |
+    while read -r directory events filename; do
+      if [ "$filename" = "watch_proc_stats.py" ]; then
+          ./watch_proc_stats.py tmux
+            fi
+    done
+done
 == Clear all iptables ==
 #!/bin/sh
 echo "Stopping firewall and allowing everyone..."
