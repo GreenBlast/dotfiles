@@ -156,6 +156,7 @@ class SingleProcessMonitor(object):
 
         """
         self.pid = pid_of_process
+        # TODO psutil functions should be enclosed with try catch for psutil.NoSuchProcess
         self.process_info = psutil.Process(pid_of_process)
         self.username = self.process_info.username()
         self.cmdline = self.process_info.cmdline()
@@ -167,6 +168,7 @@ class SingleProcessMonitor(object):
         :returns: Dictionary with the process data
         """
         data = {}
+        # TODO psutil functions should be enclosed with try catch for psutil.NoSuchProcess
         data["timestamp"] = datetime.datetime.now()
         data["Username"] = self.username
         data["PID"] = self.pid
@@ -177,7 +179,6 @@ class SingleProcessMonitor(object):
 
         return data
 class ProcessesMonitor(object):
-
 
     """Monitor processes statistics by a given string"""
 
@@ -203,10 +204,10 @@ class ProcessesMonitor(object):
         """
         Snapshotting all existing processes
         """
-        self.logger.debug("Snapshotting data of: %s", self.process_monitors.keys())
+        self.logger.debug("Snapshotting data of: %s", self.current_pids)
         data = {}
-        for pid, monitor in self.process_monitors.items():
-            data[pid] = monitor.snapshot_process()
+        for pid in self.current_pids:
+            data[pid] = self.process_monitors[pid].snapshot_process()
 
         for pid, data_item in data.items():
             self.database_manager.insert_to_db(str(pid) + "_" + data_item["exec_name"], data_item)
@@ -219,15 +220,14 @@ class ProcessesMonitor(object):
         if self.should_loop:
             self.logger.debug("Entered main logic")
             # Get list of existing processes according to the string
-            # For each new PID create a new SingleProcessMonitor
-            # For each SingleProcessMonitor call snapshot stats
             child = subprocess.Popen(["pgrep", self.process_string], stdout=subprocess.PIPE, shell=False)
             result = child.communicate()[0]
             pid_result = set([int(pid) for pid in result.split()])
             new_pids = pid_result - self.current_pids
+            self.current_pids = pid_result
             if new_pids:
                 self.logger.info("Will start monitoring these new PIDs %s", new_pids)
-                self.current_pids.update(new_pids)
+                # For each new PID create a new SingleProcessMonitor
                 for new_pid in new_pids:
                     self.logger.debug("Creating SingleProcessMonitor for PID: %s", new_pid)
                     self.process_monitors[new_pid] = SingleProcessMonitor(new_pid)
