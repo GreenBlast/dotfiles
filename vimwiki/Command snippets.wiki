@@ -49,3 +49,8 @@ sudo systemctl stop ntp
 sudo ntpd -gq
 sudo systemctl start ntp
 }}}
+
+== Find space ==
+{{{bash
+sudo du -sh * | sort -hr | head -n10
+}}}
