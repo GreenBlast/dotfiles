@@ -22,7 +22,7 @@ MIN_ARGS_COUNT = 2
 MAX_ARGS_COUNT = 3
 POLL_TIME_ARG_LOCATION = 3
 DEFAULT_POLL_TIME = 5
-DATABASE_LOCATION = "sqlite:///processes_statistics.db"
+DATABASE_LOCATION = "sqlite:///processes_statistics.db?check_same_thread=False"
 
 class DatabaseManager(object):
 
@@ -52,7 +52,10 @@ class DatabaseManager(object):
             data_item = data[1]
             table = self.database_connection[table_name]
             table.insert(data_item)
+            data = self.queue.get()
 
+        self.disconnect()
+        self.logger.debug("Consumer thread about to stop id:%s", threading.get_ident())
         self.logger.debug("Stopping consumer")
 
     def insert_to_db(self, table_name, data_item):
@@ -85,7 +88,7 @@ class DatabaseManager(object):
         """
         Setting a connection to the database
         """
-        self.logger.debug("Connecting")
+        self.logger.debug("Connecting database")
         self.stored_thread_id = threading.get_ident()
         self.database_connection = dataset.connect(self.db_location_uri)
 
@@ -94,7 +97,7 @@ class DatabaseManager(object):
         Closing the connection after finishing using it
         """
         # This is a hack to handle SqlAlchemy pooling connections and then being angry that they are not being accessed from  the same thread
-        self.logger.debug("Disconnecting")
+        self.logger.debug("Disconnecting database")
         self.database_connection.engine.dispose()
         self.database_connection = None
         self.stored_thread_id = None
@@ -103,11 +106,14 @@ class DatabaseManager(object):
         """
         Cleanup: Stopping the consumer thread
         """
-        with self.lock():
+        with self.lock:
             if self.consumer_thread:
                 self.queue.put(None)
+
                 self.consumer_thread.join()
                 self.consumer_thread = None
+
+        self.logger.debug("Finished cleanup")
 
 
 
@@ -141,8 +147,8 @@ class SingleProcessMonitor(object):
         data["memory_percent"] = self.process_info.memory_percent()
 
         return data
-
 class ProcessesMonitor(object):
+
 
     """Monitor processes statistics by a given string"""
 
@@ -229,7 +235,10 @@ class ProcessesMonitor(object):
         """
         if self.already_running:
             self.already_running = False
-            self.database_manager.clean()
+            self.should_loop = False
+            self._timer.join()
+
+        self.logger.debug("Finished cleanup")
 
 
 def set_logging(logger_name):
@@ -298,10 +307,13 @@ def main():
             monitor.stop()
             logger.info("Quitting ProcessesMonitor")
         except KeyboardInterrupt:
-            monitor.stop()
             logger.info("Quitting ProcessesMonitor")
+            monitor.stop()
         finally:
+            monitor.stop()
             monitor.clean()
+            database_manager.clean()
+            logger.debug("Main about to exit thread id:%s", threading.get_ident())
             # Cleaning loggers
             # map(logger.removeHandler, logger.handlers)
             logger_clean_list = [logger.removeHandler(x) for x in logger.handlers]
