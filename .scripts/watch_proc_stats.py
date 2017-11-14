@@ -4,6 +4,7 @@ File: watch_proc_stats.py
 Description: Monitors searches for processes with names containing a \
 given string and monitors those processes statistics continuously
 """
+# pylint: disable=C0325,R0902,R0903,E1101,F0401
 # import os
 import sys
 import time
@@ -13,8 +14,8 @@ import subprocess
 import psutil
 import datetime
 import dataset
+import queue
 
-# pylint: disable=C0325
 
 LOGGER_NAME = "ProcessesMonitor"
 MIN_ARGS_COUNT = 2
@@ -22,6 +23,93 @@ MAX_ARGS_COUNT = 3
 POLL_TIME_ARG_LOCATION = 3
 DEFAULT_POLL_TIME = 5
 DATABASE_LOCATION = "sqlite:///processes_statistics.db"
+
+class DatabaseManager(object):
+
+    """Handles instance of database connection and synchronizes writes to database"""
+    def __init__(self, db_location_uri):
+        """
+            Initialization function
+            :db_location_uri: Location of the database
+        """
+        self.logger = logging.getLogger(LOGGER_NAME)
+        self.db_location_uri = db_location_uri
+        self.database_connection = None
+        self.stored_thread_id = None
+        self.consumer_thread = None
+        self.lock = threading.Lock()
+        self.queue = queue.Queue()
+
+    def consumer_loop(self):
+        """
+        Continuously consumes data from the queue and stores it
+        """
+        self.logger.debug("Starting consumer")
+        self.validate_connection()
+        data = self.queue.get()
+        while data:
+            table_name = data[0]
+            data_item = data[1]
+            table = self.database_connection[table_name]
+            table.insert(data_item)
+
+        self.logger.debug("Stopping consumer")
+
+    def insert_to_db(self, table_name, data_item):
+        """
+        Inserts data to a table
+
+        :table_name: Name of the table to insert data to
+        :data_item: The data item to insert
+        """
+        self.logger.debug("In thread:%s", threading.get_ident())
+        with self.lock:
+            if not self.consumer_thread:
+                self.consumer_thread = threading.Thread(name="consumer_thread", target=self.consumer_loop)
+                self.consumer_thread.start()
+
+        self.queue.put([table_name, data_item])
+
+    def validate_connection(self):
+        """
+        Making sure that there is a valid connection to the database registered on this thread
+        """
+        if self.database_connection:
+            if threading.get_ident() != self.stored_thread_id:
+                self.disconnect()
+                self.connect()
+        else:
+            self.connect()
+
+    def connect(self):
+        """
+        Setting a connection to the database
+        """
+        self.logger.debug("Connecting")
+        self.stored_thread_id = threading.get_ident()
+        self.database_connection = dataset.connect(self.db_location_uri)
+
+    def disconnect(self):
+        """
+        Closing the connection after finishing using it
+        """
+        # This is a hack to handle SqlAlchemy pooling connections and then being angry that they are not being accessed from  the same thread
+        self.logger.debug("Disconnecting")
+        self.database_connection.engine.dispose()
+        self.database_connection = None
+        self.stored_thread_id = None
+
+    def clean(self):
+        """
+        Cleanup: Stopping the consumer thread
+        """
+        with self.lock():
+            if self.consumer_thread:
+                self.queue.put(None)
+                self.consumer_thread.join()
+                self.consumer_thread = None
+
+
 
 class SingleProcessMonitor(object):
 
@@ -48,7 +136,7 @@ class SingleProcessMonitor(object):
         data["timestamp"] = datetime.datetime.now()
         data["Username"] = self.username
         data["PID"] = self.pid
-        data["cmdline"] = self.cmdline
+        data["cmdline"] = " ".join(self.cmdline)
         data["cpu_percent"] = self.process_info.cpu_percent()
         data["memory_percent"] = self.process_info.memory_percent()
 
@@ -58,9 +146,10 @@ class ProcessesMonitor(object):
 
     """Monitor processes statistics by a given string"""
 
-    def __init__(self, process_string, poll_time=DEFAULT_POLL_TIME):
+    def __init__(self, process_string, database_manager, poll_time=DEFAULT_POLL_TIME):
         self.logger = logging.getLogger(LOGGER_NAME)
         self.process_string = process_string
+        self.database_manager = database_manager
         self.poll_time = poll_time
 
         self._timer = None
@@ -68,27 +157,24 @@ class ProcessesMonitor(object):
         self.should_loop = False
         self.current_pids = set()
         self.process_monitors = {}
-        self.db_connection = None
 
     def loop(self):
         """Used to block execution while monitoring
-        :returns: TODO
-
         """
         while self.should_loop:
             time.sleep(1)
 
     def snaptshot_all_processes(self):
         """
-        Snapshoting all existing processes
+        Snapshotting all existing processes
         """
+        self.logger.debug("Snapshotting data of: %s", self.process_monitors.keys())
         data = {}
         for pid, monitor in self.process_monitors.items():
             data[pid] = monitor.snapshot_process()
 
-        for pid, data_item in data.items()
-            table = self.db_connection[pid]
-            table.insert(data_item)
+        for pid, data_item in data.items():
+            self.database_manager.insert_to_db(str(pid), data_item)
 
     def _run(self):
         """
@@ -127,7 +213,6 @@ class ProcessesMonitor(object):
         if not self.already_running:
             self.should_loop = True
             self.already_running = True
-            self.db_connection = dataset.connect(DATABASE_LOCATION)
             self._timer = threading.Timer(self.poll_time, self._run)
             self._timer.start()
 
@@ -142,8 +227,9 @@ class ProcessesMonitor(object):
         """
         Place holder for a clean function
         """
-        self.already_running = False
-        self.db_connection.close()
+        if self.already_running:
+            self.already_running = False
+            self.database_manager.clean()
 
 
 def set_logging(logger_name):
@@ -202,7 +288,8 @@ def main():
             pass
 
         logger = set_logging(LOGGER_NAME)
-        monitor = ProcessesMonitor(process_string, poll_time)
+        database_manager = DatabaseManager(DATABASE_LOCATION)
+        monitor = ProcessesMonitor(process_string, database_manager, poll_time)
         monitor.start()
 
         try:
