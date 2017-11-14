@@ -13,16 +13,44 @@ import threading
 import subprocess
 import psutil
 import datetime
-import dataset
 import queue
+import dataset
+import datafreeze
 
 
 LOGGER_NAME = "ProcessesMonitor"
+HELP_ARGS_NUMBER = 2
+EXPORT_ARGS_NUMBER = 2
 MIN_ARGS_COUNT = 2
 MAX_ARGS_COUNT = 3
 POLL_TIME_ARG_LOCATION = 3
 DEFAULT_POLL_TIME = 5
 DATABASE_LOCATION = "sqlite:///processes_statistics.db?check_same_thread=False"
+
+class DataExporter(object):
+
+    """Exporting all the data from the tables to csv"""
+
+    def __init__(self, db_location_uri):
+        """
+        :db_location_uri: Location of the database
+
+        """
+        self.logger = logging.getLogger(LOGGER_NAME)
+        self.db_location_uri = db_location_uri
+
+    def export(self):
+        """
+        Exporting the data in the database
+        """
+        database_connection = dataset.connect(self.db_location_uri)
+        for table_name in database_connection.tables:
+            file_name = table_name + ".csv"
+            file_name = file_name.replace("/", "_")
+            self.logger.debug("About to export filename %s", file_name)
+            result = database_connection[table_name].all()
+            datafreeze.freeze(result, format="csv", filename=file_name)
+
 
 class DatabaseManager(object):
 
@@ -142,6 +170,7 @@ class SingleProcessMonitor(object):
         data["timestamp"] = datetime.datetime.now()
         data["Username"] = self.username
         data["PID"] = self.pid
+        data["exec_name"] = self.cmdline[0]
         data["cmdline"] = " ".join(self.cmdline)
         data["cpu_percent"] = self.process_info.cpu_percent()
         data["memory_percent"] = self.process_info.memory_percent()
@@ -180,7 +209,7 @@ class ProcessesMonitor(object):
             data[pid] = monitor.snapshot_process()
 
         for pid, data_item in data.items():
-            self.database_manager.insert_to_db(str(pid), data_item)
+            self.database_manager.insert_to_db(str(pid) + "_" + data_item["exec_name"], data_item)
 
     def _run(self):
         """
@@ -270,11 +299,22 @@ def set_logging(logger_name):
     logger.info("Logger was set")
     return logger
 
+def clean_logger_handlers(logger):
+    """
+    Clean the handlers saved into a logger
+    """
+    logger_clean_list = [logger.removeHandler(x) for x in logger.handlers]
+    if logger_clean_list:
+        print(logger_clean_list)
+
 def print_usage():
     """Prints usage """
-    print("""{} monitors searches for processes with names containing a\n \
-            given string and monitors those processes statistics continuously\n""".format(sys.argv[0]))
-    print ("\tUsage: {} process_string [poll_time_in_seconds(default=5)]".format(sys.argv[0]))
+    print("""Monitors searches for processes with names containing a\n \
+    given string and monitors those processes statistics continuously\n""".format(sys.argv[0]))
+    print ("Usage:")
+    print("\t{} -h - Displays this help message".format(sys.argv[0]))
+    print("\t{} process_string [poll_time_in_seconds(default=5)] - Start monitoring data".format(sys.argv[0]))
+    print("\t{} -e - Exports data from database to csv files".format(sys.argv[0]))
 
 def main():
     """
@@ -283,7 +323,18 @@ def main():
     """
     numargs = len(sys.argv)
 
-    if numargs >= MIN_ARGS_COUNT and numargs <= MAX_ARGS_COUNT:
+    if HELP_ARGS_NUMBER == numargs and "-h" == sys.argv[1]:
+        print_usage()
+    elif EXPORT_ARGS_NUMBER == numargs and "-e" == sys.argv[1]:
+        logger = set_logging(LOGGER_NAME)
+        try:
+            data_exporter = DataExporter(DATABASE_LOCATION)
+            data_exporter.export()
+        except Exception as exception_object:
+            raise exception_object
+        finally:
+            clean_logger_handlers(logger)
+    elif numargs >= MIN_ARGS_COUNT and numargs <= MAX_ARGS_COUNT:
         process_string = sys.argv[1]
         poll_time = DEFAULT_POLL_TIME
 
@@ -314,11 +365,7 @@ def main():
             monitor.clean()
             database_manager.clean()
             logger.debug("Main about to exit thread id:%s", threading.get_ident())
-            # Cleaning loggers
-            # map(logger.removeHandler, logger.handlers)
-            logger_clean_list = [logger.removeHandler(x) for x in logger.handlers]
-            if logger_clean_list:
-                print(logger_clean_list)
+            clean_logger_handlers(logger)
     else:
         print_usage()
 
