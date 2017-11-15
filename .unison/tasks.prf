@@ -1,0 +1,54 @@
+# Reasonable defaults
+auto=true
+fat=true
+# confirmbigdeletes=true
+contactquietly=true
+fastcheck=true
+# group=true
+maxthreads=20
+# numericids=true
+# owner=true
+# times=true
+
+# Dump an archive listing to ~/unison.dump
+#dumparchives=true
+
+# Skip confirmation
+#batch=true
+
+# Suppress output (sets batch=true)
+#silent=true
+
+# Run in a loop, repeating every X seconds (sort of daemon mode)
+repeat=5
+
+# Log all sync operations
+log=true
+logfile=/home/aviad/.unison/unison.log
+
+# Backup deleted files
+backup=Name *
+backuplocation=local
+backupdir=/home/aviad/.unison/unison-backups
+
+
+# Local root
+root=/home/aviad/.task/
+
+# Remote root (the double forward-slash between IP and remote path is correct)
+#root=ssh://1.2.3.4//var/www/html/
+root=ssh://pi@192.168.7.2//home/pi/.task/
+
+# Resolve conflicts in favor of local root
+prefer=ssh://pi@192.168.7.2//home/pi/.task/
+
+
+# Limit to specific relative path (can specify multiple path= params)
+#path=somepath/
+
+# Don't sync (can specify multiple ignore lines)
+# ignore=Path .idea
+# ignore=Path logs/*
+# ignore=Name *.pyc
+# ignore=Path torrc/*
+# ignore=Name *.log

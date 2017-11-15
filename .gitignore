@@ -12,10 +12,12 @@
 # Ignore specific paths in config dir
 !.config
 .config/*
+!.config/bumblebee-status
 !.config/i3
 !.config/scripts
 !.config/zsh
 .config/zsh/local_aliases.zsh
+.config/zsh/prompt.zsh
 .config/zsh/config.zsh
 !.config/nvim
 .config/nvim/*
@@ -64,4 +66,6 @@
 # Do ignore these files
 /vimwiki/Work notes.wiki
 /vimwiki/Courses.wiki
-
+/vimwiki/IEC101.wiki
+/vimwiki/IEC104.wiki
+/vimwiki/IOA.wiki

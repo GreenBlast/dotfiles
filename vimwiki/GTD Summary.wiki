@@ -1,0 +1,9 @@
+= GTD Summary =
+
+== Needed lists ==
+1. in (+in)
+2. Next actions(+next)
+3. Waiting for(+waiting)
+4. Projects (projects)
+5. Someday (+someday)
+6. Reading list(+readinglist)

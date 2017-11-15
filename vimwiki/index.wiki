@@ -15,6 +15,9 @@
 * [[Raspi tips]]
 * [[Python tips]]
 
+=== GTD ===
+* [[GTD Summary]]
+* [[Process_Workflow]]
+
 == Courses ==
 * [[Courses]]
-
