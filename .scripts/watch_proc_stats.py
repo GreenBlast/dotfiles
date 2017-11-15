@@ -160,6 +160,7 @@ class SingleProcessMonitor(object):
         self.process_info = psutil.Process(pid_of_process)
         self.username = self.process_info.username()
         self.cmdline = self.process_info.cmdline()
+        self.start_timestamp = datetime.datetime.now()
 
     def snapshot_process(self):
         """
@@ -169,12 +170,15 @@ class SingleProcessMonitor(object):
         """
         data = {}
         # TODO psutil functions should be enclosed with try catch for psutil.NoSuchProcess
-        data["timestamp"] = datetime.datetime.now()
+        now = datetime.datetime.now()
+        data["timestamp"] = now
+        data["since_start_timestamp"] = now - self.start_timestamp
         data["Username"] = self.username
         data["PID"] = self.pid
         data["exec_name"] = self.cmdline[0]
         data["cmdline"] = " ".join(self.cmdline)
         data["cpu_percent"] = self.process_info.cpu_percent()
+        data["total_reserved_memory"] = self.process_info.memory_info()[0]
         data["memory_percent"] = self.process_info.memory_percent()
 
         return data
