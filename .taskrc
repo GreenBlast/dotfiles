@@ -40,7 +40,7 @@ report.in.filter            = status:pending limit:page (+in)
 # Adding contexts:
 context.work=+@computer or +@phone or +@online
 context.daily=+@daily
-context.reg=-@daily
+context.reg=-@daily and -someday
 
 # Added by tasksh
 uda.reviewed.type=date
