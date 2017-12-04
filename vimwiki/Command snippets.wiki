@@ -54,3 +54,9 @@ sudo systemctl start ntp
 {{{bash
 sudo du -sh * | sort -hr | head -n10
 }}}
+
+
+== Show logged in ips via ssh ==
+{{{bash
+netstat -tn 2>/dev/null | grep :22 | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr
+}}}

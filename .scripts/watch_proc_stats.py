@@ -155,12 +155,18 @@ class SingleProcessMonitor(object):
         :pid_of_process: The pid of the process
 
         """
+        self.logger = logging.getLogger(LOGGER_NAME)
         self.pid = pid_of_process
-        # TODO psutil functions should be enclosed with try catch for psutil.NoSuchProcess
-        self.process_info = psutil.Process(pid_of_process)
-        self.username = self.process_info.username()
-        self.cmdline = self.process_info.cmdline()
-        self.start_timestamp = datetime.datetime.now()
+        self.creation_timestamp = datetime.datetime.now()
+        self.process_info = None
+        self.username = None
+        self.cmdline = None
+        try:
+            self.process_info = psutil.Process(pid_of_process)
+            self.username = self.process_info.username()
+            self.cmdline = self.process_info.cmdline()
+        except psutil.NoSuchProcess:
+            self.logger.info("Failed getting initial data for process:%s", pid_of_process)
 
     def snapshot_process(self):
         """
@@ -169,17 +175,20 @@ class SingleProcessMonitor(object):
         :returns: Dictionary with the process data
         """
         data = {}
-        # TODO psutil functions should be enclosed with try catch for psutil.NoSuchProcess
         now = datetime.datetime.now()
-        data["timestamp"] = now
-        data["since_start_timestamp"] = now - self.start_timestamp
-        data["Username"] = self.username
-        data["PID"] = self.pid
-        data["exec_name"] = self.cmdline[0]
-        data["cmdline"] = " ".join(self.cmdline)
-        data["cpu_percent"] = self.process_info.cpu_percent()
-        data["total_reserved_memory"] = self.process_info.memory_info()[0]
-        data["memory_percent"] = self.process_info.memory_percent()
+        if self.process_info:
+            try:
+                data["timestamp"] = now
+                data["time_since_tracking_start"] = (now - self.creation_timestamp).total_seconds()
+                data["Username"] = self.username
+                data["PID"] = self.pid
+                data["exec_name"] = self.cmdline[0]
+                data["cmdline"] = " ".join(self.cmdline)
+                data["cpu_percent"] = self.process_info.cpu_percent()
+                data["total_reserved_memory"] = self.process_info.memory_info()[0]
+                data["memory_percent"] = self.process_info.memory_percent()
+            except psutil.NoSuchProcess:
+                self.logger.info("Couldn't snapshot process with id:%s. cmline:\"%s\"", self.pid, self.cmdline)
 
         return data
 class ProcessesMonitor(object):
@@ -214,7 +223,8 @@ class ProcessesMonitor(object):
             data[pid] = self.process_monitors[pid].snapshot_process()
 
         for pid, data_item in data.items():
-            self.database_manager.insert_to_db(str(pid) + "_" + data_item["exec_name"], data_item)
+            if data_item:
+                self.database_manager.insert_to_db(str(pid) + "_" + data_item["exec_name"], data_item)
 
     def _run(self):
         """
