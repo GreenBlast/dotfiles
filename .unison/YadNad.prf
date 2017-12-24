@@ -52,3 +52,4 @@ ignore=Path logs/*
 ignore=Name *.pyc
 ignore=Name *.log
 ignore=Path torrc/*
+ignore=Path torrc
