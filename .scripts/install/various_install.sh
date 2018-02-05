@@ -8,7 +8,7 @@ fi
 
 # ncdu - Ncurses interface du
 # htop - Improved top
-# vim - Legendery text editor
+# vim - Legendary text editor
 # tig - Cool git interface
 # clang - C language framework
 # iptraf - Monitor IP traffic
@@ -20,8 +20,9 @@ fi
 # arandr - xrandr GUI utility, handle graphical screen configuration
 # lxappearance - GUI gtk theme edit utility
 # scrot - Command line screen capture utility
+# taskwarrior - Task management
 
-$RUN_AS_ROOT apt-get -y install htop vim tig ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot
+$RUN_AS_ROOT apt-get -y install htop vim tig ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot taskwarrior
 
 # Add maybe later:
 # bmon - bandwidth monitor

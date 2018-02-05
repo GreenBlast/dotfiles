@@ -28,28 +28,27 @@ logfile=/home/aviad/.unison/unison.log
 
 # Backup deleted files
 backup=Name *
-backuplocation=central
+backuplocation=local
 backupdir=/home/aviad/.unison/unison-backups
 
 
 # Local root
-root=/mnt/hgfs/YadNad/
+root=/home/aviad/.task/
 
 # Remote root (the double forward-slash between IP and remote path is correct)
 #root=ssh://1.2.3.4//var/www/html/
-root=/home/aviad/Projects/YadNad/
+root=ssh://pi@192.168.7.2//home/pi/.task/
 
 # Resolve conflicts in favor of local root
-prefer=/mnt/hgfs/YadNad/
+prefer=ssh://pi@192.168.7.2//home/pi/.task/
 
 
 # Limit to specific relative path (can specify multiple path= params)
 #path=somepath/
 
 # Don't sync (can specify multiple ignore lines)
-ignore=Path .idea
-ignore=Path logs/*
-ignore=Name *.pyc
-ignore=Name *.log
-ignore=Path torrc/*
-ignore=Path torrc
+# ignore=Path .idea
+# ignore=Path logs/*
+# ignore=Name *.pyc
+# ignore=Path torrc/*
+# ignore=Name *.log

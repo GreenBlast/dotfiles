@@ -633,6 +633,11 @@ Plug 'tpope/vim-vinegar'
 " {{{
 " }}}
 
+" Multiple cursurs like sublime
+Plug 'terryma/vim-multiple-cursors'
+" {{{
+" }}}
+
 " ====================================================================
 " Tags
 " ====================================================================
@@ -644,11 +649,16 @@ Plug 'majutsushi/tagbar'
 " }}}
 
 " ====================================================================
-" VimWiki
+" Added functionality
 " ====================================================================
 
 " A wiki system for vim for knowledge management
 Plug 'vimwiki/vimwiki'
+" {{{
+" }}}
+
+" Taskwarrior plugin for vim
+Plug 'blindFS/vim-taskwarrior'
 " {{{
 " }}}
 
@@ -664,7 +674,7 @@ call plug#end()
     set background=dark
     colorscheme kalisi
     " black background:
-    hi Normal ctermbg=NONE guifg=NONE guibg=NONE gui=NONE
+    hi Normal  ctermbg=NONE guifg=NONE guibg=NONE gui=NONE
     " black background at the end of file too (with lines ~):
     hi NonText ctermbg=NONE guifg=NONE guibg=NONE gui=NONE
 " }}}

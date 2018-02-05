@@ -148,6 +148,5 @@ export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" 
     -o -fstype "proc" -prune -o -type d -print 2> /dev/null | cut -b3-'
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
-
 # Tmuxinator auto completion
 # source $HOME/.bin/

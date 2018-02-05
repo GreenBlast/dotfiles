@@ -9,3 +9,5 @@ clion:~/clion-2017.2
 wireshark:~/dev/work/wireshark
 builds:~/builds
 analyzer:~/dev/fides/src/sniffer/bbx/fides-analyzer
+wt:~/Projects/worktemp
+radare:~/bin
