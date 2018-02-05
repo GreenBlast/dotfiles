@@ -21,7 +21,7 @@
 #    split-window "bash --rcfile <(echo '. ~/.bashrc; tail -F -n 150 /var/log/fides/sniffer-stats.log')"
 
 
-tmux split-window "bash --rcfile <(echo '. ~/.bashrc; tail -F -n 150 /var/log/fides/sniffer-stats.log')" \;\
+tmux split-window "bash --rcfile <(echo '. ~/.bashrc; tail -F -n 150 /var/log/fides/sent.sniffer-stats.log')" \;\
     rename-window 'bbx_logs'
 tail -F -n 150 '/var/log/fides/sniffer.log'
 

