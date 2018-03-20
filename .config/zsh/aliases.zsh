@@ -12,7 +12,7 @@ alias yp='yadm push'
 alias yl='yadm pull'
 alias ydf='yadm difftool'
 alias ydfs='yadm difftool --staged'
-
+alias ysuri='yadm submodule update --recursive --init'
 alias gdf='git difftool'
 alias gdfs='git difftool --staged'
 
