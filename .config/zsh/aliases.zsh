@@ -10,6 +10,11 @@ alias yaa='yadm add --all'
 alias yc='yadm commit -v'
 alias yp='yadm push'
 alias yl='yadm pull'
+alias ydf='yadm difftool'
+alias ydfs='yadm difftool --staged'
+
+alias gdf='git difftool'
+alias gdfs='git difftool --staged'
 
 # Reload zsh config
 alias reload!='RELOAD=1 source ~/.zshrc'
