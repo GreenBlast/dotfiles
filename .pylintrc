@@ -56,7 +56,7 @@ extension-pkg-whitelist=
 # C0301 Line is too long
 # R0914 Too many local variables
 # I0011 Locally disabling multiple statements
-disable= C0301, R0914, I0011
+disable= C0301, R0914, I0011, E501
 
 
 [REPORTS]
