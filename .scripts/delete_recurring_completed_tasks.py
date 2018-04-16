@@ -64,3 +64,6 @@ def main():
                 len(dupe_tasks_to_trash), dupe_tasks_to_trash[0]['description']))
             for task in dupe_tasks_to_trash:
                 task_delete(task['uuid'])
+
+if __name__ == "__main__":
+    main()
