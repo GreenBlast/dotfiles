@@ -89,6 +89,10 @@ alias think='tickle +1d'
 
 alias nex='task +next -someday'
 alias som='task +someday'
+alias tcod='task context daily'
+alias tcor='task context reg'
+alias tcow='task context warframe'
+alias tcon='task context none'
 
 
 # Setting local aliases
