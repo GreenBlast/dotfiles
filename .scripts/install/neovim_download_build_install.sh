@@ -24,3 +24,9 @@ $RUN_AS_ROOT make install
 echo "Installing neovim"
 $RUN_AS_ROOT cp $HOME/neovim_build/neovim/build/bin/nvim /usr/bin/
 chmod +x $HOME/neovim_build/neovim/build/bin/nvim /usr/bin/
+
+echo "pip install"
+pip3 install neovim
+
+echo "bootstrap rerun"
+source $HOME/.yadm/bootstrap

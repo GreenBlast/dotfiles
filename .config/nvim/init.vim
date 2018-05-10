@@ -710,6 +710,9 @@ nnoremap <leader>oc :!sudo ${HOME}/.scripts/chown_or_restore.sh % ${USER}<CR>:e<
 " XML Lint
 map @@x :%!xmllint --format --recover -
 
+" Json lint
+map @@j :%!python -m json.tool
+
 " Map up/down arrow keys to unimpaired commands
 nmap <Up> [e
 nmap <Down> ]e
