@@ -2,8 +2,13 @@
 
 # Check git command
 type git || {
-  echo 'Please install git or update your path to include the git executable!'
-  exit 1
+    echo "No git, Attempting to install git"
+    apt-get install -q -y git
+
+    type git || {
+        echo "Git install failed, exiting"
+        exit 1
+    }
 }
 echo ""
 
@@ -22,4 +27,4 @@ echo ""
 
 echo "Cloning"
 
-$HOME/.local/bin/yadm clone https://github.com/GreenBlast/dotfiles.git
+$HOME/.local/bin/yadm clone --bootstrap https://github.com/GreenBlast/dotfiles.git
