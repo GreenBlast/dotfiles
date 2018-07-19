@@ -108,3 +108,10 @@ git commit -m 'Initial commit'
 git remote add origin [repo_address]
 git push --mirror --force
 }}}
+
+
+
+== Mount cifs ==
+
+sudo mount -t cifs -o username=userna,domain=dom,uid=user,gid=user,iocharset=utf8,file_mode=0777,dir_mode=0777,noperm //1.0.0.1/path/to/dir /home/user/Personal/  -o vers=2.0
+
