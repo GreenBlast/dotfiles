@@ -77,6 +77,8 @@ alias v="vim -p"
 # Settings alias for task
 alias in='task add +in'
 alias tin='task in'
+alias ts='task sync'
+alias tsg='task sync; gp'
 
 tickle () {
     deadline=$1
