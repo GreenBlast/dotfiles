@@ -40,9 +40,9 @@ report.in.filter            = status:pending limit:page (+in)
 # Adding contexts:
 context.work=+@computer or +@phone or +@online
 context.daily=+@daily
-context.reg=-@daily and -someday and -warframe
+context.reg=-@daily and -someday and -farday
 context.warframe=+warframe
-context.noframe=-warframe
+context.nofar=-farday
 
 json.depends.array=off
 
@@ -56,4 +56,3 @@ report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +P
 include ~/.taskrc.shadow
 
 
-context=reg
