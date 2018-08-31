@@ -75,6 +75,7 @@ alias v="vim -p"
 #alias pumpitup="osascript -e 'set volume 10'"
 
 # Settings alias for task
+alias t='task'
 alias in='task add +in'
 alias tin='task in'
 alias ts='task sync'
