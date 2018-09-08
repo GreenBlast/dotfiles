@@ -116,11 +116,11 @@ if [[ ! "$PATH" == *$HOME/.scripts* ]]; then
 fi
 
 # Setting colors for tmux
-# if [ 'find /lib/terminfo /usr/share/terminfo -name "*256*" | grep xterm-256color' ]; then
-#     export TERM='xterm-256color'
+if [ 'find /lib/terminfo /usr/share/terminfo -name "*256*" | grep xterm-256color' ]; then
+    export TERM='xterm-256color'
 # else
 #     export TERM='xterm-color'
-# fi
+fi
 
 # display how long all tasks over 10 seconds take
 export REPORTTIME=10
