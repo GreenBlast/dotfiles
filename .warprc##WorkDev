@@ -11,3 +11,6 @@ builds:~/builds
 analyzer:~/dev/fides/src/sniffer/bbx/fides-analyzer
 wt:~/Projects/worktemp
 radare:~/bin
+licen:~/dev/fides/src/sniffer/bbx/src/licenser/cmake-build-release
+ana:~/dev/fides/src/sniffer/bbx/fides-analyzer/cmake-build-debug
+bna:~/Projects/worktemp/oldanalyzer

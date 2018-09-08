@@ -17,3 +17,6 @@ source $HOME/.scripts/install/install_essentials.sh
 # Setting yadm config to show untracked files
 # This is used to make some directories monitored for changes by yadm
 yadm gitconfig --unset status.showUntrackedFiles
+
+echo "Install various"
+source $HOME/.scripts/install/various_install.sh

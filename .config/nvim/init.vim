@@ -429,7 +429,7 @@ Plug 'tpope/vim-markdown', { 'for': 'markdown' }
 " }}}
 
 " Python smart folding
-Plug 'mhedberg/SimpylFold'
+Plug 'tmhedberg/SimpylFold'
 " {{{
     let g:SimpylFold_docstring_preview = 1
 " }}}
@@ -451,6 +451,13 @@ Plug 'xolox/vim-misc' | Plug 'xolox/vim-session'
 
 " Manages vim session save and restore in response to certain events
 Plug 'tpope/vim-obsession'
+" {{{
+" }}}
+
+
+" Vim in a single instance
+" Commented as it needs clientserver supported vim build
+" Plug 'thinca/vim-singleton'
 " {{{
 " }}}
 
@@ -516,7 +523,7 @@ Plug 'vim-scripts/BufOnly.vim'
 
 " ====================================================================
 " Navigation
-" ====================================================================.
+" ====================================================================
 
 " Vim HardTime make it hard to use vim anti-patterns (Like using j to go down
 " lines)
@@ -638,6 +645,11 @@ Plug 'terryma/vim-multiple-cursors'
 " {{{
 " }}}
 
+" Enhancing visual mod search
+Plug 'thinca/vim-visualstar'
+" {{{
+" }}}
+
 " ====================================================================
 " Tags
 " ====================================================================
@@ -679,6 +691,12 @@ call plug#end()
     hi NonText ctermbg=NONE guifg=NONE guibg=NONE gui=NONE
 " }}}
 
+
+" Commented as it needs clientserver supported vim build
+" " Use vim as a single instance with vim-singleton
+" " Should be at most possible upper part of vimrc
+" call singleton#enable()
+
 " ====================================================================
 " Functions, Keymaps, Autocommands
 " ====================================================================
@@ -709,6 +727,9 @@ nnoremap <leader>oc :!sudo ${HOME}/.scripts/chown_or_restore.sh % ${USER}<CR>:e<
 
 " XML Lint
 map @@x :%!xmllint --format --recover -
+
+" Json lint
+map @@j :%!python -m json.tool
 
 " Map up/down arrow keys to unimpaired commands
 nmap <Up> [e

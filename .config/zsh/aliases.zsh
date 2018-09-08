@@ -77,6 +77,8 @@ alias v="vim -p"
 # Settings alias for task
 alias in='task add +in'
 alias tin='task in'
+alias ts='task sync'
+alias tsg='task sync; gp'
 
 tickle () {
     deadline=$1
@@ -89,6 +91,10 @@ alias think='tickle +1d'
 
 alias nex='task +next -someday'
 alias som='task +someday'
+alias tcod='task context daily'
+alias tcor='task context reg'
+alias tcow='task context warframe'
+alias tcon='task context none'
 
 
 # Setting local aliases

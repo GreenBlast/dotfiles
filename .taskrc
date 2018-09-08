@@ -44,6 +44,8 @@ context.reg=-@daily and -someday and -warframe
 context.warframe=+warframe
 context.noframe=-warframe
 
+json.depends.array=off
+
 # Added by tasksh
 uda.reviewed.type=date
 uda.reviewed.label=Reviewed
@@ -52,5 +54,6 @@ report._reviewed.columns=uuid
 report._reviewed.sort=reviewed+,modified+
 report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +PENDING or +WAITING )
 include ~/.taskrc.shadow
-context=reg
 
+
+context=reg
