@@ -79,7 +79,7 @@ alias t='task'
 alias in='task add +in'
 alias tin='task in'
 alias ts='task sync'
-alias tsg='task sync; gp'
+alias tsg='cd ~/.task;task sync;gp;popd'
 
 tickle () {
     deadline=$1
