@@ -95,7 +95,8 @@ alias som='task +someday'
 alias tcod='task context daily'
 alias tcor='task context reg'
 alias tcow='task context warframe'
-alias tcon='task context none'
+# Nofar is supposed to be almost as no context but without farday tags
+alias tcon='task context nofar'
 
 
 # Setting local aliases
