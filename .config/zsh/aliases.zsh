@@ -75,10 +75,11 @@ alias v="vim -p"
 #alias pumpitup="osascript -e 'set volume 10'"
 
 # Settings alias for task
+alias t='task'
 alias in='task add +in'
 alias tin='task in'
 alias ts='task sync'
-alias tsg='task sync; gp'
+alias tsg='cd ~/.task;task sync;gp;popd'
 
 tickle () {
     deadline=$1
@@ -94,7 +95,8 @@ alias som='task +someday'
 alias tcod='task context daily'
 alias tcor='task context reg'
 alias tcow='task context warframe'
-alias tcon='task context none'
+# Nofar is supposed to be almost as no context but without farday tags
+alias tcon='task context nofar'
 
 
 # Setting local aliases

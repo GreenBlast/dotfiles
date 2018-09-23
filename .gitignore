@@ -47,6 +47,7 @@
 !.tmux.minimal.conf
 !.tigrc
 !.warprc##*
+.warprc##WorkDev
 !.Xdefaults
 !.Xresources
 !.zshrc

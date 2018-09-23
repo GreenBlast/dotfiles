@@ -21,8 +21,9 @@ fi
 # lxappearance - GUI gtk theme edit utility
 # scrot - Command line screen capture utility
 # taskwarrior - Task management
+# libxml2-utils - xmllint
 
-$RUN_AS_ROOT apt-get -y install htop vim tig ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot taskwarrior
+$RUN_AS_ROOT apt-get -y install htop vim tig ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot taskwarrior libxml2-utils
 
 # Add maybe later:
 # bmon - bandwidth monitor
