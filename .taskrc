@@ -40,7 +40,7 @@ report.in.filter            = status:pending limit:page (+in)
 # Adding contexts:
 context.work=+@computer or +@phone or +@online
 context.daily=+@daily
-context.reg=-@daily and -someday and -farday
+context.reg=-@daily and -notreg
 context.warframe=+warframe
 # farday are that abandoned tasks that might be used again
 context.nofar=-farday
