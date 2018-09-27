@@ -179,3 +179,5 @@ sudo poweroff - with this one I've had some problems
 
 Raspberry should reboot after cca 15s.
 
+== Raspi nginx config ==
+[[Raspi nginx config]]

@@ -1,9 +1,5 @@
 = Vim Wiki =
 
-== Checklists ==
-* [[Dotfiles TODO]]
-* [[Readlist]]
-
 == Notes ==
 * [[Work notes]]
 * [[Code snippets]]
