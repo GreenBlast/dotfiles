@@ -45,6 +45,7 @@ context.warframe=+warframe
 # farday are that abandoned tasks that might be used again
 context.nofar=-farday
 
+# Default to off in newer taskwarrior versions, sets sync method
 json.depends.array=off
 
 # Added by tasksh
@@ -54,6 +55,9 @@ report._reviewed.description=Tasksh review report.  Adjust the filter to your ne
 report._reviewed.columns=uuid
 report._reviewed.sort=reviewed+,modified+
 report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +PENDING or +WAITING )
+
+# Includes sync configurations
 include ~/.taskrc.shadow
 
 
+context=nofar
