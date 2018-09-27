@@ -60,4 +60,4 @@ report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +P
 include ~/.taskrc.shadow
 
 
-context=nofar
+context=reg
