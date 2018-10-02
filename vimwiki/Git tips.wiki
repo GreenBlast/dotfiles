@@ -8,3 +8,17 @@ git merge --no-commit --no-ff merge_from_branch
 git reset HEAD
 git add --interactive
 }}}
+
+
+== Restart git repo ==
+
+Backup existing repo to tar
+Then
+{{{bash
+rm -rf .git
+git init
+git add
+git commit -m 'Initial commit'
+git remote add origin <url>
+git push --force --set-upstream origin master
+}}}
