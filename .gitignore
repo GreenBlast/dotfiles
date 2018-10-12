@@ -17,6 +17,7 @@
 !.config/scripts
 !.config/zsh
 .config/zsh/local_aliases.zsh
+.config/zsh/aliases.zsh.shadow
 .config/zsh/prompt.zsh
 .config/zsh/config.zsh
 !.config/nvim
