@@ -10,6 +10,7 @@ mkdir -p ~/backups/tasks
 tar czvf ~/backups/tasks/task-backup-$(date +'%Y%m%d').tar.gz ~/.task
 rm -rf .git
 git init
+git add -A
 git commit -m 'Initial commit'
 git remote add origin $1
 git push --force --set-upstream origin master
