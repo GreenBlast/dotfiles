@@ -59,5 +59,7 @@ report._reviewed.filter=( reviewed.none: or reviewed.before:now-6days ) and ( +P
 # Includes sync configurations
 include ~/.taskrc.shadow
 
+# Include device specific settings
+include ~/.taskrc.device
 
-context=stepsmine
+context=daily

@@ -44,6 +44,8 @@
 # And this files
 !.gitmodules
 !.config/nvim/init.vim
+!.taskrc
+!.taskrc.device##*
 !.tmux.conf
 !.tmux.minimal.conf
 !.tigrc
