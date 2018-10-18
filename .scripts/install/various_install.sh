@@ -29,6 +29,6 @@ $RUN_AS_ROOT apt-get -y install htop vim tig ncdu clang iptraf exuberant-ctags i
 # bmon - bandwidth monitor
 # slurm - network load monitor
 
-
+source ~/.scripts/install/install_cht.sh
 
 

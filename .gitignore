@@ -17,6 +17,7 @@
 !.config/scripts
 !.config/zsh
 .config/zsh/local_aliases.zsh
+.config/zsh/aliases.zsh.shadow
 .config/zsh/prompt.zsh
 .config/zsh/config.zsh
 !.config/nvim
@@ -43,6 +44,8 @@
 # And this files
 !.gitmodules
 !.config/nvim/init.vim
+!.taskrc
+!.taskrc.device##*
 !.tmux.conf
 !.tmux.minimal.conf
 !.tigrc
@@ -68,3 +71,4 @@
 /vimwiki/Work notes.wiki
 /vimwiki/Courses.wiki
 /vimwiki/IEC101.wiki
+/vimwiki/Kali.wiki
