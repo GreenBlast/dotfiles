@@ -1,0 +1,26 @@
+= Raspi nginx config =
+
+In file:
+sudo vim /usr/local/nginx/conf/nginx.conf
+
+insert:
+rtmp {
+        server {
+                listen 1935;
+                #chunk_size 128;
+                chunk_size 4094;
+
+                application live {
+                        live on;
+                        # This works but is somewhat buggy
+                        # exec_push omxplayer -g -o hdmi -r --live rtmp://localhost:1935/live;
+                        #record_path /tmp/stream;
+                        record off;
+                        # This publishes the stream local, use omxmplayer -g -o hdmi -r --live rtmp://localhost:1935/live
+                        push rtmp://localhost:1935/live;
+                }
+        }
+}
+
+omxplayer command:
+omxplayer -g  -o hdmi -r --live rtmp://localhost:1935/live
