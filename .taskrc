@@ -62,4 +62,3 @@ include ~/.taskrc.shadow
 # Include device specific settings
 include ~/.taskrc.device
 
-context=daily
