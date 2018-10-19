@@ -4,5 +4,5 @@ vimwiki/Kali.wiki
 external-configs.tar.gz
 .taskrc.shadow
 .warprc##WorkDev
-~/.config/zsh/aliases.zsh.shadow
+.config/zsh/aliases.zsh.shadow
 
