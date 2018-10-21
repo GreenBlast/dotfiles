@@ -4,6 +4,7 @@
 * [[Work notes]]
 * [[Code snippets]]
 * [[Command snippets]]
+* [[Backup]]
 
 == Knowledge ==
 * [[Linux]]
