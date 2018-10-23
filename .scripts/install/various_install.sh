@@ -22,8 +22,9 @@ fi
 # scrot - Command line screen capture utility
 # taskwarrior - Task management
 # libxml2-utils - xmllint
+# HTTPie - a CLI, cURL-like tool for humans. <http://httpie.org>
 
-$RUN_AS_ROOT apt-get -y install htop vim tig ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot taskwarrior libxml2-utils
+$RUN_AS_ROOT apt-get -y install htop vim tig ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot taskwarrior libxml2-utils httpie
 
 # Add maybe later:
 # bmon - bandwidth monitor
