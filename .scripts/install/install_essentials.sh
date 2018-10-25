@@ -26,6 +26,9 @@ $RUN_AS_ROOT apt-get -y install zsh tmux python-dev python-pip python3-dev pytho
 echo "Install fzf"
 source ~/.fzf/install  --key-bindings --completion --no-update-rc
 
+echo "Install marker"
+~/.marker/install.py
+
 echo "Install vim plug"
 curl -fLo ~/.config/nvim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 
