@@ -150,3 +150,7 @@ export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" 
 
 # Tmuxinator auto completion
 # source $HOME/.bin/
+
+# Integrate Marker 
+[[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
+
