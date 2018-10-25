@@ -152,7 +152,7 @@ export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" 
 # source $HOME/.bin/
 
 # Integrate Marker
-export MARKER_KEY_MARK="\C-i"
+export MARKER_KEY_MARK="\C-b"
 export MARKER_KEY_NEXT_PLACEHOLDER="\C-s"
 [[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
 
