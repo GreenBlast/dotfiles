@@ -30,6 +30,9 @@ data.location=~/.task
 #include /usr/share/taskwarrior/no-color.theme
 
 
+# Make searches case insensitive, personal preference
+search.case.sensitive=no
+
 # Added "in" report section
 report.in.columns           = id,project,recur,due,description
 report.in.description       = Inbox
