@@ -1,5 +1,5 @@
 task context none##Setting task context to none
 sudo adb kill-server;sudo adb start-server;adb shell settings put global op_voice_recording_supported_by_mcc 1##Setting recordings for phone
 t {{Additional data like project and tags}} +PENDING mod reviewed:$(date +%s)##Setting reviewed date
-python3 -S -c "import random;random.randint(29,60)"##Randint for days
+python3 -S -c "import random;print(random.randint(29,60))"##Randint for days
 task {{Number}} mod wait:+{{WaitTill}}##Task wait
