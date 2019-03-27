@@ -3,3 +3,5 @@ sudo adb kill-server;sudo adb start-server;adb shell settings put global op_voic
 t {{Additional data like project and tags}} +PENDING mod reviewed:$(date +%s)##Setting reviewed date
 python3 -S -c "import random;print(random.randint(29,60))"##Randint for days
 task {{Number}} mod wait:+{{WaitTill}}##Task wait
+yadm gitconfig user.name "GreenBlast"##yadm git config user name
+yadm gitconfig user.email "greenfighter@gmail.com"##yadm git config email
