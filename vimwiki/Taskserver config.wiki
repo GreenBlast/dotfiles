@@ -1,0 +1,9 @@
+/var/lib/taskd
+export TASKDDATA=/var/lib/taskd
+taskd config --force server.key $TASKDDATA/pki/Greenblast.key.pem
+taskd config --force server.cert $TASKDDATA/pki/Greenblast.cert.pem
+taskd config --force ca.cert $TASKDDATA/pki/ca.cert.pem
+taskd config --force log $TASKDDATA/taskd.log
+sudo systemctl start taskd
+sudo systemctl enable taskd
+

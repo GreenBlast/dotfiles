@@ -1,5 +1,7 @@
 = Raspi tips =
 * [[Backup raspi config]]
+* [[Taskserver config]]
+
 == Watch dog ==
 
 #* Deprecated *#
