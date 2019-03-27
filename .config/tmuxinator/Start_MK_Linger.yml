@@ -51,4 +51,6 @@ windows:
       panes:
         - Xvfb :99 -ac
         - cd ~/mortalkombatbot && source bin/activate && export DISPLAY=:99 && python main.py ../mortalkombatbotconfig/MortalKombatBot.config
-  - Linger: cd ~/Linger && python Linger.py
+    # - cd ~/mortalkombatbot && export DISPLAY=:99 && pipenv run python main.py ../mortalkombatbotconfig/MortalKombatBot.config
+  - Linger: cd ~/Projects/Linger && pipenv run python Linger.py ~/Projects/LingerConfigs/Raspi.config
+  - Duoprotect: export DISPLAY=:99 && /home/pi/Projects/duoprotect/bin/python3 /home/pi/Projects/duoprotect/main.py /home/pi/Projects/duoprotect/RaspiConfig.json
