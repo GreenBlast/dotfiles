@@ -58,6 +58,13 @@
 !pylintrc
 !README.md
 !.config/compton.conf
+!.local
+.local/*
+!.local/share
+.local/share/*
+!.local/share/marker
+.local/share/marker/*
+!.local/share/marker/user_commands.txt
 
 # Do ignore this subdirectories
 .yadm/repo.git

@@ -80,6 +80,8 @@ alias in='task add +in'
 alias tin='task in'
 alias ts='task sync'
 alias tsg='cd ~/.task;task sync;gp;popd'
+alias tsu='task summary'
+alias tsus='task summary | sort -r -k 4,4'
 
 tickle () {
     deadline=$1
