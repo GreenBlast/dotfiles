@@ -5,3 +5,5 @@ python3 -S -c "import random;print(random.randint(29,60))"##Randint for days
 task {{Number}} mod wait:+{{WaitTill}}##Task wait
 yadm gitconfig user.name "GreenBlast"##yadm git config user name
 yadm gitconfig user.email "greenfighter@gmail.com"##yadm git config email
+yadm submodule update --recursive --init##yadm submodule update ysuri
+vim ~/.local/share/marker/user_commands.txt##edit marker file
