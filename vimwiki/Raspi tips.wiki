@@ -173,6 +173,7 @@ sudo kill -9 812
 
 Classic forkbomb test, run:
 
+swapoff -a
 : (){ :|:& };:
 
 To test will raspberry reset if reboot process fails, run:
