@@ -2,3 +2,6 @@
     default = simple
 [core]
     editor = vim
+[user]
+	email = greenfighter@gmail.com
+	name = GreenBlast

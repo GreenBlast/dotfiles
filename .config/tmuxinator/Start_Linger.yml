@@ -1,6 +1,6 @@
-# ~/.tmuxinator/Start_MK_Linger.yml
+# /home/pi/.config/tmuxinator/Start_Linger.yml
 
-name: Start_MK_Linger
+name: Start_Linger
 root: ~/
 
 # Optional tmux socket
@@ -40,17 +40,8 @@ tmux_options: -f ~/.tmux.minimal.conf
 # attach: false
 
 # Runs after everything. Use it to attach to tmux with custom options etc.
-# post: tmux -CC attach -t Start_MK_Linger
+# post: tmux -CC attach -t Start_Linger
 
 windows:
-  - MortalKombat:
-      layout: main-horizontal
-      # Synchronize all panes of this window, can be enabled before or after the pane commands run.
-      # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
-      # synchronize: after
-      panes:
-        - Xvfb :99 -ac
-        - cd ~/mortalkombatbot && source bin/activate && export DISPLAY=:99 && python main.py ../mortalkombatbotconfig/MortalKombatBot.config
-    # - cd ~/mortalkombatbot && export DISPLAY=:99 && pipenv run python main.py ../mortalkombatbotconfig/MortalKombatBot.config
   - Linger: cd ~/Projects/Linger && pipenv run python Linger.py ~/Projects/LingerConfigs/Raspi.config
-  - Duoprotect: export DISPLAY=:99 && /home/pi/Projects/duoprotect/bin/python3 /home/pi/Projects/duoprotect/main.py /home/pi/Projects/duoprotect/RaspiConfig.json
+
