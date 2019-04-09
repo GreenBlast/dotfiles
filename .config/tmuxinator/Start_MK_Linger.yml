@@ -43,14 +43,21 @@ tmux_options: -f ~/.tmux.minimal.conf
 # post: tmux -CC attach -t Start_MK_Linger
 
 windows:
-  - MortalKombat:
+  # - MortalKombat:
+  #     layout: main-horizontal
+  #     # Synchronize all panes of this window, can be enabled before or after the pane commands run.
+  #     # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
+  #     # synchronize: after
+  #     panes:
+  #       - Xvfb :99 -ac
+  #       - cd ~/mortalkombatbot && source bin/activate && export DISPLAY=:99 && python main.py ../mortalkombatbotconfig/MortalKombatBot.config
+    # - cd ~/mortalkombatbot && export DISPLAY=:99 && pipenv run python main.py ../mortalkombatbotconfig/MortalKombatBot.config
+  - Linger: cd ~/Projects/Linger && pipenv run python Linger.py ~/Projects/LingerConfigs/Raspi.config
+  - Duoprotect: 
       layout: main-horizontal
       # Synchronize all panes of this window, can be enabled before or after the pane commands run.
       # 'before' represents legacy functionality and will be deprecated in a future release, in favour of 'after'
       # synchronize: after
       panes:
         - Xvfb :99 -ac
-        - cd ~/mortalkombatbot && source bin/activate && export DISPLAY=:99 && python main.py ../mortalkombatbotconfig/MortalKombatBot.config
-    # - cd ~/mortalkombatbot && export DISPLAY=:99 && pipenv run python main.py ../mortalkombatbotconfig/MortalKombatBot.config
-  - Linger: cd ~/Projects/Linger && pipenv run python Linger.py ~/Projects/LingerConfigs/Raspi.config
-  - Duoprotect: export DISPLAY=:99 && /home/pi/Projects/duoprotect/bin/python3 /home/pi/Projects/duoprotect/main.py /home/pi/Projects/duoprotect/RaspiConfig.json
+        - export DISPLAY=:99 && cd ~/Projects/Duoprotect && pipenv run python main.py RaspiConfig.json
