@@ -1,1 +1,5 @@
-    brew install zsh tmux python python3 the_silver_searcher
+brew install zsh tmux python python3 the_silver_searcher
+
+
+
+source ~/.fzf/install  --key-bindings --completion --no-update-rc
