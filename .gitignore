@@ -33,6 +33,7 @@
 !.fzf
 !.oh-my-zsh
 !.scripts
+.scripts/install/install_essentials.sh
 .scripts/encrypt
 !.spaceship-zsh-theme
 !.tmux/plugins/tpm
