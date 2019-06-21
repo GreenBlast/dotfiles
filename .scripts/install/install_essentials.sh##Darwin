@@ -1,5 +1,9 @@
 brew install zsh tmux python python3 the_silver_searcher
 
+echo "Install fzf"
+~/.fzf/install  --key-bindings --completion --no-update-rc
 
 
-source ~/.fzf/install  --key-bindings --completion --no-update-rc
+echo "Install marker"
+~/.marker/install.py
+
