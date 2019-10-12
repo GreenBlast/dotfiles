@@ -77,7 +77,7 @@ alias v="vim -p"
 # Settings alias for task
 alias t='task'
 alias in='task add +in'
-alias tin='task in'
+alias tin='task +in'
 alias ts='task sync'
 alias tsg='cd ~/.task;task sync;gp;popd'
 alias tsu='task summary'
