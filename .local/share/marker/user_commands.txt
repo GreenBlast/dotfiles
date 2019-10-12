@@ -9,3 +9,5 @@ yadm submodule update --recursive --init##yadm submodule update ysuri
 vim ~/.local/share/marker/user_commands.txt##edit marker file
 for ip in {{X.X.X. Subnet to fill in}}{1..254}; do echo "doing $ip" ; ping -c 1 -W 1 $ip > /dev/null && echo "success" $ip "$(nslookup $ip | grep 'name = ' | awk -F ' = ' '{print $2}')"; done##Ping sweep in a given subnet - Linux
 for ip in {{X.X.X. Subnet to fill in}}{1..254}; do echo "doing $ip" ; ping -c 1 -t 1 $ip > /dev/null && echo "success" $ip "$(nslookup $ip | grep 'name = ' | awk -F ' = ' '{print $2}')"; done##Ping sweep in a given subnet - MacOS
+/usr/libexec/PlistBuddy -c 'Add :LSUIElement bool true' /Applications/{{AppName}}.app/Contents/Info.plist##Hide application from dock - MacOS
+/usr/libexec/PlistBuddy -c 'Delete :LSUIElement' /Applications/{{AppName}}.app/Contents/Info.plist##Show application on dock - MacOS
