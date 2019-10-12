@@ -7,3 +7,5 @@ yadm gitconfig user.name "GreenBlast"##yadm git config user name
 yadm gitconfig user.email "greenfighter@gmail.com"##yadm git config email
 yadm submodule update --recursive --init##yadm submodule update ysuri
 vim ~/.local/share/marker/user_commands.txt##edit marker file
+for ip in {{X.X.X. Subnet to fill in}}{1..254}; do echo "doing $ip" ; ping -c 1 -W 1 $ip > /dev/null && echo "success" $ip "$(nslookup $ip | grep 'name = ' | awk -F ' = ' '{print $2}')"; done##Ping sweep in a given subnet - Linux
+for ip in {{X.X.X. Subnet to fill in}}{1..254}; do echo "doing $ip" ; ping -c 1 -t 1 $ip > /dev/null && echo "success" $ip "$(nslookup $ip | grep 'name = ' | awk -F ' = ' '{print $2}')"; done##Ping sweep in a given subnet - MacOS
