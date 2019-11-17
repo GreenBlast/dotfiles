@@ -92,7 +92,7 @@ alias tick=tickle
 
 alias think='tickle +1d'
 
-alias nex='task +next -someday'
+alias nex='task +next'
 alias som='task +someday'
 alias tcod='task context daily'
 alias tcor='task context reg'
