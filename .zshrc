@@ -173,3 +173,12 @@ export MARKER_KEY_NEXT_PLACEHOLDER="\C-s"
 
 
 export JIRA_DEFAULT_ACTION=dashboard
+
+# export PATH=$HOME/Library/Python/3.7/bin:$PATH
+
+# export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+
+export GEM_HOME="$HOME/.gem"
