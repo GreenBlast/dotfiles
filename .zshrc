@@ -7,6 +7,11 @@ source $HOME/.config/zsh/config.zsh
 # Adding ~/.local/bin to path
 export PATH=$HOME/.local/bin:$PATH
 
+# Adding custom npm path
+export PATH=~/.npm-global/bin:$PATH
+
+
+
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
@@ -177,3 +182,6 @@ export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 
 export GEM_HOME="$HOME/.gem"
+
+
+export JIRA_URL="https://stepsme.atlassian.net/"
