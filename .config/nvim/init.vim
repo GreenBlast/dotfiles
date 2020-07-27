@@ -200,6 +200,7 @@ Plug 'michalbachowski/vim-wombat256mod'
 Plug 'joshdick/onedark.vim'
 Plug 'https://github.com/ninja/sky'
 Plug 'freeo/vim-kalisi'
+Plug 'TheLocehiliosan/vim-byrne'
 
 " ====================================================================
 " Visuals

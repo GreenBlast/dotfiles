@@ -1,0 +1,16 @@
+task context none##Setting task context to none
+sudo adb kill-server;sudo adb start-server;adb shell settings put global op_voice_recording_supported_by_mcc 1##Setting recordings for phone
+t {{Additional data like project and tags}} +PENDING mod reviewed:$(date +%s)##Setting reviewed date
+python3 -S -c "import random;print(random.randint(29,60))"##Randint for days
+task {{Number}} mod wait:+{{WaitTill}}##Task wait
+yadm gitconfig user.name "GreenBlast"##yadm git config user name
+yadm gitconfig user.email "greenfighter@gmail.com"##yadm git config email
+yadm submodule update --recursive --init##yadm submodule update ysuri
+vim ~/.local/share/marker/user_commands.txt##edit marker file
+for ip in {{X.X.X. Subnet to fill in}}{1..254}; do echo "doing $ip" ; ping -c 1 -W 1 $ip > /dev/null && echo "success" $ip "$(nslookup $ip | grep 'name = ' | awk -F ' = ' '{print $2}')"; done##Ping sweep in a given subnet - Linux
+for ip in {{X.X.X. Subnet to fill in}}{1..254}; do echo "doing $ip" ; ping -c 1 -t 1 $ip > /dev/null && echo "success" $ip "$(nslookup $ip | grep 'name = ' | awk -F ' = ' '{print $2}')"; done##Ping sweep in a given subnet - MacOS
+/usr/libexec/PlistBuddy -c 'Add :LSUIElement bool true' /Applications/{{AppName}}.app/Contents/Info.plist##Hide application from dock - MacOS
+/usr/libexec/PlistBuddy -c 'Delete :LSUIElement' /Applications/{{AppName}}.app/Contents/Info.plist##Show application on dock - MacOS
+defaults write com.apple.finder QuitMenuItem -bool true##Add quit menu item to macbook
+tar caf ~/backup/task-$(date -u +"%Y-%m-%d-%H-%M-%SZ").tar.gz ~/.task/*##Backing up taskwarrior locally
+""

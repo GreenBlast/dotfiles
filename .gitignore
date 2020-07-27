@@ -17,6 +17,7 @@
 !.config/scripts
 !.config/zsh
 .config/zsh/local_aliases.zsh
+.config/zsh/aliases.zsh.shadow
 .config/zsh/prompt.zsh
 .config/zsh/config.zsh
 !.config/nvim
@@ -32,6 +33,7 @@
 !.fzf
 !.oh-my-zsh
 !.scripts
+.scripts/encrypt
 !.spaceship-zsh-theme
 !.taskrc
 !.tmux/plugins/tpm
@@ -44,10 +46,13 @@
 # And this files
 !.gitmodules
 !.config/nvim/init.vim
+!.taskrc
+!.taskrc.device##*
 !.tmux.conf
 !.tmux.minimal.conf
 !.tigrc
 !.warprc##*
+.warprc##WorkDev
 !.Xdefaults
 !.Xresources
 !.zshrc
@@ -55,6 +60,13 @@
 !pylintrc
 !README.md
 !.config/compton.conf
+!.local
+.local/*
+!.local/share
+.local/share/*
+!.local/share/marker
+.local/share/marker/*
+!.local/share/marker/user_commands.txt
 
 # Do ignore this subdirectories
 .yadm/repo.git
@@ -68,3 +80,4 @@
 /vimwiki/Work notes.wiki
 /vimwiki/Courses.wiki
 /vimwiki/IEC101.wiki
+/vimwiki/Kali.wiki

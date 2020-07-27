@@ -109,6 +109,15 @@ git remote add origin [repo_address]
 git push --mirror --force
 }}}
 
+== Git selective merge ==
+
+{{{bash
+git fetch origin master:master
+git merge --no-commit --no-ff master
+git reset HEAD
+git add --interactive
+}}}
+
 
 
 == Mount cifs ==

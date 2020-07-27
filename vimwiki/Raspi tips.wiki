@@ -1,5 +1,7 @@
 = Raspi tips =
 * [[Backup raspi config]]
+* [[Taskserver config]]
+
 == Watch dog ==
 
 #* Deprecated *#
@@ -171,6 +173,7 @@ sudo kill -9 812
 
 Classic forkbomb test, run:
 
+swapoff -a
 : (){ :|:& };:
 
 To test will raspberry reset if reboot process fails, run:
@@ -179,3 +182,5 @@ sudo poweroff - with this one I've had some problems
 
 Raspberry should reboot after cca 15s.
 
+== Raspi nginx config ==
+[[Raspi nginx config]]
