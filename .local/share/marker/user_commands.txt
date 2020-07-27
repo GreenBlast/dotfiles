@@ -11,3 +11,6 @@ for ip in {{X.X.X. Subnet to fill in}}{1..254}; do echo "doing $ip" ; ping -c 1 
 for ip in {{X.X.X. Subnet to fill in}}{1..254}; do echo "doing $ip" ; ping -c 1 -t 1 $ip > /dev/null && echo "success" $ip "$(nslookup $ip | grep 'name = ' | awk -F ' = ' '{print $2}')"; done##Ping sweep in a given subnet - MacOS
 /usr/libexec/PlistBuddy -c 'Add :LSUIElement bool true' /Applications/{{AppName}}.app/Contents/Info.plist##Hide application from dock - MacOS
 /usr/libexec/PlistBuddy -c 'Delete :LSUIElement' /Applications/{{AppName}}.app/Contents/Info.plist##Show application on dock - MacOS
+defaults write com.apple.finder QuitMenuItem -bool true##Add quit menu item to macbook
+tar caf ~/backup/task-$(date -u +"%Y-%m-%d-%H-%M-%SZ").tar.gz ~/.task/*##Backing up taskwarrior locally
+""

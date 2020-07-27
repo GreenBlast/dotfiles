@@ -103,5 +103,5 @@ alias tcon='task context nofar'
 
 # Setting local aliases
 source $HOME/.config/zsh/local_aliases.zsh
-source $HOME/.config/zsh/aliases.zsh.shadow
+# source $HOME/.config/zsh/aliases.zsh.shadow
 
