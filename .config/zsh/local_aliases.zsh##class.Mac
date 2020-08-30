@@ -1,0 +1,2 @@
+
+alias gpall='gp; git push origin2;gp --tags;gp --tags origin2'
