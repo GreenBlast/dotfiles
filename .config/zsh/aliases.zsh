@@ -100,6 +100,12 @@ alias tcow='task context warframe'
 # Nofar is supposed to be almost as no context but without farday tags
 alias tcon='task context nofar'
 
+# Circle ci configs
+alias cicv='cd "$(git rev-parse --show-toplevel)"&&circleci config validate;popd'
+#alias cicl='cd "$(git rev-parse --show-toplevel)"&&circleci config process .circleci/config.yml > process.yml&&circleci local execute -c process.yml;popd'
+function cicl() {
+    cd "$(git rev-parse --show-toplevel)"&&circleci config process .circleci/config.yml > process.yml&&circleci local execute -c process.yml --job $1;popd
+}
 
 # Setting local aliases
 source $HOME/.config/zsh/local_aliases.zsh
