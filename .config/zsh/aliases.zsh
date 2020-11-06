@@ -111,3 +111,6 @@ function cicl() {
 source $HOME/.config/zsh/local_aliases.zsh
 # source $HOME/.config/zsh/aliases.zsh.shadow
 
+
+# Pocket cli add
+alias pa=' pocket-cli add --url'
