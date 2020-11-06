@@ -26,6 +26,8 @@ fi
 # jq - commandline JSON processor
 
 $RUN_AS_ROOT apt-get -y install htop vim tig ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot taskwarrior libxml2-utils httpie jq
+#duf is a disk usage/free utility
+#brew tap muesli/tap && brew install duf
 
 # Add maybe later:
 # bmon - bandwidth monitor
