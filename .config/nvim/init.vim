@@ -804,6 +804,9 @@ augroup END
     autocmd BufWritePre *.config :%s/\s\+$//e
     autocmd BufWritePre *.wiki :%s/\s\+$//e
     autocmd BufWritePre *.zsh :%s/\s\+$//e
+    autocmd BufWritePre *.js :%s/\s\+$//e
+    autocmd BufWritePre *.ts :%s/\s\+$//e
+    autocmd BufWritePre *.yml :%s/\s\+$//e
 " }}}
 
 " This block sets tmux activity to off, since for some reason NeoVim causes an
