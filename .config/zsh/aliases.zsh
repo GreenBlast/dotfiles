@@ -15,6 +15,8 @@ alias ydfs='yadm difftool --staged'
 alias ysuri='yadm submodule update --recursive --init'
 alias gdf='git difftool'
 alias gdfs='git difftool --staged'
+alias gcod='git checkout .'
+alias gmd='git merge develop'
 
 # Reload zsh config
 alias reload!='RELOAD=1 source ~/.zshrc'
