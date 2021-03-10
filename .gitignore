@@ -59,6 +59,7 @@
 !LICENSE
 !pylintrc
 !README.md
+!.ideavimrc
 !.config/compton.conf
 !.local
 .local/*
