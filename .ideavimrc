@@ -1,0 +1,12 @@
+inoremap jk <Esc>
+
+set relativenumber
+set number
+
+set clipboard+=unnamed
+
+set showmode
+
+set ignorecase
+
+set incsearch
