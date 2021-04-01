@@ -25,8 +25,9 @@ fi
 # HTTPie - a CLI, cURL-like tool for humans. <http://httpie.org>
 # jq - commandline JSON processor
 # bat - Enhanced cat
+# fd - Enhanced find
 
-$RUN_AS_ROOT apt-get -y install htop vim tig ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot taskwarrior libxml2-utils httpie jq bat
+$RUN_AS_ROOT apt-get -y install htop vim tig ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot taskwarrior libxml2-utils httpie jq bat fd
 #duf is a disk usage/free utility
 #brew tap muesli/tap && brew install duf
 
