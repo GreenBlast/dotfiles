@@ -142,8 +142,13 @@ source $HOME/.config/zsh/prompt.zsh
 # Sourcing keybindings
 source $HOME/.config/zsh/keybindings.zsh
 
+
+
 # Fzf is a fuzzy searcher written in go
 export FZF_DEFAULT_COMMAND='ag -U --hidden --ignore .git -g ""'
+
+# Setting binds to scroll preview
+export FZF_DEFAULT_OPTS='--bind ctrl-f:preview-page-down,ctrl-b:preview-page-up'
 
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
