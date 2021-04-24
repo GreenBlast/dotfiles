@@ -15,6 +15,8 @@ alias ydfs='yadm difftool --staged'
 alias ysuri='yadm submodule update --recursive --init'
 alias gdf='git difftool'
 alias gdfs='git difftool --staged'
+alias gcod='git checkout .'
+alias gmd='git merge develop'
 
 # Reload zsh config
 alias reload!='RELOAD=1 source ~/.zshrc'
@@ -100,8 +102,35 @@ alias tcow='task context warframe'
 # Nofar is supposed to be almost as no context but without farday tags
 alias tcon='task context nofar'
 
+# Circle ci configs
+alias cicv='cd "$(git rev-parse --show-toplevel)"&&circleci config validate;popd'
+#alias cicl='cd "$(git rev-parse --show-toplevel)"&&circleci config process .circleci/config.yml > process.yml&&circleci local execute -c process.yml;popd'
+function cicl() {
+    cd "$(git rev-parse --show-toplevel)"&&circleci config process .circleci/config.yml > process.yml&&circleci local execute -c process.yml --job $1;popd
+}
+
+unalias gd
+preview="git diff $@ --color=always -- {-1}"
+if command -v bat &> /dev/null; then
+    preview="bat {-1} --diff --color=always"
+fi
+
+if command -v fzf &> /dev/null; then
+    gd () {
+        root=$(git rev-parse --show-toplevel)
+        if [ -n "$root" ]; then
+            pushd "$root"
+            git diff $@ --name-only | fzf -m --ansi --preview $preview
+            popd
+        fi
+    }
+fi
+
 
 # Setting local aliases
 source $HOME/.config/zsh/local_aliases.zsh
 # source $HOME/.config/zsh/aliases.zsh.shadow
 
+
+# Pocket cli add
+alias pa=' pocket-cli add --url'
