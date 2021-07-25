@@ -5,7 +5,7 @@
 FILE=$1
 MESSAGE=$(cat $FILE)
 CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
-TICKET=$(echo $CURRENT_BRANCH | grep -Eo '^(\w+/)?(\w+[-_])?[0-9]+' | grep -Eo '(\w+[-])?[0-9]+' | tr "[:lower:]" "[:upper:]")
+TICKET=$(echo $CURRENT_BRANCH | grep -Eov '^release'| grep -Eo '^(\w+/)?(\w+[-_])?[0-9]+' | grep -Eo '(\w+[-])?[0-9]+' | tr "[:lower:]" "[:upper:]")
 # Preventing changes in a already existing ticket or non existing ticket (ammend, not a suitable name, etc)
 if [[ $TICKET == "" || "$MESSAGE" == "$TICKET"* ]];then
   exit 0;

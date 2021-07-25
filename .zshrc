@@ -195,3 +195,4 @@ export GEM_HOME="$HOME/.gem"
 
 
 export JIRA_URL="https://stepsme.atlassian.net/"
+export PATH="/Users/user/git-fuzzy/bin:$PATH"

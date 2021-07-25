@@ -12,3 +12,14 @@ set ignorecase
 set incsearch
 
 set surround
+
+" enable visual replace while preserving yank
+vnoremap p "_dP
+
+" use idea to join lines smartly
+set ideajoin
+
+
+" unite IDE's navigation history with VIM's
+nnoremap <C-o> :action Back<CR>
+nnoremap <C-i> :action Forward<CR>
