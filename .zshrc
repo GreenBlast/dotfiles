@@ -184,7 +184,7 @@ export MARKER_KEY_NEXT_PLACEHOLDER="\C-s"
 
 export JIRA_DEFAULT_ACTION=dashboard
 
-# export PATH=$HOME/Library/Python/3.7/bin:$PATH
+# export PATH=$HOME/Library/Python/3.9/bin:$PATH
 
 # export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
@@ -196,3 +196,11 @@ export GEM_HOME="$HOME/.gem"
 
 export JIRA_URL="https://stepsme.atlassian.net/"
 export PATH="/Users/user/git-fuzzy/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+
+
+export PATH="/usr/local/opt/mongodb-community@4.2/bin:$PATH"
