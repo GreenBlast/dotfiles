@@ -100,7 +100,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Nvim path should be set in config file
-if [ -f $NVIM_PATH ]; then
+    if [ -f $NVIM_PATH ]; then
     alias vim=${NVIM_PATH}
     export GIT_EDITOR=${NVIM_PATH}
     # Exporting editor
@@ -163,6 +163,11 @@ export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" 
 
 # Integrate Marker
 export MARKER_KEY_MARK="\C-b"
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export MARKER_KEY_GET=" "
+fi
+
 export MARKER_KEY_NEXT_PLACEHOLDER="\C-s"
 [[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
 
@@ -179,7 +184,6 @@ export MARKER_KEY_NEXT_PLACEHOLDER="\C-s"
 
 export JIRA_DEFAULT_ACTION=dashboard
 
-# export PATH=$HOME/Library/Python/3.9/bin:$PATH
 
 # export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
@@ -198,4 +202,7 @@ export NVM_DIR="$HOME/.nvm"
 
 
 
-export PATH="/usr/local/opt/mongodb-community@4.2/bin:$PATH"
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export PATH=$HOME/Library/Python/3.9/bin:$PATH
+    export PATH="/usr/local/opt/mongodb-community@4.2/bin:$PATH"
+fi
