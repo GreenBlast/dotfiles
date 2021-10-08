@@ -35,6 +35,7 @@
 !.scripts
 .scripts/install/install_essentials.sh
 .scripts/encrypt
+.scripts/install/various_install.sh
 !.spaceship-zsh-theme
 !.tmux/plugins/tpm
 !.unison
