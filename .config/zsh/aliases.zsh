@@ -127,6 +127,16 @@ if command -v fzf &> /dev/null; then
 fi
 
 
+
+function gcmd() {
+    git checkout develop
+    git pull
+    git checkout $1
+    git pull
+    git merge develop
+}
+
+
 # Setting local aliases
 source $HOME/.config/zsh/local_aliases.zsh
 # source $HOME/.config/zsh/aliases.zsh.shadow
