@@ -27,13 +27,20 @@
 # bat - Enhanced cat
 # fd - Enhanced find
 
-brew install htop vim tig ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot taskwarrior libxml2-utils httpie jq bat fd
+brew install htop vim tig ncdu ipython xclip xsel ranger task httpie jq bat fd
+
+
+
 #duf is a disk usage/free utility
-#brew tap muesli/tap && brew install duf
+brew tap muesli/tap && brew install duf
 
 # Add maybe later:
 # bmon - bandwidth monitor
 # slurm - network load monitor
+
+# hack fonts with dev icons
+brew tap homebrew/cask-fonts
+brew install --cask font-hack-nerd-font
 
 source ~/.scripts/install/install_cht.sh
 
