@@ -208,3 +208,9 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     export PATH=$HOME/Library/Python/3.9/bin:$PATH
     export PATH="/usr/local/opt/mongodb-community@4.2/bin:$PATH"
 fi
+
+# Git fuzzy configuration
+export PATH="$HOME/git-fuzzy/bin:$PATH"
+
+export GF_SNAPSHOT_DIRECTORY='./git-fuzzy-snapshots'
+
