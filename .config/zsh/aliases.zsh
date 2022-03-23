@@ -84,6 +84,7 @@ alias ts='task sync'
 alias tsg='cd ~/.task;task sync;gp;popd'
 alias tsu='task summary'
 alias tsus='task summary | sort -r -k 4,4'
+alias toldaily='task +PENDING +@daily -@dafyomi due.before:-1h desc.hasnt:Issue desc.hasnt:duolingo +YEAR'
 
 tickle () {
     deadline=$1
