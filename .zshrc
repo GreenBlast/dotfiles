@@ -214,3 +214,7 @@ export PATH="$HOME/git-fuzzy/bin:$PATH"
 
 export GF_SNAPSHOT_DIRECTORY='./git-fuzzy-snapshots'
 
+#source /usr/local/opt/chruby/share/chruby/chruby.sh
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    eval "$(rbenv init -)"
+fi
