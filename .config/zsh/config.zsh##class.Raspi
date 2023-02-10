@@ -1,2 +1,4 @@
+# Setting path
+export PATH=$PATH:/usr/local/bin/
 # Setting nvim path
 NVIM_PATH=/usr/local/bin/nvim
