@@ -145,3 +145,5 @@ source $HOME/.config/zsh/local_aliases.zsh
 
 # Pocket cli add
 alias pa=' pocket-cli add --url'
+alias pat=' pocket-cli add --tags="train reading" --url'
+alias pav=' pocket-cli add --tags="videos" --url'
