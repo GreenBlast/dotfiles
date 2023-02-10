@@ -34,6 +34,7 @@
 !.oh-my-zsh
 !.scripts
 .scripts/encrypt
+.scripts/install/various_install.sh
 !.spaceship-zsh-theme
 !.tmux/plugins/tpm
 !.unison

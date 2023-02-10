@@ -84,6 +84,7 @@ alias ts='task sync'
 alias tsg='cd ~/.task;task sync;gp;popd'
 alias tsu='task summary'
 alias tsus='task summary | sort -r -k 4,4'
+alias toldaily='task +PENDING +@daily -@dafyomi due.before:-1h desc.hasnt:Issue desc.hasnt:duolingo +YEAR'
 
 tickle () {
     deadline=$1
@@ -127,6 +128,16 @@ if command -v fzf &> /dev/null; then
 fi
 
 
+
+function gcmd() {
+    git checkout develop
+    git pull
+    git checkout $1
+    git pull
+    git merge develop
+}
+
+
 # Setting local aliases
 source $HOME/.config/zsh/local_aliases.zsh
 # source $HOME/.config/zsh/aliases.zsh.shadow
@@ -134,3 +145,5 @@ source $HOME/.config/zsh/local_aliases.zsh
 
 # Pocket cli add
 alias pa=' pocket-cli add --url'
+alias pat=' pocket-cli add --tags="train reading" --url'
+alias pav=' pocket-cli add --tags="videos" --url'
