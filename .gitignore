@@ -33,7 +33,6 @@
 !.fzf
 !.oh-my-zsh
 !.scripts
-.scripts/install/install_essentials.sh
 .scripts/encrypt
 .scripts/install/various_install.sh
 !.spaceship-zsh-theme
@@ -83,4 +82,3 @@
 /vimwiki/Courses.wiki
 /vimwiki/IEC101.wiki
 /vimwiki/Kali.wiki
-/vimwiki/SSH Keys.wiki
