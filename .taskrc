@@ -78,9 +78,9 @@ context.warframe.read=+warframe
 context.warframe.write=+warframe
 context.work.read=+@computer or +@phone or +@online
 context.work.write=+@computer +@phone +@online
-context=reg
 
 
 # Don't ask about changing all pending of a recurring task (has yes, no and prompt)
 recurrence.confirmation=no
 
+context=reg
