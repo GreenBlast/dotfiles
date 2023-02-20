@@ -41,3 +41,4 @@ fi
 
 echo "Adding colors to terminal"
 source "$HOME/.scripts/install/add_colors_to_terminal.sh"
+
