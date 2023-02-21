@@ -29,7 +29,7 @@ $RUN_AS_ROOT apt-get -y install silversearcher-ag
 
 
 echo "Install fzf"
-source ~/.fzf/install  --key-bindings --completion --no-update-rc
+~/.fzf/install  --key-bindings --completion --no-update-rc
 
 echo "Install marker"
 ~/.marker/install.py
