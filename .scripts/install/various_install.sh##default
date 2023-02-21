@@ -34,7 +34,7 @@ $RUN_AS_ROOT apt-get -y install ncdu
 $RUN_AS_ROOT apt-get -y install clang
 $RUN_AS_ROOT apt-get -y install iptraf
 $RUN_AS_ROOT apt-get -y install exuberant-ctags
-$RUN_AS_ROOT apt-get -y install ipython
+$RUN_AS_ROOT apt-get -y install ipython3
 $RUN_AS_ROOT apt-get -y install xclip
 $RUN_AS_ROOT apt-get -y install xsel
 $RUN_AS_ROOT apt-get -y install ranger
@@ -46,7 +46,7 @@ $RUN_AS_ROOT apt-get -y install libxml2-utils
 $RUN_AS_ROOT apt-get -y install httpie
 $RUN_AS_ROOT apt-get -y install jq
 $RUN_AS_ROOT apt-get -y install bat
-$RUN_AS_ROOT apt-get -y install fd
+$RUN_AS_ROOT apt-get -y install fd-find
 #duf is a disk usage/free utility
 #brew tap muesli/tap && brew install duf
 
