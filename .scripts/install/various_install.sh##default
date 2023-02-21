@@ -27,7 +27,26 @@ fi
 # bat - Enhanced cat
 # fd - Enhanced find
 
-$RUN_AS_ROOT apt-get -y install htop vim tig ncdu clang iptraf exuberant-ctags ipython xclip xsel ranger arandr lxappearance scrot taskwarrior libxml2-utils httpie jq bat fd
+$RUN_AS_ROOT apt-get -y install htop
+$RUN_AS_ROOT apt-get -y install vim
+$RUN_AS_ROOT apt-get -y install tig
+$RUN_AS_ROOT apt-get -y install ncdu
+$RUN_AS_ROOT apt-get -y install clang
+$RUN_AS_ROOT apt-get -y install iptraf
+$RUN_AS_ROOT apt-get -y install exuberant-ctags
+$RUN_AS_ROOT apt-get -y install ipython
+$RUN_AS_ROOT apt-get -y install xclip
+$RUN_AS_ROOT apt-get -y install xsel
+$RUN_AS_ROOT apt-get -y install ranger
+$RUN_AS_ROOT apt-get -y install arandr
+$RUN_AS_ROOT apt-get -y install lxappearance
+$RUN_AS_ROOT apt-get -y install scrot
+$RUN_AS_ROOT apt-get -y install taskwarrior
+$RUN_AS_ROOT apt-get -y install libxml2-utils
+$RUN_AS_ROOT apt-get -y install httpie
+$RUN_AS_ROOT apt-get -y install jq
+$RUN_AS_ROOT apt-get -y install bat
+$RUN_AS_ROOT apt-get -y install fd
 #duf is a disk usage/free utility
 #brew tap muesli/tap && brew install duf
 
