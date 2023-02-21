@@ -12,7 +12,12 @@ echo "Updating"
 $RUN_AS_ROOT apt-get update
 
 echo "Installing"
-$RUN_AS_ROOT apt-get -y install zsh tmux python-dev python-pip python3-dev python3-pip silversearcher-ag
+$RUN_AS_ROOT apt-get -y install zsh
+$RUN_AS_ROOT apt-get -y install tmux
+$RUN_AS_ROOT apt-get -y install python3-dev
+$RUN_AS_ROOT apt-get -y install python3-pip
+$RUN_AS_ROOT apt-get -y install silversearcher-ag
+
 
 ## Installing neovim
 #$RUN_AS_ROOT add-apt-repository -y ppa:neovim-ppa/stable
