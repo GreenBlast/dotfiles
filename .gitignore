@@ -1,3 +1,4 @@
+# Paths that are not ignored are not ignored specifically so that yadm would not include tham (alt files for example)
 # Ignore everything
 /*
 
@@ -35,6 +36,7 @@
 !.scripts
 .scripts/encrypt
 .scripts/install/various_install.sh
+.scripts/install/install_essentials.sh
 !.spaceship-zsh-theme
 !.tmux/plugins/tpm
 !.unison
