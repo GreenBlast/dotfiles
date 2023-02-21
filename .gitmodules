@@ -19,6 +19,6 @@
 [submodule ".config/bumblebee-status"]
 	path = .config/bumblebee-status
 	url = https://github.com/tobi-wan-kenobi/bumblebee-status
-[submodule "/home/aviad/.marker"]
+[submodule ".marker"]
 	path = .marker
 	url = https://github.com/GreenBlast/marker
