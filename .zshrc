@@ -23,6 +23,8 @@ export ZSH_CUSTOM=$HOME/zsh_custom
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
 #ZSH_THEME="robbyrussell"
 ZSH_THEME="spaceship"
+# Should be used for RaspiZW (Config needs to be automatic but I won't invest in that now)
+# ZSH_THEME="ys"
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -67,6 +69,8 @@ ZSH_THEME="spaceship"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git wd zsh-syntax-highlighting zsh-autosuggestions tmuxinator jira)
+# Should be used for RaspiZW (Config needs to be automatic but I won't invest in that now)
+# plugins=(git wd)
 
 source $ZSH/oh-my-zsh.sh
 
