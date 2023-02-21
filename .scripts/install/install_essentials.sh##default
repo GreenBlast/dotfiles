@@ -20,13 +20,8 @@ $RUN_AS_ROOT apt-get -y install silversearcher-ag
 
 
 ## Installing neovim
-#$RUN_AS_ROOT add-apt-repository -y ppa:neovim-ppa/stable
-#$RUN_AS_ROOT apt-get -y install neovim
-#
-#echo "Pip installing"
-#pip2 install --user neovim
-#pip3 install --user neovim
-
+$RUN_AS_ROOT apt-get -y install neovim
+$RUN_AS_ROOT apt-get -y install python3-neovim
 
 echo "Install fzf"
 ~/.fzf/install  --key-bindings --completion --no-update-rc
