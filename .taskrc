@@ -41,14 +41,9 @@ report.in.filter            = status:pending limit:page (+in)
 
 
 # Adding contexts:
-context.work=+@computer or +@phone or +@online
-context.daily=+@daily
 # someday tag is for tasks not currently in scope
 # notreg is for not seing tasks that are not part of the regular workflow for example, someday is notreg, and also farday
-context.reg=-@daily and -notreg
-context.warframe=+warframe
 # farday are that abandoned tasks that might be used again
-context.nofar=-farday
 
 # Default to off in newer taskwarrior versions, sets sync method
 json.depends.array=off
@@ -67,5 +62,25 @@ include ~/.taskrc.shadow
 # Include device specific settings
 include ~/.taskrc.device
 
-context=reg
 journal.info=off
+
+news.version=2.6.0
+
+context.daily.read=+@daily
+context.daily.write=+@daily
+context.nofar.read=-farday
+context.reg.read=-@daily and -notreg
+context.steps.read=+steps
+context.steps.write=+steps
+context.stepsmine.read=+steps and -ceo
+context.stepsmine.write=+steps
+context.warframe.read=+warframe
+context.warframe.write=+warframe
+context.work.read=+@computer or +@phone or +@online
+context.work.write=+@computer +@phone +@online
+
+
+# Don't ask about changing all pending of a recurring task (has yes, no and prompt)
+recurrence.confirmation=no
+
+context=reg

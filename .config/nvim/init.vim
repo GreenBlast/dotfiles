@@ -258,9 +258,9 @@ Plug 'honza/vim-snippets'
 Plug 'Shougo/deoplete.nvim'
 " {{{
     let g:deoplete#enable_at_startup = 1
-    if !exists('g:deoplete#omni#input_patterns')
-      let g:deoplete#omni#input_patterns = {}
-    endif
+    " if !exists('g:deoplete#omni#input_patterns')
+    "   let g:deoplete#omni#input_patterns = {}
+    " endif
     " let g:deoplete#disable_auto_complete = 1
 
     " Close on finish completion or exiting insert
@@ -804,6 +804,9 @@ augroup END
     autocmd BufWritePre *.config :%s/\s\+$//e
     autocmd BufWritePre *.wiki :%s/\s\+$//e
     autocmd BufWritePre *.zsh :%s/\s\+$//e
+    autocmd BufWritePre *.js :%s/\s\+$//e
+    autocmd BufWritePre *.ts :%s/\s\+$//e
+    autocmd BufWritePre *.yml :%s/\s\+$//e
 " }}}
 
 " This block sets tmux activity to off, since for some reason NeoVim causes an

@@ -34,6 +34,7 @@
 !.oh-my-zsh
 !.scripts
 .scripts/encrypt
+.scripts/install/various_install.sh
 !.spaceship-zsh-theme
 !.taskrc
 !.tmux/plugins/tpm
@@ -59,6 +60,7 @@
 !LICENSE
 !pylintrc
 !README.md
+!.ideavimrc
 !.config/compton.conf
 !.local
 .local/*

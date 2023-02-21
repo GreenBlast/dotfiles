@@ -1,0 +1,28 @@
+#!/bin/bash
+
+
+#!/bin/bash
+FILE=$1
+MESSAGE=$(cat $FILE)
+CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+TICKET=$(echo $CURRENT_BRANCH | grep -Eov '^release'| grep -Eo '^(\w+/)?(\w+[-_])?[0-9]+' | grep -Eo '(\w+[-])?[0-9]+' | tr "[:lower:]" "[:upper:]")
+# Preventing changes in a already existing ticket or non existing ticket (ammend, not a suitable name, etc)
+if [[ $TICKET == "" || "$MESSAGE" == "$TICKET"* ]];then
+  exit 0;
+fi
+
+echo "$TICKET: $MESSAGE" > $FILE
+
+
+# Old implementation with no verification for ammend
+# # Get the current branch name
+# current_branch=`git rev-parse --abbrev-ref HEAD`
+# # Search Jira ID in a pattern such a "feature/ABCD-123-my-feature"
+# id=$(echo $current_branch | sed -nE 's,[a-z]+/([A-Z]+-[0-9]+)-.+,\1,p')
+
+# # Only prepend if an ID was found in the current branch
+# if [[ ! -z $id ]]; then
+#  # $1 is the name of the file containing the commit message
+#  # Prepend "ABCD-123: "
+#  sed -i.bak -E "1s/^/${id}: /" $1
+# fi

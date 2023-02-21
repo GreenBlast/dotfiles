@@ -100,7 +100,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Nvim path should be set in config file
-if [ -f $NVIM_PATH ]; then
+    if [ -f $NVIM_PATH ]; then
     alias vim=${NVIM_PATH}
     export GIT_EDITOR=${NVIM_PATH}
     # Exporting editor
@@ -121,11 +121,11 @@ if [[ ! "$PATH" == *$HOME/.scripts* ]]; then
 fi
 
 # Setting colors for tmux
-# if [ 'find /lib/terminfo /usr/share/terminfo -name "*256*" | grep xterm-256color' ]; then
-#     export TERM='xterm-256color'
+if [ 'find /lib/terminfo /usr/share/terminfo -name "*256*" | grep xterm-256color' ]; then
+    export TERM='xterm-256color'
 # else
 #     export TERM='xterm-color'
-# fi
+fi
 
 # display how long all tasks over 10 seconds take
 export REPORTTIME=10
@@ -142,8 +142,13 @@ source $HOME/.config/zsh/prompt.zsh
 # Sourcing keybindings
 source $HOME/.config/zsh/keybindings.zsh
 
+
+
 # Fzf is a fuzzy searcher written in go
 export FZF_DEFAULT_COMMAND='ag -U --hidden --ignore .git -g ""'
+
+# Setting binds to scroll preview
+export FZF_DEFAULT_OPTS='--bind ctrl-f:preview-page-down,ctrl-b:preview-page-up'
 
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -158,6 +163,11 @@ export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" 
 
 # Integrate Marker
 export MARKER_KEY_MARK="\C-b"
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export MARKER_KEY_GET=" "
+fi
+
 export MARKER_KEY_NEXT_PLACEHOLDER="\C-s"
 [[ -s "$HOME/.local/share/marker/marker.sh" ]] && source "$HOME/.local/share/marker/marker.sh"
 
@@ -174,7 +184,6 @@ export MARKER_KEY_NEXT_PLACEHOLDER="\C-s"
 
 export JIRA_DEFAULT_ACTION=dashboard
 
-# export PATH=$HOME/Library/Python/3.7/bin:$PATH
 
 # export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 
@@ -185,3 +194,27 @@ export GEM_HOME="$HOME/.gem"
 
 
 export JIRA_URL="https://stepsme.atlassian.net/"
+export PATH="/Users/user/git-fuzzy/bin:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+# Loads nvm only if needed
+alias nvm="unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; nvm $@"
+
+
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    export PATH=$HOME/Library/Python/3.9/bin:$PATH
+    export PATH="/usr/local/opt/mongodb-community@4.2/bin:$PATH"
+fi
+
+# Git fuzzy configuration
+export PATH="$HOME/git-fuzzy/bin:$PATH"
+
+export GF_SNAPSHOT_DIRECTORY='./git-fuzzy-snapshots'
+
+#source /usr/local/opt/chruby/share/chruby/chruby.sh
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    eval "$(rbenv init -)"
+fi

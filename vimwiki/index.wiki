@@ -5,6 +5,7 @@
 * [[Code snippets]]
 * [[Command snippets]]
 * [[Backup]]
+* [[SSH Keys]]
 
 == Knowledge ==
 * [[Linux]]
