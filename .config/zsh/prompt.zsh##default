@@ -84,7 +84,7 @@ spaceship_background_jobs_status() {
 
 
 # Setting right prompt to git
-# RPROMPT='$(spaceship_git)'
+RPROMPT='$(spaceship_git)'
 
 # Setting order of prompt objects, excluding git
 SPACESHIP_PROMPT_ORDER=(
@@ -92,6 +92,20 @@ SPACESHIP_PROMPT_ORDER=(
     user
     host
     dir
+    hg
+    node
+    ruby
+    xcode
+    swift
+    golang
+    php
+    rust
+    julia
+    docker
+    venv
+    pyenv
+    line_sep
+    vi_mode
     background_jobs_status
     char
 )
