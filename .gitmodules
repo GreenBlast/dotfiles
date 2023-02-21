@@ -21,4 +21,4 @@
 	url = https://github.com/tobi-wan-kenobi/bumblebee-status
 [submodule "/home/aviad/.marker"]
 	path = .marker
-	url = https://github.com/pindexis/marker
+	url = https://github.com/GreenBlast/marker
