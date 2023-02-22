@@ -154,7 +154,7 @@ function cof() { git branch | fzf | xargs git checkout; }
 # Add files using FZF "!add_fzf()
 function af() { git status -s | awk '{print $2}' | fzf -m | xargs git add; }
 # Add files using FZF and immediately commit them "!add_fzf_amend()
-function afmend() { git status -s | awk '{print $2}' | fzf -m | xargs git add && git amend; }
+function afmend() { git status -s | awk '{print $2}' | fzf -m | xargs git add && git commit --amend; }
 # Restore files (like removing multiple files from the staging area)  "!restore_fzf()
 function ref()  { git status -s | awk '{print $2}' | fzf -m | xargs git restore --staged; }
 # Delete untracked files using FZF "!delete_untracked()
