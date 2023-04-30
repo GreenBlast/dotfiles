@@ -747,6 +747,18 @@ vmap <Right> >gv
 " Un-highlighting search with \/
 noremap <Leader>/ :nohls<CR>
 
+" Toggle between isk+=- and isk-=+
+function! ToggleDash()
+  if stridx(&iskeyword, '-') != -1
+    set iskeyword-=-
+  else
+    set iskeyword+=-
+  endif
+endfunction
+
+nnoremap <leader>i :call ToggleDash()<CR>
+
+
 " Exiting insert mode with jk
 inoremap jk <Esc><Esc>
 
