@@ -161,3 +161,4 @@ function ref()  { git status -s | awk '{print $2}' | fzf -m | xargs git restore 
 function rmfu() { git ls-files --exclude-standard --other | fzf -m | xargs rm; }
 
 
+alias yd=yt-dlp
