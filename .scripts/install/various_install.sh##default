@@ -9,6 +9,7 @@ fi
 # ncdu - Ncurses interface du
 # htop - Improved top
 # vim - Legendary text editor
+# autossh - Handling continous ssh connections
 # tig - Cool git interface
 # clang - C language framework
 # iptraf - Monitor IP traffic
@@ -26,9 +27,11 @@ fi
 # jq - commandline JSON processor
 # bat - Enhanced cat
 # fd - Enhanced find
+# zoxide - Enhanced change directory with memory (cd command)
 
 $RUN_AS_ROOT apt-get -y install htop
 $RUN_AS_ROOT apt-get -y install vim
+$RUN_AS_ROOT apt-get -y install autossh
 $RUN_AS_ROOT apt-get -y install tig
 $RUN_AS_ROOT apt-get -y install ncdu
 $RUN_AS_ROOT apt-get -y install clang
@@ -47,6 +50,7 @@ $RUN_AS_ROOT apt-get -y install httpie
 $RUN_AS_ROOT apt-get -y install jq
 $RUN_AS_ROOT apt-get -y install bat
 $RUN_AS_ROOT apt-get -y install fd-find
+$RUN_AS_ROOT apt-get -y install zoxide
 #duf is a disk usage/free utility
 #brew tap muesli/tap && brew install duf
 

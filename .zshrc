@@ -209,7 +209,7 @@ alias nvm="unalias nvm; [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"; nvm $@"
 
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    export PATH=$HOME/Library/Python/3.9/bin:$PATH
+    export PATH=$HOME/Library/Python/3.11/bin:$PATH
     export PATH="/usr/local/opt/mongodb-community@4.2/bin:$PATH"
 fi
 
@@ -222,3 +222,5 @@ export GF_SNAPSHOT_DIRECTORY='./git-fuzzy-snapshots'
 if [[ "$OSTYPE" == "darwin"* ]]; then
     eval "$(rbenv init -)"
 fi
+
+eval "$(zoxide init zsh)"
