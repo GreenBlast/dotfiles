@@ -178,7 +178,7 @@ export FZF_ALT_C_COMMAND='find -L . -mindepth 1  -path "*/\\.*" -fstype "sysfs" 
 export MARKER_KEY_MARK="\C-b"
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-    export MARKER_KEY_GET=" "
+    export MARKER_KEY_GET="\C-@"
 fi
 
 export MARKER_KEY_NEXT_PLACEHOLDER="\C-s"
