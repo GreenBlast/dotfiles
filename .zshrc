@@ -1,3 +1,12 @@
+# Debugging start time - comment this when not debugging
+# zmodload zsh/zprof
+
+## These two were suggested as options that could help in fixing performance issues
+# ZSH_DISABLE_COMPFIX=true
+# DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+
+
 # Sourcing specific config file
 source $HOME/.config/zsh/config.zsh
 
@@ -68,9 +77,9 @@ ZSH_THEME="spaceship"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git wd zsh-syntax-highlighting zsh-autosuggestions tmuxinator jira)
+plugins=(git zsh-syntax-highlighting zsh-autosuggestions)
 # Should be used for RaspiZW (Config needs to be automatic but I won't invest in that now)
-# plugins=(git wd)
+# plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -224,3 +233,10 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 
 eval "$(zoxide init zsh)"
+
+
+#### Debugging start time - comment this when not debugging
+# zprof
+# zmodload -u zsh/zprof
+
+#### Use `time zsh -i -c exit to measure start time
