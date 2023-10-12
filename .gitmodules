@@ -16,9 +16,6 @@
 [submodule "zsh_custom/plugins/zsh-autosuggestions"]
 	path = zsh_custom/plugins/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions
-[submodule ".config/bumblebee-status"]
-	path = .config/bumblebee-status
-	url = https://github.com/tobi-wan-kenobi/bumblebee-status
 [submodule ".marker"]
 	path = .marker
 	url = https://github.com/GreenBlast/marker
