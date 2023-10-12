@@ -36,6 +36,7 @@ export SPACESHIP_PROMPT_SEPARATE_LINE=false
 
 # Don't truncate dirpath
 export SPACESHIP_DIR_TRUNC=0
+export SPACESHIP_DIR_TRUNC_REPO=false
 
 # Disable git prefix
 export SPACESHIP_GIT_PREFIX=''
@@ -124,7 +125,10 @@ spaceship_background_jobs_status() {
 
 
 # Setting right prompt to git
-RPROMPT='$(spaceship_git)'
+# RPROMPT='$(spaceship_git)'
+SPACESHIP_RPROMPT_ORDER=(
+    git
+)
 
 # Setting order of prompt objects, excluding git
 SPACESHIP_PROMPT_ORDER=(
