@@ -162,3 +162,4 @@ function rmfu() { git ls-files --exclude-standard --other | fzf -m | xargs rm; }
 
 
 alias yd=yt-dlp
+alias rss="~/.scripts/get_youtube_rss.py "
