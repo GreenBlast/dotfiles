@@ -34,10 +34,23 @@ alias ...='cd ../..'
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
-alias l="ls -lah ${colorflag}"
-alias la="ls -AF ${colorflag}"
-alias ll="ls -lFh ${colorflag}"
-alias lld="ls -l | grep ^d"
+
+if command -v exa &> /dev/null; then
+    alias l="exa -lah"
+    alias ll="exa -lFh"
+    alias lld="exa -l | grep ^d"
+else
+    alias l="ls -lah ${colorflag}"
+    alias la="ls -AF ${colorflag}"
+    alias ll="ls -lFh ${colorflag}"
+    alias lld="ls -l | grep ^d"
+fi
+
+if command -v bat &> /dev/null; then
+    alias cat="bat"
+fi
+
+
 alias rmf="rm -rf"
 
 # Helpers
