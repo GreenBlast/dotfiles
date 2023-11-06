@@ -5,9 +5,12 @@ import sys
 import urllib.request
 import re
 import subprocess
+import os
 
 url = 'https://egghead.io/lessons/javascript-introduction-to-mock-rest-and-graphql-apis-with-mock-service-worker'
 lesson_prefix = 'https://egghead.io'
+
+filepath = ''
 
 def download_matches(matches):
 
@@ -39,13 +42,30 @@ def get_url_data(url):
     except Exception as e:
         return "An error occurred: " + str(e)
 
+def rename_files_in_dir(filepath_to_dir):
+    files = os.listdir(filepath_to_dir)
+    regex = r"\[\d+\].mp4$"
+    numbered_files = [f for f in files if re.search(regex, f)]
+    sorted_files = sorted(numbered_files, key=lambda x: int(re.search(r'\[(\d+)\]', x).group(1)))
+
+    for i, filename in enumerate(sorted_files, start=1):
+        new_name = f"{i:05} - {filename}"
+        old_file = os.path.join(filepath_to_dir, filename)
+        new_file = os.path.join(filepath_to_dir, new_name)
+        os.rename(old_file, new_file)
+        print (f"[+] - New file name: \"{new_name}\"")
+
+
+
 
 if __name__ == "__main__":
     # if len(sys.argv) != 2:
     #     print("Usage: script.py video_url")
     # else:
         # channel_url = sys.argv[1]
-        matches = get_url_data(url)
-        download_matches(matches)
+        # matches = get_url_data(url)
+        # download_matches(matches)
         # print(rss_url)
+        rename_files_in_dir(filepath)
+
 
