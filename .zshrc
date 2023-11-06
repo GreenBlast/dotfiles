@@ -19,6 +19,11 @@ export PATH=$HOME/.local/bin:$PATH
 # Adding custom npm path
 export PATH=~/.npm-global/bin:$PATH
 
+# Adding tmux smart session manager plugin
+export PATH=$HOME/.tmux/plugins/t-smart-tmux-session-manager/bin:$PATH
+
+
+
 
 
 # Path to your oh-my-zsh installation.
@@ -234,9 +239,13 @@ fi
 
 eval "$(zoxide init zsh)"
 
+# Currently not using starship
+# eval "$(starship init zsh)"
+
 
 #### Debugging start time - comment this when not debugging
 # zprof
 # zmodload -u zsh/zprof
 
 #### Use `time zsh -i -c exit to measure start time
+
