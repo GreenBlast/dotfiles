@@ -7,10 +7,10 @@ import re
 import subprocess
 import os
 
-url = 'https://egghead.io/lessons/javascript-introduction-to-mock-rest-and-graphql-apis-with-mock-service-worker'
+# url = 'https://egghead.io/lessons/astro-intro-build-a-full-stack-blog-with-astro'
 lesson_prefix = 'https://egghead.io'
 
-filepath = ''
+filepath = '.'
 
 def download_matches(matches):
 
@@ -59,13 +59,12 @@ def rename_files_in_dir(filepath_to_dir):
 
 
 if __name__ == "__main__":
-    # if len(sys.argv) != 2:
-    #     print("Usage: script.py video_url")
-    # else:
-        # channel_url = sys.argv[1]
-        # matches = get_url_data(url)
-        # download_matches(matches)
-        # print(rss_url)
+    if len(sys.argv) != 2:
+        print("Usage: script.py video_url")
+    else:
+        url = sys.argv[1]
+        matches = get_url_data(url)
+        download_matches(matches)
         rename_files_in_dir(filepath)
 
 
