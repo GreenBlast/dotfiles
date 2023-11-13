@@ -15,3 +15,5 @@ defaults write com.apple.finder QuitMenuItem -bool true##Add quit menu item to m
 tar caf ~/backup/task-$(date -u +"%Y-%m-%d-%H-%M-%SZ").tar.gz ~/.task/*##Backing up taskwarrior locally
 /usr/bin/time zsh -i -c exit##Measuring zsh startup time
 sudo powermetrics --samplers smc##Checking Mac temperature
+task config journal.info on##Task warrior config journal on
+task config journal.info off##Task warrior config journal off
