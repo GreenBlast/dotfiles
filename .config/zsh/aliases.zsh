@@ -176,3 +176,18 @@ function rmfu() { git ls-files --exclude-standard --other | fzf -m | xargs rm; }
 
 alias yd=yt-dlp
 alias rss="~/.scripts/get_youtube_rss.py "
+
+# Nerd fonts
+installNerdFonts () {
+ mkdir -p ~/Development
+ cd ~/Development
+
+ if [ ! -d "./nerd-fonts" ] ; then
+   git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+ fi
+
+ cd nerd-fonts
+
+ ./install.sh SpaceMono
+}
+
