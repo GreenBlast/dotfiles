@@ -22,7 +22,8 @@
 .config/zsh/prompt.zsh
 .config/zsh/config.zsh
 !.config/nvim
-.config/nvim/*
+!.config/nvim/*
+!.config/nvim.bak
 !.config/nvim/colors
 !.config/ranger
 .config/ranger/bookmarks
