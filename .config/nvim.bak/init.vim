@@ -235,6 +235,9 @@ Plug 'elzr/vim-json'
 " ====================================================================
 " Completion
 " ====================================================================
+"
+
+"##### GOT HERE LINE #### FINDME ##### 
 
 " Complete code snippets
 Plug 'SirVer/ultisnips'
@@ -715,6 +718,7 @@ nnoremap <leader>dc :q<cr>:diffoff<cr>:exe "norm! ".g:diffline."G"<cr>
 " Don't use Ex mode, use Q for formatting
 map Q gq
 
+"##### GOT HERE LINE #### FINDME ##### 
 " CTRL-U in insert mode deletes a lot.  Use CTRL-G u to first break undo,
 " so that you can undo CTRL-U after inserting a line break.
 inoremap <C-U> <C-G>u<C-U>
