@@ -3,3 +3,7 @@
 -- Add any additional keymaps here
 
 vim.keymap.set("i", "jk", "<Esc>")
+
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
+vim.keymap.set("x", "<leader>p", '"_dP')
