@@ -15,3 +15,8 @@ defaults write com.apple.finder QuitMenuItem -bool true##Add quit menu item to m
 tar caf ~/backup/task-$(date -u +"%Y-%m-%d-%H-%M-%SZ").tar.gz ~/.task/*##Backing up taskwarrior locally
 /usr/bin/time zsh -i -c exit##Measuring zsh startup time
 sudo powermetrics --samplers smc##Checking Mac temperature
+task config journal.info on##Task warrior config journal on
+task config journal.info off##Task warrior config journal off
+convert -density 300 -colorspace sRGB {{input_pdf}}.pdf -background white -alpha remove -alpha off {{output_png}}.png##Converting pdf to png removing transparency and adding white background
+export BW_SESSION=$(bw unlock --raw)##Bitwarden export session
+sshpass -f <(bw get password {{item_name}}) ssh {{user}}@{{server}} -p {{port}}##Bitwarden with sshpass to login ssh

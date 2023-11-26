@@ -34,10 +34,23 @@ alias ...='cd ../..'
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
-alias l="ls -lah ${colorflag}"
-alias la="ls -AF ${colorflag}"
-alias ll="ls -lFh ${colorflag}"
-alias lld="ls -l | grep ^d"
+
+if command -v exa &> /dev/null; then
+    alias l="exa -lah"
+    alias ll="exa -lFh"
+    alias lld="exa -l | grep ^d"
+else
+    alias l="ls -lah ${colorflag}"
+    alias la="ls -AF ${colorflag}"
+    alias ll="ls -lFh ${colorflag}"
+    alias lld="ls -l | grep ^d"
+fi
+
+if command -v bat &> /dev/null; then
+    alias cat="bat"
+fi
+
+
 alias rmf="rm -rf"
 
 # Helpers
@@ -163,3 +176,18 @@ function rmfu() { git ls-files --exclude-standard --other | fzf -m | xargs rm; }
 
 alias yd=yt-dlp
 alias rss="~/.scripts/get_youtube_rss.py "
+
+# Nerd fonts
+installNerdFonts () {
+ mkdir -p ~/Development
+ cd ~/Development
+
+ if [ ! -d "./nerd-fonts" ] ; then
+   git clone --depth 1 https://github.com/ryanoasis/nerd-fonts.git
+ fi
+
+ cd nerd-fonts
+
+ ./install.sh SpaceMono
+}
+
