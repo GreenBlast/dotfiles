@@ -249,3 +249,5 @@ eval "$(zoxide init zsh)"
 
 #### Use `time zsh -i -c exit to measure start time
 
+export LANG="en_US.UTF-8"
+
