@@ -248,8 +248,3 @@ eval "$(zoxide init zsh)"
 # zmodload -u zsh/zprof
 
 #### Use `time zsh -i -c exit to measure start time
-
-## Exporting those for the raspi warnings
-export LC_ALL="en_US.UTF-8"
-export LANG="en_US.UTF-8"
-
