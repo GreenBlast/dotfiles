@@ -50,7 +50,8 @@ def main():
                            and dateparse(task['due']) < due_before]
 
     # Delete all but the first of all (over-)due and duplicate tasks:
-    parents = collections.Counter([task['parent'] for task in recurring_tasks_due])
+    parents = collections.Counter([task['parent']
+                                  for task in recurring_tasks_due])
 
     for parent in parents:
         count = parents[parent]
@@ -64,6 +65,7 @@ def main():
                 len(dupe_tasks_to_trash), dupe_tasks_to_trash[0]['description']))
             for task in dupe_tasks_to_trash:
                 task_delete(task['uuid'])
+
 
 if __name__ == "__main__":
     main()
