@@ -163,7 +163,8 @@ source $HOME/.config/zsh/keybindings.zsh
 
 
 # Fzf is a fuzzy searcher written in go
-export FZF_DEFAULT_COMMAND='ag -U --hidden --ignore .git -g ""'
+# export FZF_DEFAULT_COMMAND='ag -U --hidden --ignore .git -g ""'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -l -g ""'
 
 # Setting binds to scroll preview
 export FZF_DEFAULT_OPTS='--bind ctrl-f:preview-page-down,ctrl-b:preview-page-up'
