@@ -23,3 +23,10 @@ set ideajoin
 " unite IDE's navigation history with VIM's
 nnoremap <C-o> :action Back<CR>
 nnoremap <C-i> :action Forward<CR>
+
+" nnoremap s <Nop>
+" nnoremap S <Nop>
+
+nnoremap s :action AceAction<CR>
+nnornmap S :action AceLineAction<CR>
+nnornmap <Space>t :action AceTargetAction<CR>
