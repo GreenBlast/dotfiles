@@ -21,3 +21,4 @@ convert -density 300 -colorspace sRGB {{input_pdf}}.pdf -background white -alpha
 export BW_SESSION=$(bw unlock --raw)##Bitwarden export session
 sshpass -f <(bw get password {{item_name}}) ssh {{user}}@{{server}} -p {{port}}##Bitwarden with sshpass to login ssh
 t duo -@dafyomi +YEAR +ACTIVE do##Clean active duo tasks
+cat {{input.html}}  | pandoc -f html -t markdown-raw_html+backtick_code_blocks --wrap none > {{output.md}}##Converting html file to markdown
