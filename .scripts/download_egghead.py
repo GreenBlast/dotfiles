@@ -12,6 +12,7 @@ lesson_prefix = 'https://egghead.io'
 
 filepath = '.'
 
+
 def download_item(item):
     url_input = f'{lesson_prefix}{item}'
     # process = subprocess.run([f'/usr/local/bin/yt-dlp', url_input], env={'LANG': 'en_US.UTF-8'},)
@@ -29,9 +30,11 @@ def download_item(item):
     #     print(f"Error downloading {url_input}: {stderr.decode('utf-8')}")
 
     # print(downloaded_files)
-    process = subprocess.Popen([f'/usr/local/bin/yt-dlp', '--print', 'filename', url_input], stdout=subprocess.PIPE, stderr=subprocess.PIPE, env={'LANG': 'en_US.UTF-8'})
+    process = subprocess.Popen([f'/usr/local/bin/yt-dlp', '--print', 'filename', url_input],
+                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, env={'LANG': 'en_US.UTF-8'})
     stdout, stderr = process.communicate()
 
+    downloaded_file = None
     if process.returncode == 0:
         # The download was successful
         # Parse the filename from the standard output
@@ -42,23 +45,29 @@ def download_item(item):
         # Handle download error
         print(f"Error downloading {url}: {stderr.decode('utf-8')}")
 
-    process = subprocess.run([f'/usr/local/bin/yt-dlp', url_input], env={'LANG': 'en_US.UTF-8'},)
+    process = subprocess.run(
+        [f'/usr/local/bin/yt-dlp', url_input], env={'LANG': 'en_US.UTF-8'},)
 
+    print(f"downloaded_file={downloaded_file}")
     return downloaded_file
+
 
 def rename_item(filepath_to_dir, filename, i):
     new_name = f"{i:05} - {filename}"
     old_file = os.path.join(filepath_to_dir, filename)
     new_file = os.path.join(filepath_to_dir, new_name)
     os.rename(old_file, new_file)
-    print (f"[+] - New file name: \"{new_name}\"")
-
+    print(f"[+] - New file name: \"{new_name}\"")
 
 
 def download_matches_and_rename(matches, filepath_to_dir):
-    for i, item in enumerate(matches):
+    items_to_rename = []
+    for item in matches:
         downloaded_file = download_item(item)
-        rename_item(filepath_to_dir, downloaded_file, i + 1)
+        items_to_rename.append(downloaded_file)
+
+    for i, item in enumerate(items_to_rename):
+        rename_item(filepath_to_dir, item, i + 1)
 
 
 def get_url_data(url):
@@ -80,24 +89,25 @@ def get_url_data(url):
                 return matches
 
             else:
-                print(f"Failed to fetch the page. Status code: {response.status}")
+                print(
+                    f"Failed to fetch the page. Status code: {response.status}")
     except Exception as e:
         return "An error occurred: " + str(e)
+
 
 def rename_files_in_dir(filepath_to_dir):
     files = os.listdir(filepath_to_dir)
     regex = r"\[\d+\].mp4$"
     numbered_files = [f for f in files if re.search(regex, f)]
-    sorted_files = sorted(numbered_files, key=lambda x: int(re.search(r'\[(\d+)\]', x).group(1)))
+    sorted_files = sorted(numbered_files, key=lambda x: int(
+        re.search(r'\[(\d+)\]', x).group(1)))
 
     for i, filename in enumerate(sorted_files, start=1):
         new_name = f"{i:05} - {filename}"
         old_file = os.path.join(filepath_to_dir, filename)
         new_file = os.path.join(filepath_to_dir, new_name)
         os.rename(old_file, new_file)
-        print (f"[+] - New file name: \"{new_name}\"")
-
-
+        print(f"[+] - New file name: \"{new_name}\"")
 
 
 if __name__ == "__main__":
@@ -111,5 +121,3 @@ if __name__ == "__main__":
         # Last link is video link itself
         download_matches_and_rename(matches[:-1], filepath)
         # rename_files_in_dir(filepath)
-
-
