@@ -10,7 +10,7 @@ alias yaa='yadm add --all'
 alias yc='yadm commit -v'
 alias yp='yadm push'
 alias yl='yadm pull'
-alias ydf='yadm difftool'
+# alias ydf='yadm difftool'
 alias ydfs='yadm difftool --staged'
 alias ysuri='yadm submodule update --recursive --init'
 alias gdf='git difftool'
@@ -175,6 +175,7 @@ function rmfu() { git ls-files --exclude-standard --other | fzf -m | xargs rm; }
 
 
 alias yd=yt-dlp
+alias ydf="yt-dlp -f 22"
 alias rss="~/.scripts/get_youtube_rss.py "
 
 # Nerd fonts
