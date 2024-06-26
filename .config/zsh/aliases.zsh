@@ -161,6 +161,17 @@ alias pa=' pocket-cli add --url'
 alias pat=' pocket-cli add --tags="train reading" --url'
 alias pav=' pocket-cli add --tags="videos" --url'
 
+function apat() {
+  # Split the input string on newlines and spaces
+  urls=("${(f)@}")
+
+  # Loop through each URL and execute curl
+  for url in "${urls[@]}"; do
+      pocket-cli add --tags="train reading" --url "$url"
+  done
+
+}
+
 
 # Navigate to branches using FZF "!checkout_fzf()
 function cof() { git branch | fzf | xargs git checkout; }
