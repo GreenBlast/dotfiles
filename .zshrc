@@ -249,3 +249,7 @@ eval "$(zoxide init zsh)"
 # zmodload -u zsh/zprof
 
 #### Use `time zsh -i -c exit to measure start time
+
+. "$HOME/.atuin/bin/env"
+
+eval "$(atuin init zsh  --disable-up-arrow)"
