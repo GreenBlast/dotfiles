@@ -95,9 +95,16 @@
         {
             nix-hombrew = {
                 enable = true;
+
+                # brews = [
+                #   "mas"
+                # ];
                 casks = [
                   "notunes"
                 ];
+                # taps = [
+                # ];
+                # masApps = {  };
                 # Apple Silicon Only
                 enableRosetta = true;
                 # User owning the hombrew prefix
@@ -105,6 +112,10 @@
                 
                 # Handle the fact that brew is already installed
                 autoMigrate = true;
+                # onActivation.autoUpdate = true;
+                # onActivation.autoUpgrade = true;
+
+                
               };
           }
       ];
