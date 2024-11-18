@@ -30,6 +30,8 @@
 .config/ranger/history
 .config/ranger/tagged
 !.config/tmuxinator
+!.config/nix
+!.config/nix/*
 
 # Exclude these directories
 !.fzf
