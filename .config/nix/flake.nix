@@ -6,13 +6,28 @@
     nix-darwin.url = "github:LnL7/nix-darwin";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
     nix-homebrew.url = "github:zhaofengli-wip/nix-homebrew";
+
+    # Optional: Declarative tap management
+    # homebrew-core = {
+    #   url = "github:homebrew/homebrew-core";
+    #   flake = false;
+    # };
+    # homebrew-cask = {
+    #   url = "github:homebrew/homebrew-cask";
+    #   flake = false;
+    # };
+    # homebrew-bundle = {
+    #   url = "github:homebrew/homebrew-bundle";
+    #   flake = false;
+    # };
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew}:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew }:
   let
-    configuration = { pkgs, config, ... }: {
+    configuration = { pkgs, ... }: {
 
-      config.allowUnfree = true;
+
+      nixpkgs.config.allowUnfree = true;
 
       # List packages installed in system profile. To search by name, run:
       # $ nix-env -qaP | grep wget
@@ -30,7 +45,7 @@
           pkgs.duf
           pkgs.ncdu
           pkgs.dust
-          pkgs.exa
+          pkgs.eza
           pkgs.imagemagick
           pkgs.neovim
           pkgs.silver-searcher
@@ -38,11 +53,11 @@
 
           ## Brew Cask
           pkgs.keycastr
-          pkgs.mongodb-compass
+          # pkgs.mongodb-compass # Compass doesn't exist for aarch64-darwin
 
           ## Store
-          pkgs.bitwarden-desktop
-          pkgs.todoist-electron
+          # pkgs.bitwarden-desktop # Bitwarden doesn't exist for aarch64-darwin
+          # pkgs.todoist-electron # Todoist doesn't exist for aarch64-darwin
           pkgs.telegram-desktop
           pkgs.slack
           pkgs.xcodes
@@ -55,7 +70,7 @@
           pkgs.zoom-us
           pkgs.jetbrains.webstorm
           pkgs.mos
-          pkgs.code-cursor
+          # pkgs.code-cursor # Code Cursor doesn't exist for aarch64-darwin
 
 
           ## Don't need right now
@@ -64,9 +79,29 @@
           #pkgs.tig
         ];
 
-      fonts.packages = [
-        (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
-      ];
+            homebrew = {
+                enable = true;
+
+                # brews = [
+                #   "mas"
+                # ];
+                casks = [
+                  "notunes"
+                ];
+                
+                # taps = [ 
+                # ];
+                # masApps = {  };
+                
+                # onActivation.autoUpdate = true; # Couldn't find auto upgrade
+                # onActivation.autoUpgrade = true; # Couldn't find auto upgrade
+
+                
+              };
+
+      # fonts.packages = [
+      #   (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
+      # ];
 
       # Necessary for using flakes on this system.
       nix.settings.experimental-features = "nix-command flakes";
@@ -89,31 +124,31 @@
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#simple
     darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
+      # system = "aarch64-darwin";
       modules = [
         configuration 
-        nix-homebrew.darwinModules.nix-hombrew
+        nix-homebrew.darwinModules.nix-homebrew
         {
-            nix-hombrew = {
+            nix-homebrew = {
                 enable = true;
-
-                # brews = [
-                #   "mas"
-                # ];
-                casks = [
-                  "notunes"
-                ];
-                # taps = [
-                # ];
-                # masApps = {  };
+                
                 # Apple Silicon Only
                 enableRosetta = true;
-                # User owning the hombrew prefix
+
+                # # Optional: Declarative tap management
+                # taps = {
+                #   "homebrew/homebrew-core" = homebrew-core;
+                #   "homebrew/homebrew-cask" = homebrew-cask;
+                #   "homebrew/homebrew-bundle" = homebrew-bundle;
+                # };
+                
+                # User owning the homebrew prefix
                 user = "user";
                 
                 # Handle the fact that brew is already installed
                 autoMigrate = true;
-                # onActivation.autoUpdate = true;
-                # onActivation.autoUpgrade = true;
+                # onActivation.autoUpdate = true; # Couldn't find auto upgrade
+                # onActivation.autoUpgrade = true; # Couldn't find auto upgrade
 
                 
               };

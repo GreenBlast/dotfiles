@@ -46,6 +46,17 @@ else
     alias lld="ls -l | grep ^d"
 fi
 
+if command -v eza &> /dev/null; then
+    alias l="eza -lah"
+    alias ll="eza -lFh"
+    alias lld="eza -l | grep ^d"
+else
+    alias l="ls -lah ${colorflag}"
+    alias la="ls -AF ${colorflag}"
+    alias ll="ls -lFh ${colorflag}"
+    alias lld="ls -l | grep ^d"
+fi
+
 if command -v bat &> /dev/null; then
     alias cat="bat"
 fi
