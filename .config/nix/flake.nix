@@ -77,6 +77,10 @@
           #pkgs.zsh
           #pkgs.circleci
           #pkgs.tig
+
+          ## New packages
+          pkgs.fabric-ai
+
         ];
 
             homebrew = {
@@ -93,8 +97,8 @@
                 # ];
                 # masApps = {  };
                 
-                # onActivation.autoUpdate = true; # Couldn't find auto upgrade
-                # onActivation.autoUpgrade = true; # Couldn't find auto upgrade
+                onActivation.autoUpdate = true;
+                onActivation.upgrade = true;
 
                 
               };
@@ -131,7 +135,7 @@
         {
             nix-homebrew = {
                 enable = true;
-                
+
                 # Apple Silicon Only
                 enableRosetta = true;
 
@@ -141,16 +145,13 @@
                 #   "homebrew/homebrew-cask" = homebrew-cask;
                 #   "homebrew/homebrew-bundle" = homebrew-bundle;
                 # };
-                
+
                 # User owning the homebrew prefix
                 user = "user";
-                
+
                 # Handle the fact that brew is already installed
                 autoMigrate = true;
-                # onActivation.autoUpdate = true; # Couldn't find auto upgrade
-                # onActivation.autoUpgrade = true; # Couldn't find auto upgrade
 
-                
               };
           }
       ];
