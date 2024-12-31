@@ -80,6 +80,10 @@
 
           ## New packages
           pkgs.fabric-ai
+          pkgs.wezterm
+          pkgs.aerospace
+          pkgs.skhd
+          pkgs.google-cloud-sdk
 
         ];
 
