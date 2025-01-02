@@ -215,3 +215,11 @@ installNerdFonts () {
  ./install.sh SpaceMono
 }
 
+# Fabric shortcuts
+function fysum() {
+  fabric -y $1 --stream --pattern summarize
+}
+
+function fysumb() {
+  fabric -y $1 --stream --pattern summarize -m=gpt-4o-mini
+}
