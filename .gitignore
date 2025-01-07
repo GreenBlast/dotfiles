@@ -61,6 +61,7 @@
 !.Xdefaults
 !.Xresources
 !.zshrc
+!.skhdrc
 !LICENSE
 !pylintrc
 !README.md
