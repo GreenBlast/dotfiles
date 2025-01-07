@@ -1,0 +1,20 @@
+# APPS #
+#
+
+# Telegram
+alt - t : "open" "-a" "/Applications/Telegram.app/Contents/MacOS/Telegram"
+
+# Obsidian
+alt - o : "open" "-a" "/Applications/Obsidian.app/Contents/MacOS/Obsidian"
+
+# Ghostty
+alt - g : "open" "-a" "/Applications/Ghostty.app"
+
+# Slack
+alt - s : "open" "-a" "/Applications/Slack.app/Contents/MacOS/Slack"
+
+# Chrome
+alt - c : "open" "-a" "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+# VLC
+alt - v : "open" "-a" "/Applications/VLC.app/Contents/MacOS/VLC"
