@@ -250,6 +250,8 @@ eval "$(zoxide init zsh)"
 
 #### Use `time zsh -i -c exit to measure start time
 
-. "$HOME/.atuin/bin/env"
 
-eval "$(atuin init zsh  --disable-up-arrow)"
+if (command -v atuin >/dev/null 2>&1); then
+  . "$HOME/.atuin/bin/env"
+  eval "$(atuin init zsh  --disable-up-arrow)"
+fi
