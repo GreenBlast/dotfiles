@@ -84,6 +84,9 @@
           pkgs.aerospace
           pkgs.skhd
           pkgs.google-cloud-sdk
+          pkgs.gtypist
+          pkgs.skhd
+          # pkgs.ghostty
 
         ];
 
@@ -95,6 +98,7 @@
                 # ];
                 casks = [
                   "notunes"
+                  "ghostty" # ghostty is marked as broken in nix packages
                 ];
                 
                 # taps = [ 
