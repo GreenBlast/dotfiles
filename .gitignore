@@ -32,6 +32,8 @@
 !.config/tmuxinator
 !.config/nix
 !.config/nix/*
+!.config/ghostty
+!.config/ghostty/*
 
 # Exclude these directories
 !.fzf

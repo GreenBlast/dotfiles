@@ -1,0 +1,46 @@
+## Ghostty configuration
+
+# theme = catppuccin-mocha
+#theme=Dark Modern
+
+
+
+## Themes
+
+theme=Darkside
+theme=catppuccin-mocha
+theme=MaterialDarker
+### For now decided to stay with this one
+theme=Monokai Soda
+
+### Second place
+# theme=iceberg-dark
+
+
+### Third place
+# theme=Dark+
+# theme=iceberg-dark
+# theme=JetBrains Darcula
+
+### Fourth place
+# theme=0x96
+# theme=brogrammer
+# theme=ChallengerDeep
+# theme=Dark Pastel
+# theme=Desert
+# theme=Monokai Pro Ristretto
+# theme=NvimDark
+# theme=Paraiso Dark
+# theme=PencilDark
+
+## Fonts
+font-size = 15
+font-family = FiraCode Nerd Font Mono
+
+# background-blur-radius = 20
+mouse-hide-while-typing = true
+window-decoration = true
+keybind = global:cmd+/=toggle_quick_terminal
+macos-option-as-alt = true
+# background-opacity = 0.7
+# background-blur-radius = 20 
