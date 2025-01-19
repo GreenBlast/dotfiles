@@ -34,7 +34,7 @@
       environment.systemPackages =
         [ 
           ## Brew
-          pkgs.jadx
+          # pkgs.jadx
           pkgs.lazygit
           pkgs.pandoc
           pkgs.mongosh
