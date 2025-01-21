@@ -101,4 +101,8 @@ OBSIDIAN_URL_INDEX="obsidian://open?vault=Aviad&file=Main%2FKnowledge%2FArticles
 
 echo "Created summary file: $OBSIDIAN_URL_FILENAME_ESCAPED"
 echo "Appended reference to: $OBSIDIAN_URL_INDEX"
+
+open "$OBSIDIAN_URL_FILENAME_ESCAPED"
+open "$OBSIDIAN_URL_INDEX"
+
 exit 0 
