@@ -65,7 +65,7 @@
           ## Launchpad
           pkgs.raycast
           pkgs.android-file-transfer
-          pkgs.docker_26
+          # pkgs.docker_26
           pkgs.obsidian
           pkgs.zoom-us
           pkgs.jetbrains.webstorm
@@ -86,6 +86,7 @@
           pkgs.google-cloud-sdk
           pkgs.gtypist
           pkgs.skhd
+          pkgs.atuin
           # pkgs.ghostty
 
         ];
@@ -99,6 +100,7 @@
                 casks = [
                   "notunes"
                   "ghostty" # ghostty is marked as broken in nix packages
+                  # "docker" # Docker is annoying apple security
                 ];
                 
                 # taps = [ 
