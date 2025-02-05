@@ -88,6 +88,7 @@
           pkgs.skhd
           pkgs.atuin
           # pkgs.ghostty
+          pkgs.syncthing
 
         ];
 
