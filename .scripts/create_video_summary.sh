@@ -76,6 +76,8 @@ if [ -z "$SUMMARY" ]; then
   SUMMARY="No summary available."
 fi
 
+# Process the summary to change single # to ##
+SUMMARY=$(echo "$SUMMARY" | sed 's/^# /## /')
 
 # ------------------------------
 #  6. Append summary to the new file
