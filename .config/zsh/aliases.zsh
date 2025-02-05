@@ -169,8 +169,20 @@ source $HOME/.config/zsh/local_aliases.zsh
 
 # Pocket cli add
 alias pa=' pocket-cli add --url'
-alias pat=' pocket-cli add --tags="train reading" --url'
-alias pav=' pocket-cli add --tags="videos" --url'
+
+function  pat() {
+    pocket-cli add --tags="train reading" --url "$1"
+    . ~/.scripts/verify_hoarder_cli.sh 
+    verify_hoarder_cli_key_and_address
+    hoarder --api-key "${HOARDER_KEY}" --server-addr "${HOARDER_ADDRESS}" bookmarks add --link "$1" --tag-name "train reading"
+}
+
+function  pav() {
+    pocket-cli add --tags="videos" --url "$1"
+    . ~/.scripts/verify_hoarder_cli.sh 
+    verify_hoarder_cli_key_and_address
+    hoarder --api-key "${HOARDER_KEY}" --server-addr "${HOARDER_ADDRESS}" bookmarks add --link "$1" --tag-name "videos"
+}
 
 function apat() {
   # Split the input string on newlines and spaces
