@@ -87,17 +87,19 @@
           pkgs.gtypist
           pkgs.skhd
           pkgs.atuin
-          # pkgs.ghostty
+          # pkgs.ghostty # ghostty is marked as broken for darwin
           pkgs.syncthing
+          # pkgs.kanata # Kanata is marked as broken for darwin
 
         ];
 
             homebrew = {
                 enable = true;
 
-                # brews = [
-                #   "mas"
-                # ];
+                brews = [
+                  # "mas"
+                  "kanata" # Kanata is marked as broken in nix packages
+                ];
                 casks = [
                   "notunes"
                   "ghostty" # ghostty is marked as broken in nix packages
