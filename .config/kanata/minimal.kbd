@@ -1,0 +1,16 @@
+(defcfg
+  process-unmapped-keys yes
+)
+
+(defsrc
+)
+
+(defvar
+  tap-time 150
+  hold-time 200
+)
+
+
+(deflayer base
+)
+

@@ -34,6 +34,8 @@
 !.config/nix/*
 !.config/ghostty
 !.config/ghostty/*
+!.config/kanata
+!.config/kanata/*
 
 # Exclude these directories
 !.fzf
