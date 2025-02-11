@@ -105,6 +105,7 @@ echo "Created summary file: $OBSIDIAN_URL_FILENAME_ESCAPED"
 echo "Appended reference to: $OBSIDIAN_URL_INDEX"
 
 open "$OBSIDIAN_URL_FILENAME_ESCAPED"
-open "$OBSIDIAN_URL_INDEX"
+# open "$OBSIDIAN_URL_INDEX"
 
-exit 0 
+exit 0
+
