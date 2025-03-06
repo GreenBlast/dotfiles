@@ -90,6 +90,7 @@
           # pkgs.ghostty # ghostty is marked as broken for darwin
           pkgs.syncthing
           # pkgs.kanata # Kanata is marked as broken for darwin
+          pkgs.uv
 
         ];
 
