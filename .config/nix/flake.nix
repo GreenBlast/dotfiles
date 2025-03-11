@@ -91,6 +91,8 @@
           pkgs.syncthing
           # pkgs.kanata # Kanata is marked as broken for darwin
           pkgs.uv
+          pkgs.awscli2
+
 
         ];
 
