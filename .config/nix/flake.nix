@@ -67,7 +67,7 @@
           pkgs.android-file-transfer
           # pkgs.docker_26
           pkgs.obsidian
-          pkgs.zoom-us
+          # pkgs.zoom-us # Not playing well with permissions, using self installed zoom
           pkgs.jetbrains.webstorm
           pkgs.mos
           # pkgs.code-cursor # Code Cursor doesn't exist for aarch64-darwin
