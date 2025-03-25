@@ -85,7 +85,6 @@
           pkgs.skhd
           pkgs.google-cloud-sdk
           pkgs.gtypist
-          pkgs.skhd
           pkgs.atuin
           # pkgs.ghostty # ghostty is marked as broken for darwin
           pkgs.syncthing
@@ -93,6 +92,7 @@
           pkgs.uv
           pkgs.awscli2
 
+          (pkgs.callPackage ./phantomjs.nix {})
 
         ];
 
