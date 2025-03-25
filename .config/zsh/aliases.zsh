@@ -209,8 +209,10 @@ function rmfu() { git ls-files --exclude-standard --other | fzf -m | xargs rm; }
 
 
 alias yd=yt-dlp
-alias ydf="yt-dlp -f 22"
-alias ydfa="yt-dlp -f 'bestvideo[height<=720]+bestaudio[ext=m4a]/best[height<=720]' --merge-output-format mp4"
+alias ydf="yt-dlp -f '232+233' --merge-output-format mp4"
+# alias ydf="yt-dlp -f 22"
+# alias ydfa="yt-dlp -f 'bestvideo[height<=720]+bestaudio[ext=m4a]/best[height<=720]' --merge-output-format mp4"
+
 alias rss="~/.scripts/get_youtube_rss.py "
 
 # Nerd fonts
