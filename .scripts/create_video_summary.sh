@@ -15,9 +15,9 @@
 # ------------------------------
 #  Hardcoded paths / files
 # ------------------------------
-TARGET_DIR="/Users/user/Dropbox/sarcophagus/Obsidian/Aviad/Main/Knowledge/ArticlesSummaries"
-TEMPLATE_FILE="/Users/user/Dropbox/sarcophagus/Obsidian/Aviad/Templates/Templates front matter.md"
-INDEX_FILE="/Users/user/Dropbox/sarcophagus/Obsidian/Aviad/Main/Knowledge/ArticlesSummaries/Articles Summaries MOC.md"
+TARGET_DIR="/Users/user/Projects/ObsidianVaults/Aviad/Main/Knowledge/ArticlesSummaries"
+TEMPLATE_FILE="/Users/user/Projects/ObsidianVaults/Aviad/Templates/Templates front matter.md"
+INDEX_FILE="/Users/user/Projects/ObsidianVaults/Aviad/Main/Knowledge/ArticlesSummaries/Articles Summaries MOC.md"
 
 # ------------------------------
 #  Validate input
@@ -88,13 +88,12 @@ SUMMARY=$(echo "$SUMMARY" | sed 's/^# /## /')
   echo ""
   echo "$SUMMARY"
   echo ""
-} >> "$FILENAME"
+} >>"$FILENAME"
 
 # ------------------------------
 #  7. Append filename reference (wrapped in [[ ]]) to the index file
 # ------------------------------
-echo "[[$CLEAN_TITLE]]" >> "$INDEX_FILE"
-
+echo "[[$CLEAN_TITLE]]" >>"$INDEX_FILE"
 
 OBSIDIAN_URL_FILENAME="obsidian://open?vault=Aviad&file=Main%2FKnowledge%2FArticlesSummaries%2F$CLEAN_TITLE"
 OBSIDIAN_URL_FILENAME_ESCAPED=$(echo "$OBSIDIAN_URL_FILENAME" | sed 's/ /%20/g')
@@ -108,4 +107,3 @@ open "$OBSIDIAN_URL_FILENAME_ESCAPED"
 # open "$OBSIDIAN_URL_INDEX"
 
 exit 0
-
