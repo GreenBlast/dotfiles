@@ -94,6 +94,8 @@
 
           (pkgs.callPackage ./phantomjs.nix {})
 
+          pkgs.fswatch
+
         ];
 
             homebrew = {
