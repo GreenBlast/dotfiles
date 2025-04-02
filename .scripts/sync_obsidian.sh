@@ -12,25 +12,19 @@ fi
 
 echo "Monitoring $DIR1 and $DIR2 for changes..."
 
-# Function to sync from one directory to the other
+# Function to sync directories
 sync_dirs() {
-  SRC="$1"
-  DEST="$2"
-
-  # Add a delay to allow file operations to complete
-  sleep 2
-
-  echo "Syncing from $SRC to $DEST..."
-  rsync -av --delete --exclude=".git" --exclude=".git/*" "$SRC/" "$DEST/"
-  # rsync -av --delete --exclude=".git" "$SRC/" "$DEST/"
-  # rsync -av --delete "$SRC/" "$DEST/"
-  # rsync -av --delete --update \
-  #   --exclude=".git" --exclude=".git/*" \
-  #   --exclude="*.swp" --exclude="*.tmp" --exclude="*~" \
-  #   --exclude=".obsidian/workspace.json" \
-  #   --delay-updates \
-  #   --modify-window=2 \
-  #   "$SRC/" "$DEST/"
+  echo "Syncing changes..."
+  unison "$DIR1" "$DIR2" \
+    -batch \
+    -ignore "Name .git" \
+    -ignore "Name *.swp" \
+    -ignore "Name *.tmp" \
+    -ignore "Name *~" \
+    -ignore "Name .obsidian/workspace.json" \
+    -prefer newer \
+    -times \
+    -silent
 }
 
 # Monitor both directories with debouncing
@@ -42,15 +36,7 @@ fswatch -0 "$DIR1" "$DIR2" | while IFS= read -r -d "" event; do
   
   # Only sync if enough time has passed since last sync
   if (( CURRENT_TIME - LAST_SYNC_TIME >= DEBOUNCE_DELAY )); then
-    echo "Change detected: $event"
-
-    # Determine which directory changed and sync accordingly
-    if [[ "$event" == "$DIR2"* ]]; then
-      sync_dirs "$DIR2" "$DIR1"
-    elif [[ "$event" == "$DIR1"* ]]; then
-      sync_dirs "$DIR1" "$DIR2"
-    fi
-    
+    sync_dirs
     LAST_SYNC_TIME=$CURRENT_TIME
   fi
 done
