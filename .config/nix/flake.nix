@@ -95,6 +95,7 @@
           (pkgs.callPackage ./phantomjs.nix {})
 
           pkgs.fswatch
+          pkgs.unison
 
         ];
 
