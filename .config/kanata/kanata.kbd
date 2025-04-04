@@ -1,52 +1,97 @@
+;; --- Kanata Configuration ---
+;; Mission Critical: Failure is not an option. Billions and lives are at stake. V4 - Using defchordsv2
+
 (defcfg
+  ;; Process keys not explicitly mapped in layers (like space, enter, etc.)
   process-unmapped-keys yes
+  ;; REQUIRED by defchordsv2 for better interaction with tap-hold keys involved in chords.
+  concurrent-tap-hold yes
+  ;; Optional: Default is 5ms. Adjust if chord detection feels laggy or too sensitive after non-chord keys.
+  ;; chords-v2-min-idle 5
 )
 
 (defsrc
-  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10   f11   f12
-  caps a s d f h j k l ;
+  ;; Define the source keys we are explicitly mapping
+  f1    f2    f3    f4    f5    f6    f7    f8    f9    f10   f11   f12
+  caps  a     s     d     f     h     j     k     l     ;
   z
   fn
+  ;; Note: 'space' (spc) is not listed but will be processed due to process-unmapped-keys
+  ;; and is needed for the defchordsv2 definition below.
 )
 
 (defvar
-  tap-time 150
-  hold-time 200
+  ;; Standard timing for tap-hold keys
+  tap-time 150 ;; Time window to register a tap (ms)
+  hold-time 200 ;; Time after which a hold action triggers (ms)
+  ;; Timing for the special combo - must be faster than hold-time
+  combo-timeout 100 ;; Max time between combo key presses (ms) for defchordsv2
 )
 
-;; Define aliases for modifiers
+;; --- Special Combination Definition using defchordsv2 ---
+;; This MUST be defined before layers that might use the keys,
+;; although its global nature means placement isn't as critical as layer-specific items.
+(defchordsv2
+  ;; Keys     Action     Timeout           Release Behavior  Disabled Layers (none)
+  (s d spc)  A-S-spc    $combo-timeout    first-release     ()
+  ;; If s, d, and spc are all pressed within $combo-timeout (50ms),
+  ;; trigger Alt+Shift+Space. The chord ends when the first key is released.
+  ;; concurrent-tap-hold ensures this plays nicer with the tap-hold on s and d.
+)
+
+;; Define aliases for complex key actions
 (defalias
-  escctrl (tap-hold 100 100 esc lctl)
-  a (tap-hold $tap-time $hold-time a lmet)
-  s (tap-hold $tap-time $hold-time s lalt)
-  d (tap-hold $tap-time $hold-time d lsft)
-  f (tap-hold $tap-time $hold-time f lctl)
-  j (tap-hold $tap-time $hold-time j rctl)
-  k (tap-hold $tap-time $hold-time k rsft)
-  l (tap-hold $tap-time $hold-time l ralt)
-  ; (tap-hold $tap-time $hold-time ; rmet)
+  ;; Modifiers on home row keys
+  escctrl (tap-hold 100 100 esc lctl) ;; Specific timings here
+  a (tap-hold $tap-time $hold-time a lmet) ;; Tap: a, Hold: Left Meta (Cmd/Win)
+  s (tap-hold $tap-time $hold-time s lalt) ;; Tap: s, Hold: Left Alt
+  d (tap-hold $tap-time $hold-time d lsft) ;; Tap: d, Hold: Left Shift
+  f (tap-hold $tap-time $hold-time f lctl) ;; Tap: f, Hold: Left Ctrl
+  j (tap-hold $tap-time $hold-time j rctl) ;; Tap: j, Hold: Right Ctrl
+  k (tap-hold $tap-time $hold-time k rsft) ;; Tap: k, Hold: Right Shift
+  l (tap-hold $tap-time $hold-time l ralt) ;; Tap: l, Hold: Right Alt
+  ; (tap-hold $tap-time $hold-time ; rmet) ;; Tap: ;, Hold: Right Meta (Cmd/Win)
 
-  ;; Tap z, sends z; Hold z, switches to arrow layer
-  zlayer (tap-hold $tap-time $hold-time z (layer-toggle arrow))
-  fnlayer (tap-hold $tap-time $hold-time fn (layer-toggle fn))
+  ;; Layer switching keys
+  zlayer (tap-hold $tap-time $hold-time z (layer-toggle arrow)) ;; Tap: z, Hold: Toggle Arrow Layer
+  fnlayer (tap-hold $tap-time $hold-time fn (layer-toggle fn))   ;; Tap: fn, Hold: Toggle Fn Layer
 )
+
+;; --- Layer Definitions ---
 
 (deflayer base
-  f1   f2   f3   f4   f5   f6   f7   f8   f9   f10   f11   f12
-  @escctrl @a @s @d @f _ @j @k @l @;
+  ;; F-row
+  f1        f2        f3        f4        f5        f6        f7        f8        f9        f10       f11       f12
+  ;; Home row area
+  @escctrl  @a        @s        @d        @f        _         @j        @k        @l        @;
+  ;; Bottom row mod/layer keys
   @zlayer
   @fnlayer
+  ;; Other keys (like space, enter, etc.) pass through due to process-unmapped-keys
+  ;; The s, d, and spc keys here are still mapped via @s, @d and passthrough respectively,
+  ;; but defchordsv2 should intercept them if the combo is triggered quickly enough.
 )
 
-(deflayer fn
-  brdn  brup  _    _    _    _   prev  pp  next  mute  vold  volu
-  @escctrl _ _ _ _ _ _ _ _ _ _
+(deflayer fn ;; Accessed by holding 'fn'
+  ;; F-row: Media and brightness
+  brdn      brup      _         _         _         _         prev      pp        next      mute      vold      volu
+  ;; Home row area: Mostly transparent, keeping escctrl available
+  @escctrl  _         _         _         _         _         _         _         _         _
+  ;; Bottom row: Transparent
+  _
+  _ ;; fn key itself is handled by tap-hold alias, becomes transparent here
+)
+
+(deflayer arrow ;; Accessed by holding 'z'
+  ;; F-row: Transparent
+  _         _         _         _         _         _         _         _         _         _         _         _
+  ;; Home row area: Transparent except for navigation cluster
+  _         _         _         _         _         _         left      down      up        right
+  ;; Bottom row: Transparent
+  _ ;; z key itself is handled by tap-hold alias, becomes transparent here
   _
 )
 
-(deflayer arrow
-  _    _    _    _    _    _    _    _    _    _    _    _
-  _    _    _    _    _    left down up right _
-  _
-  _
-)
+;; --- Configuration End ---
+;; Attempt 4, leveraging defchordsv2 as documented. This looks correct according to the guide.
+;; The requirement for concurrent-tap-hold is key. Mother, billions, here we come.
