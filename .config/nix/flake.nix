@@ -97,6 +97,10 @@
           pkgs.fswatch
           pkgs.unison
 
+          pkgs.podman
+          pkgs.podman-compose
+
+
         ];
 
             homebrew = {
