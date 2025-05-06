@@ -86,7 +86,7 @@
   ;; F-row: Transparent
   _         _         _         _         _         _         _         _         _         _         _         _
   ;; Home row area: Transparent except for navigation cluster
-  _         _         _         _         _         _         left      down      up        right
+  _         _         _         _         _         left      down      up        right     _
   ;; Bottom row: Transparent
   _ ;; z key itself is handled by tap-hold alias, becomes transparent here
   _
