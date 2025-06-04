@@ -64,7 +64,7 @@
 
           ## Launchpad
           pkgs.raycast
-          pkgs.android-file-transfer
+          # pkgs.android-file-transfer
           # pkgs.docker_26
           pkgs.obsidian
           # pkgs.zoom-us # Not playing well with permissions, using self installed zoom
@@ -145,6 +145,8 @@
 
       # The platform the configuration will be used on.
       nixpkgs.hostPlatform = "aarch64-darwin";
+
+      system.primaryUser = "user";
     };
   in
   {
