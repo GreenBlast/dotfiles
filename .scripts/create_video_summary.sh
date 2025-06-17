@@ -29,6 +29,12 @@ fi
 
 VIDEO_URL="$1"
 
+## Checking that yt-dlp is installed
+if ! command -v yt-dlp &>/dev/null; then
+  echo "yt-dlp is not installed. Please install it and try again."
+  exit 1
+fi
+
 # ------------------------------
 #  1. Retrieve video title
 # ------------------------------
@@ -65,10 +71,10 @@ cp "$TEMPLATE_FILE" "$FILENAME"
 SUMMARY=""
 
 # First attempt
-SUMMARY=$(fabric -y "$VIDEO_URL" --stream --pattern summarize 2>/dev/null | tee /dev/tty)
+SUMMARY=$(~/.scripts/getting_yt_transcript.sh "$VIDEO_URL" | fabric --pattern summarize 2>/dev/null | tee /dev/tty)
 if [ $? -ne 0 ] || [ -z "$SUMMARY" ]; then
   # Second attempt if first fails
-  SUMMARY=$(fabric -y "$VIDEO_URL" --stream --pattern summarize -m=gpt-4o-mini 2>/dev/null | tee /dev/tty)
+  SUMMARY=$(~/.scripts/getting_yt_transcript.sh "$VIDEO_URL" | fabric --pattern summarize -m=gpt-4o-mini 2>/dev/null | tee /dev/tty)
 fi
 
 if [ -z "$SUMMARY" ]; then
