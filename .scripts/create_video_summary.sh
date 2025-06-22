@@ -71,10 +71,10 @@ cp "$TEMPLATE_FILE" "$FILENAME"
 SUMMARY=""
 
 # First attempt
-SUMMARY=$(~/.scripts/getting_yt_transcript.sh "$VIDEO_URL" | fabric --pattern summarize 2>/dev/null | tee /dev/tty)
+SUMMARY=$(fabric -y "$VIDEO_URL" --stream --pattern summarize 2>/dev/null | tee /dev/tty)
 if [ $? -ne 0 ] || [ -z "$SUMMARY" ]; then
   # Second attempt if first fails
-  SUMMARY=$(~/.scripts/getting_yt_transcript.sh "$VIDEO_URL" | fabric --pattern summarize -m=gpt-4o-mini 2>/dev/null | tee /dev/tty)
+  SUMMARY=$(fabric -y "$VIDEO_URL" --stream --pattern summarize -m=gpt-4o-mini 2>/dev/null | tee /dev/tty)
 fi
 
 if [ -z "$SUMMARY" ]; then
