@@ -192,7 +192,7 @@ function apat() {
   verify_hoarder_cli_key_and_address
   # Loop through each URL and execute curl
   for url in "${urls[@]}"; do
-      hoarder --api-key "${HOARDER_KEY}" --server-addr "${HOARDER_ADDRESS}" bookmarks add --link "$1" --tag-name "videos"
+      hoarder --api-key "${HOARDER_KEY}" --server-addr "${HOARDER_ADDRESS}" bookmarks add --link "$1" --tag-name "train reading"
   done
 
 }
