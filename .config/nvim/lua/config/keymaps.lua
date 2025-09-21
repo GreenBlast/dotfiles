@@ -48,3 +48,10 @@ vim.keymap.set("n", "<leader>x", "<cmd>!chmod +x %<CR>", { silent = true })
 vim.keymap.set("n", "<leader>mr", "<cmd>CellularAutomaton make_it_rain<CR>")
 
 vim.keymap.set("v", "<leader>r", ":'<,'>norm .<CR>", { desc = "Repeat last normal command on selection" })
+
+vim.keymap.set(
+  "n",
+  "<leader>r",
+  'ggIpat "<Esc>jVG:norm .<CR>ggA"<Esc>jVG:norm .<CR>',
+  { desc = "Setting pat to all lines" }
+)
