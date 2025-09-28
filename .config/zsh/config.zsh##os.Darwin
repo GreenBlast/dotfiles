@@ -1,2 +1,3 @@
 # Setting nvim path
-NVIM_PATH=/usr/local/bin/nvim
+# NVIM_PATH=/usr/local/bin/nvim
+NVIM_PATH=/run/current-system/sw/bin/nvim
