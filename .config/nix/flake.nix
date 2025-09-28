@@ -100,6 +100,7 @@
           pkgs.podman
           pkgs.podman-compose
 
+          pkgs.duc
 
         ];
 
