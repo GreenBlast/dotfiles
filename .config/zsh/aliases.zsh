@@ -218,6 +218,9 @@ alias ydf="yt-dlp -S 'vcodec:h264,fps,res:720,acodec:m4a'"
 
 alias rss="~/.scripts/get_youtube_rss.py "
 
+alias lzg='lazygit'
+alias lzd='lazydocker'
+
 # Nerd fonts
 installNerdFonts () {
  mkdir -p ~/Development
