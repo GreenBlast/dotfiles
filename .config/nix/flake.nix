@@ -102,6 +102,8 @@
 
           pkgs.duc
 
+          pkgs.idb-companion
+
         ];
 
             homebrew = {
