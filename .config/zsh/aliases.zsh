@@ -244,3 +244,63 @@ function fysum() {
 function fysumb() {
   fabric -y $1 --stream --pattern summarize -m=gpt-4o-mini
 }
+
+
+ytchat() {
+    emulate -L zsh
+    setopt local_options null_glob
+    local d=$(mktemp -d -t ytchat.XXXXXX)
+    local title=$(yt-dlp --write-auto-sub --skip-download --sub-langs ".*-orig,en" --sub-format vtt \
+      --print "%(title)s" --no-simulate -o "$d/sub.%(ext)s" "$1" 2>/dev/null)
+    local tmp="$d/transcript.txt"
+    local vtts=("$d"/*-orig.vtt)
+    if (( ${#vtts[@]} == 0 )); then
+      vtts=("$d"/*.vtt)
+    fi
+    if (( ${#vtts[@]} == 0 )); then
+      echo "ytchat: no subtitles found for $1" >&2
+      return 1
+    fi
+    cat "${vtts[@]}" \
+      | sed -E -e 's/<v ([^>]*)>/[\1]: /g' \
+               -e 's/<[^>]*>//g' \
+               -e 's/&gt;/>/g; s/&lt;/</g; s/&amp;/\&/g; s/&#39;/'\''/g; s/&quot;/"/g' \
+               -e '/^(WEBVTT|Kind:|Language:|[0-9:.]+ -->|$)/d' \
+               -e 's/^[[:space:]]+//; s/[[:space:]]+$//' \
+      | awk 'NF && !seen[$0]++' > "$tmp"
+    if [[ ! -s "$tmp" ]]; then
+      echo "ytchat: empty transcript for $1" >&2
+      return 1
+    fi
+    claude --add-dir "$d" -- "Video title: ${title}. Read the YouTube transcript at $tmp (>> = speaker change, [Name] = identified speaker). Summarize in 5 bullets plus 3 takeaways. I'll ask follow-ups."
+}
+
+ytchatl() {
+    emulate -L zsh
+    setopt local_options null_glob
+    local d=$(mktemp -d -t ytchat.XXXXXX)
+    local title=$(yt-dlp --write-auto-sub --skip-download --sub-langs ".*-orig,en" --sub-format vtt \
+      --print "%(title)s" --no-simulate -o "$d/sub.%(ext)s" "$1" 2>/dev/null)
+    local tmp="$d/transcript.txt"
+    local vtts=("$d"/*-orig.vtt)
+    if (( ${#vtts[@]} == 0 )); then
+      vtts=("$d"/*.vtt)
+    fi
+    if (( ${#vtts[@]} == 0 )); then
+      echo "ytchatl: no subtitles found for $1" >&2
+      return 1
+    fi
+    cat "${vtts[@]}" \
+      | sed -E -e 's/<v ([^>]*)>/[\1]: /g' \
+               -e 's/<[^>]*>//g' \
+               -e 's/&gt;/>/g; s/&lt;/</g; s/&amp;/\&/g; s/&#39;/'\''/g; s/&quot;/"/g' \
+               -e '/^(WEBVTT|Kind:|Language:|[0-9:.]+ -->|$)/d' \
+               -e 's/^[[:space:]]+//; s/[[:space:]]+$//' \
+      | awk 'NF && !seen[$0]++' > "$tmp"
+    if [[ ! -s "$tmp" ]]; then
+      echo "ytchatl: empty transcript for $1" >&2
+      return 1
+    fi
+    claude --add-dir "$d" --model 'claude-opus-4-7[1m]' -- "Video title: ${title}. Read the YouTube transcript at $tmp (>> = speaker change, [Name] = identified speaker). Summarize in 5 bullets plus 3 takeaways. I'll ask follow-ups."
+}
+
