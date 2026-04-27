@@ -38,7 +38,7 @@
           pkgs.lazygit
           pkgs.pandoc
           pkgs.mongosh
-          pkgs.yt-dlp
+          # pkgs.yt-dlp # Pulls in deno which fails to build on aarch64-darwin
           pkgs.sshpass
           pkgs.htop
           pkgs.zoxide
@@ -66,7 +66,7 @@
           pkgs.raycast
           # pkgs.android-file-transfer
           # pkgs.docker_26
-          pkgs.obsidian
+          # pkgs.obsidian # Broken code signatures via Nix, using Homebrew cask instead
           # pkgs.zoom-us # Not playing well with permissions, using self installed zoom
           pkgs.jetbrains.webstorm
           pkgs.mos
@@ -116,6 +116,7 @@
                 casks = [
                   "notunes"
                   "ghostty" # ghostty is marked as broken in nix packages
+                  "obsidian" # Broken code signatures via Nix
                   # "docker" # Docker is annoying apple security
                 ];
                 
