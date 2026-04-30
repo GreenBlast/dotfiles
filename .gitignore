@@ -92,3 +92,6 @@
 /vimwiki/Courses.wiki
 /vimwiki/IEC101.wiki
 /vimwiki/Kali.wiki
+
+
+**/__pycache__/**
