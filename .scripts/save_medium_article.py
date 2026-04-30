@@ -13,6 +13,7 @@ import datetime as dt
 import re
 import subprocess
 import sys
+import time
 import urllib.parse
 from pathlib import Path
 
@@ -49,6 +50,10 @@ PAYWALL_MARKERS = (
 )
 # Length safety net: if extracted body is shorter than this, retry via mirror.
 MIN_BODY_CHARS = 500
+
+# Transient fetch retry (trafilatura.fetch_url returns None on any failure).
+FETCH_ATTEMPTS = 3
+FETCH_BACKOFF_SECONDS = 1.5
 
 # ────────────────────────── /CONFIG ───────────────────────────
 
@@ -122,6 +127,19 @@ def strip_mirror_prefix(url: str) -> str:
 
 GENERIC_MIRROR_TITLES = {"freedium", "untitled article", "untitled", ""}
 
+BYLINE_SUFFIX = re.compile(r"\s+\|\s+by\s+.*$", re.IGNORECASE)
+
+
+def strip_byline_suffix(title: str) -> str:
+    """Drop ' | by Author...' (and anything after) — Medium puts the author in
+    og:title, not just og:site_name."""
+    return BYLINE_SUFFIX.sub("", title).strip()
+
+
+def yaml_quote(value: str) -> str:
+    """Quote a string for safe use as a YAML scalar value."""
+    return '"' + value.replace("\\", "\\\\").replace('"', '\\"') + '"'
+
 
 def find_article_title_in_body(body: str, subtitle: str | None) -> str | None:
     """Return the H1 closest above the subtitle line, otherwise the first H1.
@@ -161,10 +179,18 @@ def normalize_heading_levels(body: str) -> str:
 
 
 def fetch_url(url: str) -> str:
-    downloaded = trafilatura.fetch_url(url)
-    if not downloaded:
-        sys.exit(f"Failed to fetch URL: {url}")
-    return downloaded
+    for attempt in range(1, FETCH_ATTEMPTS + 1):
+        downloaded = trafilatura.fetch_url(url)
+        if downloaded:
+            return downloaded
+        if attempt < FETCH_ATTEMPTS:
+            delay = FETCH_BACKOFF_SECONDS * attempt
+            print(
+                f"Fetch attempt {attempt}/{FETCH_ATTEMPTS} returned nothing — retrying in {delay:.1f}s",
+                file=sys.stderr,
+            )
+            time.sleep(delay)
+    sys.exit(f"Failed to fetch URL after {FETCH_ATTEMPTS} attempts: {url}")
 
 
 def load_html(args) -> tuple[str, str | None]:
@@ -236,11 +262,12 @@ def extract(html: str, fallback_url: str | None):
     # og:site_name as "Real Title | by Author". Prefer that when og:title is
     # the generic mirror name.
     if (not meta_title or meta_title.strip().lower() in GENERIC_MIRROR_TITLES) and sitename:
-        candidate = re.split(r"\s+\|\s+by\s+", sitename, maxsplit=1)[0].strip()
+        candidate = strip_byline_suffix(sitename)
         if candidate and candidate.lower() not in GENERIC_MIRROR_TITLES:
             meta_title = candidate
 
     title = meta_title or doc.short_title() or "Untitled Article"
+    title = strip_byline_suffix(title)
     url = (meta.url if meta else None) or fallback_url
     description = meta.description if meta else None  # subtitle, when present
 
@@ -254,7 +281,7 @@ def build_note(title: str, url: str | None, subtitle: str | None, body: str) -> 
 
     lines = [
         "---",
-        f"title: {title}",
+        f"title: {yaml_quote(title)}",
         "aliases:",
         "tags:",
         "  - claude-created",
