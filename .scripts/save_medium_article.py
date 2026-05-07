@@ -57,7 +57,7 @@ FETCH_BACKOFF_SECONDS = 1.5
 
 # ────────────────────────── /CONFIG ───────────────────────────
 
-ILLEGAL_FILENAME_CHARS = re.compile(r'[\\/:*?"<>|#^\[\]]')
+ILLEGAL_FILENAME_CHARS = re.compile(r'[\\/:*?"<>|#^\[\]()]')
 APOSTROPHE_CHARS = re.compile(r"[’'`]")
 DASH_CHARS = re.compile(r"[—–]")
 WHITESPACE_RUN = re.compile(r"\s+")
