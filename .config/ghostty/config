@@ -42,5 +42,8 @@ mouse-hide-while-typing = true
 window-decoration = true
 keybind = global:cmd+/=toggle_quick_terminal
 macos-option-as-alt = true
+
+# Bypass /usr/bin/login (Platform SSO makes it hang for minutes on new windows)
+command = /bin/zsh -l
 # background-opacity = 0.7
 # background-blur-radius = 20 
