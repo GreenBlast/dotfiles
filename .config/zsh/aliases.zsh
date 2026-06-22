@@ -18,6 +18,14 @@ alias gdfs='git difftool --staged'
 alias gcod='git checkout .'
 alias gmd='git merge develop'
 
+# Worktrunk (wt) worktree shortcuts
+alias wts='wt switch'             # switch to a worktree (interactive picker if no arg)
+alias wtsc='wt switch --create'   # create a new branch + worktree, then switch to it
+alias wtsx='wt switch --create -x claude'  # create worktree and launch Claude Code in it
+alias wtl='wt list'               # list worktrees and their status
+alias wtr='wt remove'             # remove worktree (deletes branch if merged)
+alias wtm='wt merge'              # squash+rebase, fast-forward target, remove worktree
+
 # Reload zsh config
 alias reload!='RELOAD=1 source ~/.zshrc'
 
@@ -272,7 +280,7 @@ ytchat() {
       echo "ytchat: empty transcript for $1" >&2
       return 1
     fi
-    claude --add-dir "$d" -- "Video title: ${title}. Read the YouTube transcript at $tmp (>> = speaker change, [Name] = identified speaker). Summarize in 5 bullets plus 3 takeaways. I'll ask follow-ups."
+    claude --add-dir "$d" -- "Video title: ${title}. Video URL: $1. Read the YouTube transcript at $tmp (>> = speaker change, [Name] = identified speaker). Summarize in 5 bullets plus 3 takeaways. I'll ask follow-ups."
 }
 
 ytchatl() {
@@ -301,6 +309,6 @@ ytchatl() {
       echo "ytchatl: empty transcript for $1" >&2
       return 1
     fi
-    claude --add-dir "$d" --model 'claude-opus-4-7[1m]' -- "Video title: ${title}. Read the YouTube transcript at $tmp (>> = speaker change, [Name] = identified speaker). Summarize in 5 bullets plus 3 takeaways. I'll ask follow-ups."
+    claude --add-dir "$d" --model 'claude-opus-4-7[1m]' -- "Video title: ${title}. Video URL: $1. Read the YouTube transcript at $tmp (>> = speaker change, [Name] = identified speaker). Summarize in 5 bullets plus 3 takeaways. I'll ask follow-ups."
 }
 
