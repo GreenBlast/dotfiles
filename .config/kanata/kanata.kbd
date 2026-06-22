@@ -55,6 +55,16 @@
   ;; Layer switching keys
   zlayer (tap-hold $tap-time $hold-time z (layer-toggle arrow)) ;; Tap: z, Hold: Toggle Arrow Layer
   fnlayer (tap-hold $tap-time $hold-time fn (layer-toggle fn))   ;; Tap: fn, Hold: Toggle Fn Layer
+
+  ;; PANIC: force-release every modifier, then live-reload to reset kanata's internal
+  ;; state. Use when a modifier (Ctrl/Alt/...) gets stuck (e.g. after wake).
+  ;; Access: hold fn (globe) + F5.
+  ;; A stuck mod is continuously re-asserted by kanata, so tapping the physical key
+  ;; can't clear it -- only an explicit release + state reset will.
+  panic (multi
+    (release-key lmet) (release-key lalt) (release-key lsft) (release-key lctl)
+    (release-key rmet) (release-key ralt) (release-key rsft) (release-key rctl)
+    lrld)
 )
 
 ;; --- Layer Definitions ---
@@ -74,7 +84,7 @@
 
 (deflayer fn ;; Accessed by holding 'fn'
   ;; F-row: Media and brightness
-  brdn      brup      _         _         _         _         prev      pp        next      mute      vold      volu
+  brdn      brup      _         _         @panic    _         prev      pp        next      mute      vold      volu
   ;; Home row area: Mostly transparent, keeping escctrl available
   @escctrl  _         _         _         _         _         _         _         _         _
   ;; Bottom row: Transparent
