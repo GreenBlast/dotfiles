@@ -48,7 +48,7 @@
           pkgs.eza
           pkgs.imagemagick
           pkgs.neovim
-          pkgs.silver-searcher
+          pkgs.ripgrep
           pkgs.ffmpeg
 
           ## Brew Cask
@@ -104,6 +104,10 @@
 
           pkgs.idb-companion
 
+          pkgs.worktrunk
+
+          # pkgs.digikam # digikam is Linux-only in nixpkgs, using Homebrew cask instead
+
         ];
 
             homebrew = {
@@ -117,6 +121,7 @@
                   "notunes"
                   "ghostty" # ghostty is marked as broken in nix packages
                   "obsidian" # Broken code signatures via Nix
+                  "digikam" # digikam is Linux-only in nixpkgs
                   # "docker" # Docker is annoying apple security
                 ];
                 
