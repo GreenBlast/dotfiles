@@ -55,6 +55,16 @@ MIN_BODY_CHARS = 500
 FETCH_ATTEMPTS = 3
 FETCH_BACKOFF_SECONDS = 1.5
 
+# The freedium mirror is noticeably flakier than the origin: it intermittently
+# returns nothing, or a tiny placeholder page that extracts to an empty body.
+# Give it more tries, and judge success by the extracted body, not just a 200.
+MIRROR_ATTEMPTS = 5
+
+# A real article header lives in the first handful of lines. We only look for
+# the title/subtitle header anchor within this many leading lines so a subtitle
+# phrase that recurs deep in the prose can't be mistaken for the header.
+HEADER_SEARCH_LINES = 40
+
 # ────────────────────────── /CONFIG ───────────────────────────
 
 ILLEGAL_FILENAME_CHARS = re.compile(r'[\\/:*?"<>|#^\[\]()]')
@@ -72,13 +82,80 @@ def sanitize_title_for_filename(title: str) -> str:
     return t
 
 
+FENCE_SPLIT = re.compile(r"(?s)(```.*?```)")
+
+
+def split_code_fences(md: str):
+    """Yield (is_code, segment) pairs so callers can transform prose without
+    disturbing fenced code (headings/comments inside code must stay verbatim).
+    """
+    for part in FENCE_SPLIT.split(md):
+        if part.startswith("```") and part.endswith("```"):
+            yield True, part
+        elif part:
+            yield False, part
+
+
+def dedupe_consecutive_code_blocks(md: str) -> str:
+    """freedium renders every code block twice — once for the light theme and
+    once for the dark theme (`dark:hidden` / `dark:block`). Once styling
+    attributes are stripped these collapse into two identical fenced blocks
+    separated only by blank lines; keep just the first of each such pair.
+    """
+    result: list[str] = []
+    last_code = None          # normalized text of the previous emitted code block
+    pending: list[str] = []   # buffered (whitespace-only) text since that block
+    for is_code, part in split_code_fences(md):
+        if is_code:
+            if part.strip() == last_code and all(not p.strip() for p in pending):
+                pending = []  # drop the duplicate and the blank separator
+                continue
+            result.extend(pending)
+            pending = []
+            result.append(part)
+            last_code = part.strip()
+        else:
+            pending.append(part)
+            if part.strip():  # real prose breaks the light/dark adjacency
+                last_code = None
+                result.extend(pending)
+                pending = []
+    result.extend(pending)
+    return "".join(result)
+
+
+# Tailwind/div boilerplate that pandoc emits from freedium's code-block wrappers
+# (`<div class="relative">`, empty copy `<button>`, `dark:hidden` spans). These
+# survive even after attribute stripping in odd cases, so scrub them defensively.
+ARTIFACT_LINE = re.compile(
+    r"^\s*(?::: ?\S.*|\[\]\[\].*|\S*dark:(?:hidden|block)\S*\s*)$",
+    flags=re.MULTILINE,
+)
+
+
 def polish_body(md: str) -> str:
-    md = re.sub(r"<[^>]+>", "", md)  # strip raw HTML tags
-    md = re.sub(r":::.*?}|\[\[·\].*?\]\{.*?\}|\{.*?\}|\[\]\[\]\[\]|:::", "", md)
-    # Drop Medium image accessibility placeholder lines
-    md = re.sub(r"^\s*\[Press enter or click to view image in full size\]\s*$\n?", "", md, flags=re.MULTILINE)
-    # Drop standalone colon-only lines (pandoc artifact)
-    md = re.sub(r"^\s*:+\s*$\n?", "", md, flags=re.MULTILINE)
+    # Clean prose and code separately: the tag/brace/artifact scrubbing below
+    # would otherwise mangle code (a dict literal `{...}`, an `a < b` comparison)
+    # if applied inside fenced blocks.
+    out = []
+    for is_code, seg in split_code_fences(md):
+        if is_code:
+            # Normalize pandoc's fence info string (``` {tabindex="0"} -> ```)
+            # so blocks render plainly and duplicate light/dark copies match.
+            seg = re.sub(r"^``` *\{[^}]*\}", "```", seg)
+            out.append(seg)
+            continue
+        seg = re.sub(r"<[^>]+>", "", seg)  # strip raw HTML tags (e.g. bare <div>)
+        seg = re.sub(r":::.*?}|\[\[·\].*?\]\{.*?\}|\{.*?\}|\[\]\[\]\[\]|:::", "", seg)
+        seg = ARTIFACT_LINE.sub("", seg)
+        # Drop Medium image accessibility placeholder lines
+        seg = re.sub(r"^\s*\[Press enter or click to view image in full size\]\s*$\n?", "", seg, flags=re.MULTILINE)
+        # Drop standalone colon-only lines (pandoc artifact)
+        seg = re.sub(r"^\s*:+\s*$\n?", "", seg, flags=re.MULTILINE)
+        out.append(seg)
+    # With the <div> wrappers gone, duplicate code blocks are now separated only
+    # by blank lines, so the deduper can collapse them.
+    md = dedupe_consecutive_code_blocks("".join(out))
     md = re.sub(r"\n{4,}", "\n\n\n", md)
     return md.strip()
 
@@ -94,7 +171,11 @@ def trim_body_head(body: str, title: str, subtitle: str | None) -> str:
         n = needle.strip()
         if not n:
             return None
-        for i, line in enumerate(lines):
+        # Only the leading lines are the header. A subtitle/title phrase that
+        # recurs deeper in the prose (freedium echoes it, and authors restate
+        # their thesis) must NOT be treated as the header, or we'd drop the
+        # entire article body and keep only its tail.
+        for i, line in enumerate(lines[:HEADER_SEARCH_LINES]):
             if n in line:
                 return i
         return None
@@ -111,7 +192,12 @@ def trim_body_head(body: str, title: str, subtitle: str | None) -> str:
     return "\n".join(rest)
 
 
+PAYWALL_JSON_RE = re.compile(r'"isAccessibleForFree"\s*:\s*(?:false|"false"|0)', re.IGNORECASE)
+
+
 def looks_paywalled(html: str) -> bool:
+    if PAYWALL_JSON_RE.search(html):
+        return True
     return any(marker in html for marker in PAYWALL_MARKERS)
 
 
@@ -146,7 +232,16 @@ def find_article_title_in_body(body: str, subtitle: str | None) -> str | None:
     Falls back to None if no H1 exists.
     """
     lines = body.split("\n")
-    h1_indexes = [i for i, l in enumerate(lines) if l.startswith("# ") and l[2:].strip()]
+    in_code = False
+    code_line = [False] * len(lines)
+    for i, l in enumerate(lines):
+        if l.lstrip().startswith("```"):
+            in_code = not in_code
+        code_line[i] = in_code
+    h1_indexes = [
+        i for i, l in enumerate(lines)
+        if l.startswith("# ") and l[2:].strip() and not code_line[i]
+    ]
     if not h1_indexes:
         return None
 
@@ -169,12 +264,18 @@ def find_article_title_in_body(body: str, subtitle: str | None) -> str | None:
 def normalize_heading_levels(body: str) -> str:
     """If the body has no H2s but multiple H3+, shift every heading up one
     level. Compensates for mirrors/pandoc that wrap the article in an extra
-    section level.
+    section level. Headings inside fenced code blocks (e.g. a `#### OUTPUT ####`
+    comment banner) are left untouched.
     """
-    h2_count = len(re.findall(r"(?m)^##\s", body))
-    h3_count = len(re.findall(r"(?m)^###\s", body))
+    prose = "".join(seg for is_code, seg in split_code_fences(body) if not is_code)
+    h2_count = len(re.findall(r"(?m)^##\s", prose))
+    h3_count = len(re.findall(r"(?m)^###\s", prose))
     if h2_count == 0 and h3_count >= 2:
-        body = re.sub(r"(?m)^(#{2,})(\s)", lambda m: m.group(1)[1:] + m.group(2), body)
+        shift = lambda m: m.group(1)[1:] + m.group(2)
+        body = "".join(
+            seg if is_code else re.sub(r"(?m)^(#{2,})(\s)", shift, seg)
+            for is_code, seg in split_code_fences(body)
+        )
     return body
 
 
@@ -193,6 +294,40 @@ def fetch_url(url: str) -> str:
     sys.exit(f"Failed to fetch URL after {FETCH_ATTEMPTS} attempts: {url}")
 
 
+def fetch_mirror_until_good(original_url: str):
+    """Fetch + extract through the mirror, retrying because the mirror
+    intermittently returns nothing or a thin placeholder page. Returns
+    (html, (title, url, subtitle, body)) for the best attempt. The body is the
+    raw extracted markdown (pre-polish); success is judged on its length and a
+    non-generic title rather than on a mere HTTP 200.
+    """
+    mirror_url = via_mirror(original_url)
+    best = None  # (html, extract_tuple) with the longest body seen so far
+    for attempt in range(1, MIRROR_ATTEMPTS + 1):
+        html = trafilatura.fetch_url(mirror_url)
+        if html:
+            result = extract(html, original_url)
+            title, _url, _subtitle, body = result
+            if len(body) >= MIN_BODY_CHARS and title.strip().lower() not in GENERIC_MIRROR_TITLES:
+                return html, result
+            if best is None or len(body) > len(best[1][3]):
+                best = (html, result)
+        if attempt < MIRROR_ATTEMPTS:
+            reason = "returned nothing" if not html else "returned a placeholder/thin page"
+            delay = FETCH_BACKOFF_SECONDS * attempt
+            print(
+                f"Mirror attempt {attempt}/{MIRROR_ATTEMPTS} {reason} — retrying in {delay:.1f}s",
+                file=sys.stderr,
+            )
+            time.sleep(delay)
+    if best is not None and len(best[1][3]) >= MIN_BODY_CHARS:
+        return best
+    sys.exit(
+        f"Mirror never returned a usable article after {MIRROR_ATTEMPTS} attempts: {mirror_url}\n"
+        "The mirror is intermittently flaky — re-running in a moment usually works."
+    )
+
+
 def load_html(args) -> tuple[str, str | None]:
     """Returns (html_or_url_content, source_url_or_none).
     The source URL we hand on never includes the mirror prefix.
@@ -200,12 +335,10 @@ def load_html(args) -> tuple[str, str | None]:
     if args.url:
         if args.url.startswith(MIRROR_BASE):
             return fetch_url(args.url), strip_mirror_prefix(args.url)
-        html = fetch_url(args.url)
-        if looks_paywalled(html):
-            mirror_url = via_mirror(args.url)
-            print(f"Paywall detected — refetching via mirror: {mirror_url}", file=sys.stderr)
-            html = fetch_url(mirror_url)
-        return html, args.url
+        # Just load the origin here; main() decides whether to reroute through
+        # the mirror (paywall or thin extraction) so the retry/quality logic
+        # lives in one place.
+        return fetch_url(args.url), args.url
 
     if args.file:
         path = Path(args.file).expanduser()
@@ -232,27 +365,50 @@ def html_to_markdown(article_html: str) -> str:
     return result.stdout
 
 
-def strip_figures(article_html: str) -> str:
-    """Remove <figure>, <img>, and <picture> from the readability HTML so image
-    captions don't leak into the markdown body."""
+def clean_article_html(article_html: str) -> str:
+    """Strip noise from the readability HTML before the markdown conversion:
+
+    * <figure>/<img>/<picture>/<svg> so image captions don't leak in;
+    * <button> (freedium's code copy buttons) so empty `[][]` links don't leak;
+    * <style>/<script>/<noscript> in case any survived readability;
+    * class/style/data-* attributes so Tailwind wrappers like
+      `<div class="relative">` and `dark:hidden` spans don't become
+      `:: relative` / `dark:hidden` pandoc artifacts.
+    """
     try:
         tree = lxml_html.fragment_fromstring(article_html, create_parent="div")
     except Exception:
         return article_html
-    for tag in ("figure", "img", "picture", "svg"):
-        for el in tree.iter(tag):
-            el.getparent().remove(el)
+    for tag in ("figure", "img", "picture", "svg", "button", "style", "script", "noscript"):
+        for el in list(tree.iter(tag)):
+            parent = el.getparent()
+            if parent is not None:
+                parent.remove(el)
+    for el in tree.iter():
+        for attr in list(el.attrib):
+            if attr in ("class", "style") or attr.startswith("data-"):
+                del el.attrib[attr]
     return lxml_html.tostring(tree, encoding="unicode")
 
 
 def extract(html: str, fallback_url: str | None):
+    """Extract (title, url, subtitle, raw_body_md) from a page. On extraction
+    failure it returns an empty body rather than exiting, so callers (the mirror
+    retry loop, the final write gate) can decide what to do."""
     doc = Document(html)
-    article_html = doc.summary(html_partial=True)
-    if not article_html:
-        sys.exit("readability could not extract article content")
+    try:
+        article_html = doc.summary(html_partial=True)
+    except Exception:
+        article_html = None
+    # Mirror placeholder pages extract to a near-empty fragment; treat as a miss.
+    if not article_html or len(article_html) < 200:
+        return "Untitled Article", fallback_url, None, ""
 
-    article_html = strip_figures(article_html)
-    body_md = html_to_markdown(article_html)
+    article_html = clean_article_html(article_html)
+    try:
+        body_md = html_to_markdown(article_html)
+    except subprocess.CalledProcessError:
+        return "Untitled Article", fallback_url, None, ""
 
     meta = trafilatura.extract_metadata(html)
     meta_title = meta.title if meta and meta.title else None
@@ -336,20 +492,22 @@ def main():
     html, fallback_url = load_html(args)
     title, url, subtitle, body = extract(html, fallback_url)
 
-    # Length safety net: if URL fetch returned a suspiciously short body and we
-    # haven't already gone through the mirror, retry there.
-    if (
-        args.url
-        and not args.url.startswith(MIRROR_BASE)
-        and len(body) < MIN_BODY_CHARS
+    # Reroute through the mirror when the origin is paywalled, or when the
+    # extraction came back thin/generic (a paywall preview or a fetch hiccup).
+    # The mirror helper retries until it gets a real article body.
+    from_origin = bool(args.url) and not args.url.startswith(MIRROR_BASE)
+    if from_origin and (
+        looks_paywalled(html)
+        or len(body) < MIN_BODY_CHARS
+        or title.strip().lower() in GENERIC_MIRROR_TITLES
     ):
-        mirror_url = via_mirror(args.url)
-        print(
-            f"Body suspiciously short ({len(body)} chars) — retrying via mirror: {mirror_url}",
-            file=sys.stderr,
+        reason = (
+            "paywall detected"
+            if looks_paywalled(html)
+            else f"thin extraction ({len(body)} chars)"
         )
-        html = fetch_url(mirror_url)
-        title, url, subtitle, body = extract(html, args.url)
+        print(f"{reason} — fetching via mirror: {via_mirror(args.url)}", file=sys.stderr)
+        html, (title, url, subtitle, body) = fetch_mirror_until_good(args.url)
 
     body = polish_body(body)
 
@@ -362,6 +520,15 @@ def main():
 
     body = trim_body_head(body, title, subtitle)
     body = normalize_heading_levels(body)
+
+    # Final quality gate: never write a note from a paywall preview, a mirror
+    # placeholder, or a botched extraction. Fail loudly so a re-run is obvious.
+    if title.strip().lower() in GENERIC_MIRROR_TITLES or len(body) < MIN_BODY_CHARS:
+        sys.exit(
+            f"Refusing to write — extraction looks incomplete "
+            f"(title={title!r}, body={len(body)} chars). "
+            "The source may be paywalled or the mirror flaky; try re-running."
+        )
 
     filename_stem = sanitize_title_for_filename(title)
     if not filename_stem:
