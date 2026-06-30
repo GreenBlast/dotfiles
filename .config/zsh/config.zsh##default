@@ -1,5 +1,6 @@
-# Setting nvim path
-NVIM_PATH=/usr/bin/nvim
+# Setting nvim path (auto-detect wherever nvim lives, e.g. /usr/bin or ~/.local/bin).
+# Empty if nvim isn't installed -> .zshrc falls back to plain vim.
+NVIM_PATH="$(command -v nvim 2>/dev/null)"
 
 # Setting installed fonts
 export FONTS_INSTALLED=true
