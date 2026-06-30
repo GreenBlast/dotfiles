@@ -118,7 +118,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 # Nvim path should be set in config file
-    if [ -f $NVIM_PATH ]; then
+    if [ -f "$NVIM_PATH" ]; then
     alias vim=${NVIM_PATH}
     export GIT_EDITOR=${NVIM_PATH}
     # Exporting editor
