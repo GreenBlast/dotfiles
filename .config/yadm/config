@@ -5,3 +5,5 @@
 [user]
 	email = greenfighter@gmail.com
 	name = GreenBlast
+[pull]
+	rebase = false
