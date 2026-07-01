@@ -135,6 +135,26 @@
                 
               };
 
+      # Syncthing PKM sync — run nix's syncthing as a user LaunchAgent so the Mac
+      # spoke survives reboots. Reuses the existing config + db under
+      # ~/Library/Application Support/Syncthing (device KGMBO5W…, folder obsidian-vault).
+      # nix-darwin ships no services.syncthing, so we drive launchd directly:
+      # launchd (KeepAlive) supervises; syncthing runs --no-restart so it doesn't self-fork.
+      launchd.user.agents.syncthing.serviceConfig = {
+        ProgramArguments = [
+          "${pkgs.syncthing}/bin/syncthing"
+          "serve"
+          "--no-browser"
+          "--no-restart"
+          "--home=/Users/user/Library/Application Support/Syncthing"
+        ];
+        KeepAlive = true;
+        RunAtLoad = true;
+        ProcessType = "Background";
+        StandardOutPath = "/Users/user/Library/Application Support/Syncthing/launchd.out.log";
+        StandardErrorPath = "/Users/user/Library/Application Support/Syncthing/launchd.err.log";
+      };
+
       # fonts.packages = [
       #   (pkgs.nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
       # ];
