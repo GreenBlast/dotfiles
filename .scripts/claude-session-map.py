@@ -147,17 +147,21 @@ for p in panes:
     tmap = tmaps.get(p["cwd"], {})
     rn = p["resume_name"]
     target, method = "", "UNRESOLVED"
-    # 1) Trust the launch arg ONLY when it's a real UUID still present on disk.
-    if rn and UUID_RE.match(rn) and session_exists(rn, p["cwd"]):
+    # 1) Live pane title == the running session's current ai-title — ground truth
+    #    for what is actually open in this pane RIGHT NOW. A session can fork to a
+    #    new UUID on resume/compaction while the parent .jsonl survives, so a stale
+    #    `--resume <parent>` arg must NOT win over the live title (else two panes
+    #    that resumed the same id collide on the parent and the forked child is lost).
+    #    Resolve a slug arg too.
+    hit = tmap.get(title)
+    if not hit and rn and not UUID_RE.match(rn):
+        hit = tmap.get(rn)
+    if hit:
+        target, method = hit[0], "title-match"
+    # 2) Fall back to the launch arg only when the live title resolves nothing, and
+    #    only when it's a real UUID still present on disk (never a slug/dead id).
+    elif rn and UUID_RE.match(rn) and session_exists(rn, p["cwd"]):
         target, method = rn, "argv-uuid"
-    else:
-        # 2) Live pane title == the running session's ai-title — ground truth
-        #    for what is actually open in this pane. Resolve a slug arg too.
-        hit = tmap.get(title)
-        if not hit and rn and not UUID_RE.match(rn):
-            hit = tmap.get(rn)
-        if hit:
-            target, method = hit[0], "title-match"
     rows.append((p["addr"], p["cwd"], title, target, method))
 
 rows.sort(key=lambda r: wkey(r[0]))
