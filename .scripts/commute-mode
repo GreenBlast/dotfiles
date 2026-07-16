@@ -1,0 +1,348 @@
+#!/usr/bin/env python3
+"""
+commute-mode -- route ALL traffic through a Tailscale exit node (a UDP tunnel),
+to defeat the carrier's TCP-tethering block on cellular.
+
+    commute-mode on [MIN]  # send everything through the exit node (UDP)
+                           #   MIN = auto-off after that many minutes
+                           #   (default 120; `on 0` / `on none` = no timer)
+    commute-mode off       # back to the normal direct path (cancels any timer)
+    commute-mode status    # what's active, UDP-direct vs relayed, timer left
+    commute-mode toggle [MIN]   # flip on<->off
+
+WHY: on the tethered cellular path, new TCP connections are dropped at SYN while
+UDP/ICMP stay fine. Tailscale carries traffic inside WireGuard/UDP, so pushing
+everything through an exit node collapses hundreds of fingerprintable TCP flows
+into one UDP flow the carrier can't block or exhaust. See the vault note /
+memory project_train_connectivity.
+
+AUTO-OFF: `on` arms a detached watchdog that flips back to the normal path after
+MIN minutes, so you never get home still tunneled. Re-running `on` re-arms it;
+`off` cancels it. The watchdog only disengages if an exit node is still active
+and it hasn't been superseded by a later `on`, so it never fights a manual flip.
+
+ONE-TIME SETUP (must be done once, from a good connection -- it needs the
+headscale control plane, which is flaky on the train):
+
+  1. On the exit-node host (dockerhost is the pick):
+        sudo tailscale up --advertise-exit-node
+  2. Approve the route in self-hosted headscale (<your-headscale-host>).
+     This headscale is v0.28 -- the `routes` command is gone; use:
+        headscale nodes list                          # find dockerhost's id
+        headscale nodes approve-routes -i <id> -r 0.0.0.0/0,::/0
+
+Once a peer advertises + is approved, this script finds it automatically.
+"""
+
+import json
+import os
+import subprocess
+import sys
+import time
+
+TS = "/usr/local/bin/tailscale"
+# Try these hostnames in order; first one that is exit-capable AND online wins.
+PREFERRED = ["dockerhost", "raspberrypi", "minisforum", "devbox"]
+
+# Auto-off after this many minutes unless overridden on the CLI or via env.
+# 120 gives comfortable slack over the ~80-min ride without cutting out mid-trip.
+DEFAULT_TIMEOUT_MIN = int(os.environ.get("COMMUTE_TIMEOUT_MIN", "120"))
+
+STATE_DIR = os.path.expanduser("~/.cache/commute-mode")
+PID_FILE = os.path.join(STATE_DIR, "timer.pid")
+DEADLINE_FILE = os.path.join(STATE_DIR, "timer.deadline")
+
+C = {"grn": "\033[32m", "red": "\033[31m", "yel": "\033[33m",
+     "dim": "\033[90m", "bold": "\033[1m", "off": "\033[0m"}
+
+
+def ts(*args, check=True, timeout=20):
+    try:
+        p = subprocess.run([TS, *args], capture_output=True, text=True,
+                           timeout=timeout)
+    except FileNotFoundError:
+        die(f"tailscale CLI not found at {TS}")
+    except subprocess.TimeoutExpired:
+        die(f"`tailscale {' '.join(args)}` timed out (control plane unreachable?)")
+    if check and p.returncode != 0:
+        die(f"`tailscale {' '.join(args)}` failed:\n  {p.stderr.strip()}")
+    return p
+
+
+def status_json():
+    p = ts("status", "--json", check=False)
+    try:
+        return json.loads(p.stdout)
+    except json.JSONDecodeError:
+        die("could not parse `tailscale status --json` -- is the daemon running?")
+
+
+def die(msg, code=1):
+    print(f"{C['red']}error:{C['off']} {msg}", file=sys.stderr)
+    sys.exit(code)
+
+
+# ---------------------------------------------------------------------------
+# auto-off timer (detached watchdog)
+# ---------------------------------------------------------------------------
+
+def _read_int(path):
+    try:
+        with open(path) as f:
+            return int(f.read().strip())
+    except (OSError, ValueError):
+        return None
+
+
+def cancel_timer():
+    """Kill any armed watchdog and clear its state. Idempotent."""
+    pid = _read_int(PID_FILE)
+    if pid:
+        try:
+            os.kill(pid, 15)   # SIGTERM
+        except ProcessLookupError:
+            pass
+        except PermissionError:
+            pass
+    for f in (PID_FILE, DEADLINE_FILE):
+        try:
+            os.remove(f)
+        except OSError:
+            pass
+
+
+def arm_timer(minutes):
+    """(Re)arm a detached watchdog that turns commute-mode off after `minutes`."""
+    cancel_timer()
+    if not minutes or minutes <= 0:
+        return None
+    os.makedirs(STATE_DIR, exist_ok=True)
+    deadline = int(time.time()) + int(minutes * 60)
+    # Detach fully: new session, no controlling tty, survives this shell closing.
+    child = subprocess.Popen(
+        [sys.executable, os.path.abspath(__file__), "_timer", str(deadline)],
+        stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL, start_new_session=True,
+    )
+    with open(DEADLINE_FILE, "w") as f:
+        f.write(str(deadline))
+    with open(PID_FILE, "w") as f:
+        f.write(str(child.pid))
+    return deadline
+
+
+def timer_remaining():
+    """Seconds until the armed auto-off, or None if no live timer."""
+    deadline = _read_int(DEADLINE_FILE)
+    if deadline is None:
+        return None
+    left = deadline - int(time.time())
+    return left if left > 0 else None
+
+
+def fmt_left(secs):
+    m, s = divmod(int(secs), 60)
+    return f"{m}m{s:02d}s" if m else f"{s}s"
+
+
+def cmd_timer(deadline_s):
+    """Hidden watchdog entrypoint: wait, then disengage if still ours + active."""
+    try:
+        deadline = int(deadline_s)
+    except (TypeError, ValueError):
+        return
+    while True:
+        left = deadline - time.time()
+        if left <= 0:
+            break
+        time.sleep(min(left, 30))
+    # Superseded by a later `on`? Then that deadline differs -- stand down.
+    if _read_int(DEADLINE_FILE) != deadline:
+        return
+    d = status_json()
+    if active_exit_node(d):
+        ts("set", "--exit-node=", check=False)
+    for f in (PID_FILE, DEADLINE_FILE):
+        try:
+            os.remove(f)
+        except OSError:
+            pass
+
+
+# ---------------------------------------------------------------------------
+
+
+def exit_capable_peers(d):
+    """[(hostname, ip, online, stable_id)] for peers advertising exit-node."""
+    out = []
+    for p in (d.get("Peer") or {}).values():
+        if p.get("ExitNodeOption"):
+            out.append((
+                p.get("HostName", "?"),
+                (p.get("TailscaleIPs") or ["?"])[0],
+                bool(p.get("Online")),
+                p.get("ID", ""),
+            ))
+    return out
+
+
+def active_exit_node(d):
+    """(hostname, ip, relayed) of the exit node in use, or None."""
+    for p in (d.get("Peer") or {}).values():
+        if p.get("ExitNode"):
+            relayed = not p.get("CurAddr")   # no direct addr => via DERP (TCP!)
+            return (p.get("HostName", "?"),
+                    (p.get("TailscaleIPs") or ["?"])[0], relayed)
+    return None
+
+
+def pick_exit_node(d):
+    peers = exit_capable_peers(d)
+    if not peers:
+        return None
+    online = {h: (h, ip, on, sid) for h, ip, on, sid in peers if on}
+    for name in PREFERRED:
+        if name in online:
+            return online[name]
+    # any online one, else give back the first (offline) so we can warn well
+    return next(iter(online.values()), peers[0])
+
+
+def no_exit_node_help(d):
+    peers = exit_capable_peers(d)
+    print(f"{C['red']}No exit node is available to select.{C['off']}\n")
+    if not peers:
+        print("No peer is advertising exit-node capability yet. This is the")
+        print("one-time setup -- do it once from a good connection:\n")
+        print(f"  {C['bold']}1.{C['off']} on dockerhost:  "
+              f"sudo tailscale up --advertise-exit-node")
+        print(f"  {C['bold']}2.{C['off']} approve the route in headscale "
+              f"(v0.28 -- `routes` cmd is gone):")
+        print(f"       headscale nodes list")
+        print(f"       headscale nodes approve-routes -i <id> -r 0.0.0.0/0,::/0")
+        print(f"\n  then: {C['bold']}commute-mode on{C['off']}")
+    else:
+        print("A peer advertises exit-node, but none are online right now:")
+        for h, ip, on, _ in peers:
+            print(f"    {h:<16} {ip:<14} {C['red']}offline{C['off']}")
+        print("\n  (control plane may be unreachable on this link -- "
+              "the tunnel to home must be up)")
+    # Health hints straight from tailscale.
+    for line in d.get("Health") or []:
+        print(f"  {C['dim']}health: {line}{C['off']}")
+
+
+def cmd_status(d=None):
+    d = d or status_json()
+    self_ = d.get("Self", {})
+    print(f"  self: {self_.get('HostName')} "
+          f"{(self_.get('TailscaleIPs') or ['?'])[0]}")
+    act = active_exit_node(d)
+    if act:
+        h, ip, relayed = act
+        if relayed:
+            print(f"  commute-mode: {C['yel']}ON via {h} ({ip}) "
+                  f"-- but RELAYED over DERP (TCP!){C['off']}")
+            print(f"  {C['yel']}  a relayed exit node rides TCP, which is exactly "
+                  f"what's blocked. Not useful here.{C['off']}")
+        else:
+            print(f"  commute-mode: {C['grn']}ON via {h} ({ip}) "
+                  f"-- direct UDP{C['off']}  (all traffic tunneled)")
+        left = timer_remaining()
+        if left:
+            print(f"  auto-off in: {C['dim']}{fmt_left(left)}{C['off']}")
+        else:
+            print(f"  auto-off in: {C['dim']}(no timer -- stays on until "
+                  f"`commute-mode off`){C['off']}")
+    else:
+        print(f"  commute-mode: {C['dim']}OFF{C['off']}  (normal direct path)")
+    caps = exit_capable_peers(d)
+    if caps:
+        avail = ", ".join(f"{h}{'' if on else '(offline)'}"
+                          for h, _, on, _ in caps)
+        print(f"  available exit nodes: {avail}")
+    for line in d.get("Health") or []:
+        print(f"  {C['dim']}health: {line}{C['off']}")
+
+
+def cmd_on(minutes=DEFAULT_TIMEOUT_MIN):
+    d = status_json()
+    if active_exit_node(d):
+        # already on -- just (re)arm the timer per the new request
+        deadline = arm_timer(minutes)
+        if deadline:
+            print(f"already ON; auto-off re-armed for {int(minutes)}m.")
+        else:
+            print("already ON; auto-off timer cleared (stays on until `off`).")
+        return cmd_status(d)
+    node = pick_exit_node(d)
+    if not node or not node[2]:   # none, or the pick is offline
+        no_exit_node_help(d)
+        sys.exit(1)
+    h, ip, _online, _sid = node
+    print(f"routing all traffic through {C['bold']}{h}{C['off']} ({ip}) over UDP...")
+    ts("set", f"--exit-node={ip}", "--exit-node-allow-lan-access=true")
+    # verify it actually took, and that it's a direct (UDP) path
+    d2 = status_json()
+    act = active_exit_node(d2)
+    if not act:
+        die("exit node did not engage -- check `tailscale status`")
+    arm_timer(minutes)
+    cmd_status(d2)
+    if act[2]:
+        print(f"\n{C['yel']}heads-up: the exit path is relayed (DERP/TCP), not "
+              f"direct UDP. If the carrier is blocking TCP this won't help until "
+              f"a direct path forms. Re-check with: commute-mode status{C['off']}")
+
+
+def cmd_off():
+    d = status_json()
+    cancel_timer()
+    if not active_exit_node(d):
+        print(f"already {C['dim']}OFF{C['off']}.")
+        return
+    print("restoring the normal direct path...")
+    ts("set", "--exit-node=")
+    cmd_status()
+
+
+def cmd_toggle(minutes=DEFAULT_TIMEOUT_MIN):
+    if active_exit_node(status_json()):
+        cmd_off()
+    else:
+        cmd_on(minutes)
+
+
+def parse_minutes(argv, default=DEFAULT_TIMEOUT_MIN):
+    """Optional trailing minutes arg; 0/none/off/never -> no timer."""
+    if not argv:
+        return default
+    a = argv[0].lower()
+    if a in ("none", "off", "never", "no"):
+        return 0
+    try:
+        return max(0, int(a))
+    except ValueError:
+        die(f"bad minutes value '{argv[0]}' -- use a number, or 'none'")
+
+
+def main():
+    args = sys.argv[1:]
+    cmd = (args[0] if args else "status").lower()
+    rest = args[1:]
+    if cmd == "on":
+        cmd_on(parse_minutes(rest))
+    elif cmd == "off":
+        cmd_off()
+    elif cmd == "status":
+        cmd_status()
+    elif cmd == "toggle":
+        cmd_toggle(parse_minutes(rest))
+    elif cmd == "_timer":                     # hidden watchdog entrypoint
+        cmd_timer(rest[0] if rest else None)
+    else:
+        die(f"unknown command '{cmd}'. Use: on [min] | off | status | toggle")
+
+
+if __name__ == "__main__":
+    main()
