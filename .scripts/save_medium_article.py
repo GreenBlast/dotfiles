@@ -65,6 +65,16 @@ MIRROR_ATTEMPTS = 5
 # phrase that recurs deep in the prose can't be mistaken for the header.
 HEADER_SEARCH_LINES = 40
 
+# Completeness gate. readability silently returns only its single highest-scoring
+# container, which on a long Medium post can be half the article (see
+# extract_article_html). Nothing used to check the output against the input, so a
+# note could be written that dropped 12 of 26 sections and still report success.
+# We now compare the extracted body against the headings actually present in the
+# page's article container and refuse to write if too many went missing.
+MAX_MISSING_HEADINGS_RATIO = 0.15
+# Below this many source headings there isn't enough signal to judge; skip the gate.
+MIN_HEADINGS_FOR_GATE = 4
+
 # ────────────────────────── /CONFIG ───────────────────────────
 
 ILLEGAL_FILENAME_CHARS = re.compile(r'[\\/:*?"<>|#^\[\]()]')
@@ -83,6 +93,13 @@ def sanitize_title_for_filename(title: str) -> str:
 
 
 FENCE_SPLIT = re.compile(r"(?s)(```.*?```)")
+
+# Strip a stray raw HTML tag, but ONLY a real one: `</?tagname ...>` on a single
+# line. The obvious `<[^>]+>` is a trap — `[^>]` matches newlines, so a lone `<`
+# in the prose or in a code sample (`SET key <value>`) swallows everything up to
+# the next `>` anywhere later in the document, headings and all. That silently ate
+# 14k chars and 19 sections out of a Redis article full of `<placeholder>` syntax.
+STRAY_TAG = re.compile(r"</?[a-zA-Z][^>\n]*>")
 
 
 def split_code_fences(md: str):
@@ -140,12 +157,15 @@ def polish_body(md: str) -> str:
     out = []
     for is_code, seg in split_code_fences(md):
         if is_code:
-            # Normalize pandoc's fence info string (``` {tabindex="0"} -> ```)
-            # so blocks render plainly and duplicate light/dark copies match.
+            # Normalize pandoc's fence info string (``` {tabindex="0"} -> ```,
+            # ``` python -> ```python) so blocks render plainly in Obsidian and
+            # duplicate light/dark copies compare equal for the deduper.
             seg = re.sub(r"^``` *\{[^}]*\}", "```", seg)
+            seg = re.sub(r"^``` +(\w)", r"```\1", seg)
+            seg = re.sub(r"^```text$", "```", seg, flags=re.MULTILINE)
             out.append(seg)
             continue
-        seg = re.sub(r"<[^>]+>", "", seg)  # strip raw HTML tags (e.g. bare <div>)
+        seg = STRAY_TAG.sub("", seg)  # strip raw HTML tags (e.g. bare <div>)
         seg = re.sub(r":::.*?}|\[\[·\].*?\]\{.*?\}|\{.*?\}|\[\]\[\]\[\]|:::", "", seg)
         seg = ARTIFACT_LINE.sub("", seg)
         # Drop Medium image accessibility placeholder lines
@@ -160,6 +180,139 @@ def polish_body(md: str) -> str:
     return md.strip()
 
 
+ELLIPSIS_TAIL = re.compile(r"(?:…|\.\.\.)\s*$")
+
+# trafilatura tuning: favor_recall keeps borderline blocks (intros, short
+# sections, the closing links list) that the default precision mode discards.
+#
+# include_links MUST stay True. With links off, trafilatura returns the anchor TEXT
+# and drops the href — so a "Further reading" section degrades into a list of titles
+# pointing nowhere, and every inline citation in the prose loses its source. The
+# vault's whole point is keeping the real URL.
+TRAFILATURA_OPTS = dict(
+    include_formatting=True,
+    include_links=True,
+    include_images=False,
+    include_tables=True,
+    favor_recall=True,
+)
+
+
+def text_len(fragment_html: str) -> int:
+    """Visible-text length of an HTML fragment (markup-insensitive, so it can
+    compare two extractors that keep very different amounts of markup)."""
+    if not fragment_html:
+        return 0
+    try:
+        tree = lxml_html.fragment_fromstring(fragment_html, create_parent="div")
+    except Exception:
+        return len(fragment_html)
+    return len(" ".join(tree.text_content().split()))
+
+
+def extract_article_html(html: str) -> str | None:
+    """Return the article body as HTML, preferring trafilatura over readability.
+
+    readability scores DOM containers and returns only the single highest-scoring
+    one. On a long Medium post whose body is split across nested divs it happily
+    returns the densest child and silently discards everything above it — it kept
+    13 of 26 sections on the Temporal article, dropping the entire first half.
+    trafilatura keeps the whole body.
+
+    readability is still a useful fallback (it handles some non-Medium layouts
+    trafilatura declines to parse), so run both and keep whichever recovered more
+    text. That way a regression in either one degrades instead of truncating.
+    """
+    traf = trafilatura.extract(html, output_format="html", **TRAFILATURA_OPTS)
+    try:
+        read = Document(html).summary(html_partial=True)
+    except Exception:
+        read = None
+
+    traf_len, read_len = text_len(traf), text_len(read)
+    if traf_len >= read_len:
+        return traf or read
+    # readability winning by a wide margin usually means trafilatura bailed out;
+    # a narrow win is noise, so keep trafilatura unless readability is clearly richer.
+    print(
+        f"trafilatura extracted {traf_len} chars vs readability's {read_len} — using readability",
+        file=sys.stderr,
+    )
+    return read
+
+
+def heading_texts(node_html: str) -> list[str]:
+    """Normalized h1-h3 texts from an HTML fragment."""
+    try:
+        tree = lxml_html.fragment_fromstring(node_html, create_parent="div")
+    except Exception:
+        return []
+    return [normalize_heading(h.text_content()) for h in tree.xpath(".//h1|.//h2|.//h3")]
+
+
+HEADING_NOISE = re.compile(r"[^\w\s]")
+
+
+def normalize_heading(s: str) -> str:
+    return " ".join(HEADING_NOISE.sub(" ", s.lower()).split())
+
+
+def source_headings(html: str) -> list[str]:
+    """Headings inside the page's main article container — the ground truth the
+    completeness gate checks the extracted body against."""
+    try:
+        tree = lxml_html.fromstring(html)
+    except Exception:
+        return []
+    for xpath in ("//article", "//main"):
+        nodes = tree.xpath(xpath)
+        if nodes:
+            node = max(nodes, key=lambda n: len(n.text_content()))
+            heads = [normalize_heading(h.text_content())
+                     for h in node.xpath(".//h1|.//h2|.//h3")]
+            return [h for h in heads if h]
+    return []
+
+
+def check_completeness(body: str, html: str, title: str, subtitle: str | None) -> None:
+    """Mechanical gate: refuse to write a note that dropped chunks of its source.
+
+    The extractor's claim to have parsed the article is an input, not the verdict.
+    Compare what we produced against the headings the page actually has.
+    """
+    # The title and subtitle are headings on the page but live in the frontmatter
+    # and the H1/H2 that build_note adds, not in `body`. Counting them as missing
+    # would inflate the ratio and, on a short article, fail a perfectly good note.
+    header = {normalize_heading(title)}
+    if subtitle:
+        header.add(normalize_heading(ELLIPSIS_TAIL.sub("", subtitle)))
+
+    src = [h for h in source_headings(html)
+           if not any(h.startswith(x) or x.startswith(h) for x in header if x)]
+    if len(src) < MIN_HEADINGS_FOR_GATE:
+        return  # not enough structure in the source to judge; nothing to assert
+    haystack = normalize_heading(body)
+    missing = [h for h in src if h not in haystack]
+    ratio = len(missing) / len(src)
+    # Require both a bad ratio and a meaningful count, so one stray heading on a
+    # short article can't trip the gate.
+    if ratio > MAX_MISSING_HEADINGS_RATIO and len(missing) >= 3:
+        preview = "\n".join(f"    - {h}" for h in missing[:12])
+        more = f"\n    ... and {len(missing) - 12} more" if len(missing) > 12 else ""
+        sys.exit(
+            f"Refusing to write — extraction dropped {len(missing)} of {len(src)} "
+            f"source sections ({ratio:.0%}):\n{preview}{more}\n"
+            "The body extractor lost part of the article. Do not trust the note; "
+            "re-run, and if it persists the page layout needs a look."
+        )
+    if missing:
+        print(
+            f"Note: {len(missing)}/{len(src)} source headings not found in the body "
+            f"(under the {MAX_MISSING_HEADINGS_RATIO:.0%} gate): {missing}",
+            file=sys.stderr,
+        )
+
+
 def trim_body_head(body: str, title: str, subtitle: str | None) -> str:
     """Drop the article header block (title H1, byline, image caption) so the
     body starts at the first paragraph of prose. Anchors on the subtitle line
@@ -168,7 +321,11 @@ def trim_body_head(body: str, title: str, subtitle: str | None) -> str:
     lines = body.split("\n")
 
     def find_anchor(needle: str) -> int | None:
-        n = needle.strip()
+        # og:description truncates the subtitle with an ellipsis ("Here is
+        # everything…"), which never matches the body's full sentence. Match on
+        # the part before the ellipsis instead, or the subtitle heading survives
+        # into the body and gets duplicated against build_note's own copy.
+        n = ELLIPSIS_TAIL.sub("", needle).strip()
         if not n:
             return None
         # Only the leading lines are the header. A subtitle/title phrase that
@@ -279,7 +436,7 @@ def normalize_heading_levels(body: str) -> str:
     return body
 
 
-def fetch_url(url: str) -> str:
+def try_fetch_url(url: str) -> str | None:
     for attempt in range(1, FETCH_ATTEMPTS + 1):
         downloaded = trafilatura.fetch_url(url)
         if downloaded:
@@ -291,7 +448,14 @@ def fetch_url(url: str) -> str:
                 file=sys.stderr,
             )
             time.sleep(delay)
-    sys.exit(f"Failed to fetch URL after {FETCH_ATTEMPTS} attempts: {url}")
+    return None
+
+
+def fetch_url(url: str) -> str:
+    html = try_fetch_url(url)
+    if html is None:
+        sys.exit(f"Failed to fetch URL after {FETCH_ATTEMPTS} attempts: {url}")
+    return html
 
 
 def fetch_mirror_until_good(original_url: str):
@@ -336,9 +500,10 @@ def load_html(args) -> tuple[str, str | None]:
         if args.url.startswith(MIRROR_BASE):
             return fetch_url(args.url), strip_mirror_prefix(args.url)
         # Just load the origin here; main() decides whether to reroute through
-        # the mirror (paywall or thin extraction) so the retry/quality logic
-        # lives in one place.
-        return fetch_url(args.url), args.url
+        # the mirror (paywall, thin extraction, or — as below — no response at
+        # all, since Medium simply refuses some posts) so the retry/quality
+        # logic lives in one place. None means "origin gave us nothing".
+        return try_fetch_url(args.url), args.url
 
     if args.file:
         path = Path(args.file).expanduser()
@@ -384,11 +549,36 @@ def clean_article_html(article_html: str) -> str:
             parent = el.getparent()
             if parent is not None:
                 parent.remove(el)
+
+    # Remember each code block's language before the class purge below eats it.
+    langs = {el: code_language(el) for el in tree.iter("pre")}
+
     for el in tree.iter():
         for attr in list(el.attrib):
             if attr in ("class", "style") or attr.startswith("data-"):
                 del el.attrib[attr]
+
+    # Re-stamp a class on every <pre>. pandoc only emits a ``` fence for a code
+    # block that carries attributes — bare <pre> becomes an indented block, which
+    # split_code_fences cannot see, which means the prose scrubbers in polish_body
+    # run straight over the code and mangle it (`<value>`, `{"json": 1}`).
+    # A class is what buys the fence, and the fence is what protects the code.
+    for el, lang in langs.items():
+        el.set("class", lang or "text")
+
     return lxml_html.tostring(tree, encoding="unicode")
+
+
+LANG_CLASS = re.compile(r"(?:language|lang|highlight|brush)[-:]([\w+#]+)", re.IGNORECASE)
+
+
+def code_language(pre_el) -> str | None:
+    """Best-effort language for a <pre>, from its own or its <code> child's class."""
+    for el in (pre_el, *pre_el.iter("code")):
+        m = LANG_CLASS.search(el.get("class", "") or "")
+        if m:
+            return m.group(1).lower()
+    return None
 
 
 def extract(html: str, fallback_url: str | None):
@@ -396,10 +586,7 @@ def extract(html: str, fallback_url: str | None):
     failure it returns an empty body rather than exiting, so callers (the mirror
     retry loop, the final write gate) can decide what to do."""
     doc = Document(html)
-    try:
-        article_html = doc.summary(html_partial=True)
-    except Exception:
-        article_html = None
+    article_html = extract_article_html(html)
     # Mirror placeholder pages extract to a near-empty fragment; treat as a miss.
     if not article_html or len(article_html) < 200:
         return "Untitled Article", fallback_url, None, ""
@@ -490,24 +677,31 @@ def main():
     args = parser.parse_args()
 
     html, fallback_url = load_html(args)
-    title, url, subtitle, body = extract(html, fallback_url)
-
-    # Reroute through the mirror when the origin is paywalled, or when the
-    # extraction came back thin/generic (a paywall preview or a fetch hiccup).
-    # The mirror helper retries until it gets a real article body.
     from_origin = bool(args.url) and not args.url.startswith(MIRROR_BASE)
-    if from_origin and (
-        looks_paywalled(html)
-        or len(body) < MIN_BODY_CHARS
-        or title.strip().lower() in GENERIC_MIRROR_TITLES
-    ):
-        reason = (
-            "paywall detected"
-            if looks_paywalled(html)
-            else f"thin extraction ({len(body)} chars)"
-        )
-        print(f"{reason} — fetching via mirror: {via_mirror(args.url)}", file=sys.stderr)
+
+    if html is None:
+        # Only load_html's origin path can hand back None.
+        print(f"origin returned nothing — fetching via mirror: {via_mirror(args.url)}",
+              file=sys.stderr)
         html, (title, url, subtitle, body) = fetch_mirror_until_good(args.url)
+    else:
+        title, url, subtitle, body = extract(html, fallback_url)
+
+        # Reroute through the mirror when the origin is paywalled, or when the
+        # extraction came back thin/generic (a paywall preview or a fetch hiccup).
+        # The mirror helper retries until it gets a real article body.
+        if from_origin and (
+            looks_paywalled(html)
+            or len(body) < MIN_BODY_CHARS
+            or title.strip().lower() in GENERIC_MIRROR_TITLES
+        ):
+            reason = (
+                "paywall detected"
+                if looks_paywalled(html)
+                else f"thin extraction ({len(body)} chars)"
+            )
+            print(f"{reason} — fetching via mirror: {via_mirror(args.url)}", file=sys.stderr)
+            html, (title, url, subtitle, body) = fetch_mirror_until_good(args.url)
 
     body = polish_body(body)
 
@@ -520,6 +714,11 @@ def main():
 
     body = trim_body_head(body, title, subtitle)
     body = normalize_heading_levels(body)
+
+    # Mechanical gate: verify the body against the source rather than trusting
+    # that the extractor did its job. `html` here is whichever page the body was
+    # actually built from (origin or mirror), so the comparison is like for like.
+    check_completeness(body, html, title, subtitle)
 
     # Final quality gate: never write a note from a paywall preview, a mirror
     # placeholder, or a botched extraction. Fail loudly so a re-run is obvious.
