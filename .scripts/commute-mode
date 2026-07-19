@@ -24,8 +24,9 @@ and it hasn't been superseded by a later `on`, so it never fights a manual flip.
 ONE-TIME SETUP (must be done once, from a good connection -- it needs the
 headscale control plane, which is flaky on the train):
 
-  1. On the exit-node host (dockerhost is the pick):
-        sudo tailscale up --advertise-exit-node
+  1. On the exit-node host (dockerhost): NO sudo on this box -- run as root
+     (`ssh root@<exit-node-host>`), then:
+        tailscale set --advertise-exit-node=true
   2. Approve the route in self-hosted headscale (<your-headscale-host>).
      This headscale is v0.28 -- the `routes` command is gone; use:
         headscale nodes list                          # find dockerhost's id
