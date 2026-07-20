@@ -313,6 +313,46 @@ def check_completeness(body: str, html: str, title: str, subtitle: str | None) -
         )
 
 
+def audit_stamp(body: str, html: str, title: str, subtitle: str | None) -> str:
+    """A one-line, machine-parseable provenance comment recording what this import
+    actually recovered. Appended to the note body so a future audit is a `grep`
+    instead of re-fetching every source. `sections=recovered/total` lets you spot a
+    lossy import at a glance: any note where the two differ dropped part of its
+    source. This is the cheap institutional memory that would have made the whole
+    2026-07 archaeology a one-liner.
+    """
+    now = dt.datetime.now().astimezone().strftime("%Y-%m-%d")
+    header = {normalize_heading(title)}
+    if subtitle:
+        header.add(normalize_heading(ELLIPSIS_TAIL.sub("", subtitle)))
+    src = [h for h in source_headings(html)
+           if not any(h.startswith(x) or x.startswith(h) for x in header if x)]
+    haystack = normalize_heading(body)
+    recovered = sum(1 for h in src if h in haystack)
+    links = len(re.findall(r'\]\((https?://[^)]+)\)', body))
+    code = sum(1 for is_c, _ in split_code_fences(body) if is_c)
+    return (
+        f"<!-- import-audit: v1 tool=save_medium_article date={now} "
+        f"sections={recovered}/{len(src)} links={links} codeblocks={code} -->"
+    )
+
+
+SMART_PUNCT = str.maketrans({"‘": "'", "’": "'", "“": '"', "”": '"',
+                             "–": "-", "—": "-"})
+
+
+def match_key(s: str) -> str:
+    """Punctuation-insensitive form for comparing the og: subtitle against a body
+    line. The two sides come from different pipelines (page metadata vs pandoc),
+    so they disagree on curly-vs-straight quotes, em dash vs ---, and markdown
+    backslash escapes. Comparing them raw makes the anchor miss on exactly the
+    articles whose dek contains a quote or a dash — i.e. most of them.
+    """
+    s = s.translate(SMART_PUNCT).replace("\\", "")
+    s = re.sub(r"-{2,}", "-", s)
+    return " ".join(s.split()).strip()
+
+
 def trim_body_head(body: str, title: str, subtitle: str | None) -> str:
     """Drop the article header block (title H1, byline, image caption) so the
     body starts at the first paragraph of prose. Anchors on the subtitle line
@@ -325,7 +365,7 @@ def trim_body_head(body: str, title: str, subtitle: str | None) -> str:
         # everything…"), which never matches the body's full sentence. Match on
         # the part before the ellipsis instead, or the subtitle heading survives
         # into the body and gets duplicated against build_note's own copy.
-        n = ELLIPSIS_TAIL.sub("", needle).strip()
+        n = match_key(ELLIPSIS_TAIL.sub("", needle))
         if not n:
             return None
         # Only the leading lines are the header. A subtitle/title phrase that
@@ -333,7 +373,7 @@ def trim_body_head(body: str, title: str, subtitle: str | None) -> str:
         # their thesis) must NOT be treated as the header, or we'd drop the
         # entire article body and keep only its tail.
         for i, line in enumerate(lines[:HEADER_SEARCH_LINES]):
-            if n in line:
+            if n in match_key(line):
                 return i
         return None
 
@@ -521,7 +561,14 @@ def load_html(args) -> tuple[str, str | None]:
 
 def html_to_markdown(article_html: str) -> str:
     result = subprocess.run(
-        ["pandoc", "-f", "html", "-t", "markdown-raw_html+backtick_code_blocks", "--wrap", "none"],
+        # -smart: without it pandoc writes every literal quote as \' / \" and every
+        # em dash as ---. That is ugly in source view and, worse, it makes the
+        # subtitle match in trim_body_head miss, so the dek survives into the body
+        # and gets duplicated against build_note's own "## subtitle" line.
+        # -tex_math_dollars: keeps prices as $400 rather than \$400.
+        ["pandoc", "-f", "html",
+         "-t", "markdown-raw_html+backtick_code_blocks-smart-tex_math_dollars",
+         "--wrap", "none"],
         input=article_html,
         text=True,
         capture_output=True,
@@ -617,7 +664,8 @@ def extract(html: str, fallback_url: str | None):
     return title, url, description, body_md.strip()
 
 
-def build_note(title: str, url: str | None, subtitle: str | None, body: str) -> str:
+def build_note(title: str, url: str | None, subtitle: str | None, body: str,
+               audit: str | None = None) -> str:
     now = dt.datetime.now().astimezone()
     stamp = now.strftime("%Y-%m-%d %H:%M:%S%z")
     stamp = stamp[:-2] + ":" + stamp[-2:]  # +0300 -> +03:00
@@ -639,6 +687,10 @@ def build_note(title: str, url: str | None, subtitle: str | None, body: str) -> 
     if subtitle:
         lines += [f"## {subtitle}", ""]
     lines += [body, ""]
+    # Provenance comment last — invisible in Obsidian's reading view, greppable for
+    # a future audit, and outside the frontmatter so the documented schema is intact.
+    if audit:
+        lines += [audit, ""]
     return "\n".join(lines)
 
 
@@ -737,7 +789,8 @@ def main():
     if out_path.exists():
         sys.exit(f"Note already exists: {out_path}")
 
-    note = build_note(title, url, subtitle, body)
+    note = build_note(title, url, subtitle, body,
+                      audit=audit_stamp(body, html, title, subtitle))
     out_path.write_text(note, encoding="utf-8")
     print(f"Wrote {out_path}")
 
