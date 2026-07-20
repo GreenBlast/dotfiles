@@ -5,14 +5,31 @@
 alias yadm=~/.local/bin/yadm
 
 alias yst='yadm status'
+alias ya='yadm add'
 alias yau='yadm add -u'
 alias yaa='yadm add --all'
+alias yapa='yadm add --patch'      # stage hunk by hunk — $HOME drifts on its own
 alias yc='yadm commit -v'
+alias ycm='yadm commit -m'
 alias yp='yadm push'
 alias yl='yadm pull'
+alias ylg='yadm log --oneline --decorate --graph'
+# NB: yd / ydf / ydfn are yt-dlp (see below), so yadm diff avoids the yd* prefix
+alias ydi='yadm diff'
+alias ydis='yadm diff --staged'
 # alias ydf='yadm difftool'
 alias ydfs='yadm difftool --staged'
 alias ysuri='yadm submodule update --recursive --init'
+
+# yadm-specific — no git equivalent
+# Subshell with GIT_DIR/GIT_WORK_TREE set, so plain `git` (and git TUIs) target
+# dotfiles. NOTE: yadm starts zsh with -f, so ~/.zshrc is skipped and the g*
+# aliases are NOT available in here — that is what the y* mirrors above are for.
+# Takes a command as ONE string: ye 'git log --oneline | head'
+alias ye='yadm enter'
+alias yalt='yadm alt'              # re-link alternates (##os.Darwin, ##class.Home, ##default)
+alias ylist='yadm list -a'         # every tracked file
+alias ybs='yadm bootstrap'
 alias gdf='git difftool'
 alias gdfs='git difftool --staged'
 alias gcod='git checkout .'
@@ -25,6 +42,25 @@ alias wtsx='wt switch --create -x claude'  # create worktree and launch Claude C
 alias wtl='wt list'               # list worktrees and their status
 alias wtr='wt remove'             # remove worktree (deletes branch if merged)
 alias wtm='wt merge'              # squash+rebase, fast-forward target, remove worktree
+
+# Mission Control (mc) shortcuts — ~/Projects/mission-control
+# Fleet: the attention queue over the by-hand claude panes (default tmux socket)
+alias mcn='mc next'               # priority queue, top 12
+alias mcna='mc next --all'        # ...plus everything below the cut
+alias mcns='mc next --starred'    # only the curated priority set
+alias mcnw='mc next --work'       # work panes only
+alias mcnp='mc next --personal'   # personal panes only
+alias mcg='mc go'                 # jump to a pane (ref = n | %id | session:win)
+alias mcf='mc fleet'              # raw census: every claude pane + %id + age + bucket
+alias mcs='mc stats'              # backlog counts + trend vs 1d/7d + sparkline
+alias mcz='mc snooze'             # hide a pane until 3h | 18:00 | evening | tomorrow
+alias mcst='mc star'              # add to the priority set (bare = list)
+alias mcus='mc unstar'
+# Initiatives: the dedicated `tmux -L mc` sessions
+alias mcl='mc ls'                 # sessions + pending gate counts
+alias mca='mc attach'             # attach to an initiative session
+alias mcgt='mc gates'             # gates awaiting approve/deny
+alias mcc='mc concierge --launch' # start the concierge (Remote Control -> Claude app)
 
 # Reload zsh config
 alias reload!='RELOAD=1 source ~/.zshrc'
