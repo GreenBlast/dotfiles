@@ -38,7 +38,7 @@
           pkgs.lazygit
           pkgs.pandoc
           pkgs.mongosh
-          # pkgs.yt-dlp # Pulls in deno which fails to build on aarch64-darwin
+          pkgs.yt-dlp # Pulls in deno which fails to build on aarch64-darwin
           pkgs.sshpass
           pkgs.htop
           pkgs.zoxide
