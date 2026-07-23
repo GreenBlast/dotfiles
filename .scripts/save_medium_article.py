@@ -665,10 +665,15 @@ def extract(html: str, fallback_url: str | None):
 
 
 def build_note(title: str, url: str | None, subtitle: str | None, body: str,
-               audit: str | None = None) -> str:
+               audit: str | None = None, created: str | None = None) -> str:
     now = dt.datetime.now().astimezone()
     stamp = now.strftime("%Y-%m-%d %H:%M:%S%z")
     stamp = stamp[:-2] + ":" + stamp[-2:]  # +0300 -> +03:00
+
+    # On a --force overwrite, keep the note's original capture time; only `updated`
+    # advances. `created` is when the material entered the vault, not when the
+    # importer last re-ran over it.
+    created = created or stamp
 
     lines = [
         "---",
@@ -676,7 +681,7 @@ def build_note(title: str, url: str | None, subtitle: str | None, body: str,
         "aliases:",
         "tags:",
         "  - claude-created",
-        f"created: {stamp}",
+        f"created: {created}",
         f"updated: {stamp}",
         "---",
         "",
@@ -692,6 +697,21 @@ def build_note(title: str, url: str | None, subtitle: str | None, body: str,
     if audit:
         lines += [audit, ""]
     return "\n".join(lines)
+
+
+CREATED_RE = re.compile(r"^created:\s*(.+?)\s*$", re.MULTILINE)
+
+
+def existing_created(path: Path) -> str | None:
+    """Pull the `created:` frontmatter value out of an existing note so a
+    --force overwrite can preserve the original capture time. Best-effort: only
+    look at the leading frontmatter block, return None if absent/unreadable."""
+    try:
+        head = path.read_text(encoding="utf-8", errors="replace")[:2000]
+    except OSError:
+        return None
+    m = CREATED_RE.search(head)
+    return m.group(1) if m else None
 
 
 def insert_into_moc(filename_stem: str) -> None:
@@ -726,6 +746,12 @@ def main():
     parser = argparse.ArgumentParser(description="Save a Medium article into the Obsidian vault.")
     parser.add_argument("file", nargs="?", help="HTML file path (defaults to newest in ~/Downloads)")
     parser.add_argument("--url", help="Fetch from a URL instead of a saved file (e.g. freedium mirror)")
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Overwrite an existing note of the same title (keeps its original created: date). "
+             "Use after a script fix to regenerate a note in place.",
+    )
     args = parser.parse_args()
 
     html, fallback_url = load_html(args)
@@ -786,13 +812,21 @@ def main():
         sys.exit("Title sanitized to empty string; aborting")
 
     out_path = ARTICLES_DIR / f"{filename_stem}.md"
+    prior_created = None
     if out_path.exists():
-        sys.exit(f"Note already exists: {out_path}")
+        if not args.force:
+            sys.exit(f"Note already exists: {out_path}\nPass --force to overwrite it in place.")
+        prior_created = existing_created(out_path)
+        note_word = "overwriting"
+    else:
+        note_word = "writing"
 
     note = build_note(title, url, subtitle, body,
-                      audit=audit_stamp(body, html, title, subtitle))
+                      audit=audit_stamp(body, html, title, subtitle),
+                      created=prior_created)
     out_path.write_text(note, encoding="utf-8")
-    print(f"Wrote {out_path}")
+    print(f"{note_word.capitalize()} {out_path}"
+          + (f" (kept created: {prior_created})" if prior_created else ""))
 
     insert_into_moc(filename_stem)
     open_in_obsidian(filename_stem)
