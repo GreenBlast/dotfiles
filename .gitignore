@@ -44,6 +44,8 @@
 .scripts/encrypt
 .scripts/install/various_install.sh
 .scripts/install/install_essentials.sh
+# work tool - real file lives in the private ~/.claude repo, this is a symlink
+.scripts/newtask
 !.spaceship-zsh-theme
 !.tmux/plugins/tpm
 !.unison
