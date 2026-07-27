@@ -238,7 +238,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     eval "$(rbenv init -)"
 fi
 
-eval "$(zoxide init zsh)"
+command -v zoxide >/dev/null 2>&1 && eval "$(zoxide init zsh)"
 
 # Currently not using starship
 # eval "$(starship init zsh)"
