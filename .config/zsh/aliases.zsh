@@ -216,15 +216,15 @@ source $HOME/.config/zsh/local_aliases.zsh
 
 function  pat() {
     # pocket-cli add --tags="train reading" --url "$1"
-    . ~/.scripts/verify_hoarder_cli.sh 
-    verify_hoarder_cli_key_and_address
+    . ~/.scripts/verify_hoarder_cli.sh
+    hoarder_cli_creds || return 1
     hoarder --api-key "${HOARDER_KEY}" --server-addr "${HOARDER_ADDRESS}" bookmarks add --link "$1" --tag-name "train reading"
 }
 
 function  pav() {
     # pocket-cli add --tags="videos" --url "$1"
-    . ~/.scripts/verify_hoarder_cli.sh 
-    verify_hoarder_cli_key_and_address
+    . ~/.scripts/verify_hoarder_cli.sh
+    hoarder_cli_creds || return 1
     hoarder --api-key "${HOARDER_KEY}" --server-addr "${HOARDER_ADDRESS}" bookmarks add --link "$1" --tag-name "videos"
 }
 
@@ -232,11 +232,11 @@ function apat() {
   # Split the input string on newlines and spaces
   urls=("${(f)@}")
 
-  . ~/.scripts/verify_hoarder_cli.sh 
-  verify_hoarder_cli_key_and_address
+  . ~/.scripts/verify_hoarder_cli.sh
+  hoarder_cli_creds || return 1
   # Loop through each URL and execute curl
   for url in "${urls[@]}"; do
-      hoarder --api-key "${HOARDER_KEY}" --server-addr "${HOARDER_ADDRESS}" bookmarks add --link "$1" --tag-name "train reading"
+      hoarder --api-key "${HOARDER_KEY}" --server-addr "${HOARDER_ADDRESS}" bookmarks add --link "$url" --tag-name "train reading"
   done
 
 }
