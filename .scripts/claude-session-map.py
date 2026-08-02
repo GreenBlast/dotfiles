@@ -2,6 +2,10 @@
 """
 Capture a deterministic map of live tmux panes -> Claude Code sessions.
 
+Maps ONE tmux server: the `default` socket (override with $CLAUDE_MAP_SOCKET).
+Other sockets — e.g. the `mc` fleet — are deliberately not mapped; those sessions
+are agent-owned and recreated on their own.
+
 Run this BEFORE a reboot. It writes:
   ~/.claude-restore.tsv        machine-readable: addr<TAB>cwd<TAB>resume_target<TAB>method<TAB>title
   (stdout)                     human-readable summary
@@ -26,6 +30,14 @@ from glob import glob
 HOME = os.path.expanduser("~")
 PROJ = os.path.join(HOME, ".claude", "projects")
 TSV = os.path.join(HOME, ".claude-restore.tsv")
+# Which tmux server to map. Pinned explicitly because bare `tmux` follows $TMUX:
+# a run from inside a pane on ANOTHER socket (e.g. the `mc` fleet) would capture
+# that server's panes and overwrite this map — and a later stitch would then fire
+# `claude --resume` into whatever pane happens to sit at those addresses here.
+# `-L` overrides $TMUX, and TMUX_TMPDIR is pinned to /tmp by both schedulers
+# (systemd unit / launchd plist), so this resolves identically whether the timer
+# runs it or you do, from anywhere.
+SOCKET = os.environ.get("CLAUDE_MAP_SOCKET", "default")
 UUID_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
 
 def sh(cmd):
@@ -34,7 +46,7 @@ def sh(cmd):
 # 1) tmux panes ------------------------------------------------------------
 panes = []
 fmt = "#{pane_pid}\t#{session_name}:#{window_index}.#{pane_index}\t#{pane_current_path}\t#{pane_title}"
-for line in sh(f"tmux list-panes -a -F '{fmt}'").splitlines():
+for line in sh(f"tmux -L {SOCKET} list-panes -a -F '{fmt}'").splitlines():
     parts = line.split("\t")
     if len(parts) != 4:
         continue
