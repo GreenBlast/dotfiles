@@ -1,6 +1,15 @@
-# Setting nvim path (auto-detect wherever nvim lives, e.g. /usr/bin or ~/.local/bin).
+# Setting nvim path.
+# Prefer the user-local install: this file is sourced before ~/.local/bin is
+# prepended to PATH, so a bare `command -v nvim` can find a stale system nvim
+# (e.g. apt 0.10.4, too old for LazyVim) instead of the one we actually use.
 # Empty if nvim isn't installed -> .zshrc falls back to plain vim.
-NVIM_PATH="$(command -v nvim 2>/dev/null)"
+if [ -x "$HOME/.local/nvim/bin/nvim" ]; then
+  NVIM_PATH="$HOME/.local/nvim/bin/nvim"
+elif [ -x "$HOME/.local/bin/nvim" ]; then
+  NVIM_PATH="$HOME/.local/bin/nvim"
+else
+  NVIM_PATH="$(command -v nvim 2>/dev/null)"
+fi
 
 # Setting installed fonts
 export FONTS_INSTALLED=true
