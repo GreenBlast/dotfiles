@@ -26,9 +26,19 @@ set -u
 TSV="${1:-$HOME/.claude-restore.tsv}"
 STAGGER="${STAGGER:-1}"
 
+# Pin the tmux server, and pin it to the SAME one claude-session-map.py mapped.
+# Bare `tmux` resolves its socket from $TMUX, so running this from inside a pane
+# on another socket (e.g. the `mc` fleet) would resolve the map's addresses
+# against THAT server and send-keys into it — an address like "Main:1.1" exists
+# on more than one socket, and with a matching cwd it clears the guard below.
+# That matters because restores are usually driven by a Claude instance, which
+# may itself be living in a pane on any socket.
+SOCKET="${CLAUDE_MAP_SOCKET:-default}"
+TM=(tmux -L "$SOCKET")
+
 [ -f "$TSV" ] || { echo "No map at $TSV — run claude-session-map.py BEFORE rebooting."; exit 1; }
 command -v tmux >/dev/null 2>&1 || { echo "tmux not found"; exit 1; }
-tmux list-sessions >/dev/null 2>&1 || { echo "no tmux server running"; exit 1; }
+"${TM[@]}" list-sessions >/dev/null 2>&1 || { echo "no tmux server running on socket '$SOCKET'"; exit 1; }
 
 is_shell() { case "$1" in zsh|-zsh|bash|-bash|sh|-sh|fish|-fish) return 0;; *) return 1;; esac; }
 
@@ -43,14 +53,14 @@ while IFS=$'\t' read -r addr cwd target method title; do
   fi
 
   # address -> live pane id (stable handle); gone if the pane no longer exists
-  pid=$(tmux display-message -p -t "$addr" '#{pane_id}' 2>/dev/null) || pid=""
+  pid=$("${TM[@]}" display-message -p -t "$addr" '#{pane_id}' 2>/dev/null) || pid=""
   if [ -z "$pid" ]; then
     printf 'GONE  %-22s «%s» (pane no longer exists)\n' "$addr" "$title"
     gone=$((gone+1)); continue
   fi
 
-  pcwd=$(tmux display-message -p -t "$pid" '#{pane_current_path}' 2>/dev/null)
-  pcmd=$(tmux display-message -p -t "$pid" '#{pane_current_command}' 2>/dev/null)
+  pcwd=$("${TM[@]}" display-message -p -t "$pid" '#{pane_current_path}' 2>/dev/null)
+  pcmd=$("${TM[@]}" display-message -p -t "$pid" '#{pane_current_command}' 2>/dev/null)
 
   # cwd guard: protects against window-index drift pointing addr at a wrong pane
   if [ "$pcwd" != "$cwd" ] && [ -z "${FORCE:-}" ]; then
@@ -70,7 +80,7 @@ while IFS=$'\t' read -r addr cwd target method title; do
   fi
 
   printf 'SEND  %-22s «%s»\n' "$addr" "$title"
-  tmux send-keys -t "$pid" "claude --resume $target" C-m
+  "${TM[@]}" send-keys -t "$pid" "claude --resume $target" C-m
   sent=$((sent+1))
   [ "$STAGGER" != "0" ] && sleep "$STAGGER"
 done < "$TSV"

@@ -17,6 +17,12 @@ set -u
 TSV="${1:-$HOME/.claude-restore.tsv}"
 SUFFIX="${SUFFIX:-restore}"
 
+# Pin the tmux server to the one claude-session-map.py mapped — bare `tmux`
+# follows $TMUX, so run from a pane on another socket this would build the
+# restore sessions on THAT server instead. See claude-stitch.sh for the detail.
+SOCKET="${CLAUDE_MAP_SOCKET:-default}"
+TM=(tmux -L "$SOCKET")
+
 [ -f "$TSV" ] || { echo "No map at $TSV — run claude-session-map.py BEFORE rebooting."; exit 1; }
 command -v tmux >/dev/null 2>&1 || { echo "tmux not found"; exit 1; }
 
@@ -40,15 +46,15 @@ while IFS=$'\t' read -r addr cwd target method title; do
 
   # first row for this original session: create the restore session (detached)
   if [ -z "${state[$orig]:-}" ]; then
-    if tmux has-session -t "=$sess" 2>/dev/null; then
+    if "${TM[@]}" has-session -t "=$sess" 2>/dev/null; then
       echo "! '$sess' already exists — skipping (kill it first to redo)"
       state[$orig]="SKIP"
     elif [ -n "${DRY_RUN:-}" ]; then
       echo "[dry] new-session $sess  (cwd=$cwd)  win='$wname'  ->  $cmd"
       state[$orig]="$sess"; opened=$((opened+1)); continue
     else
-      win=$(tmux new-session -d -s "$sess" -c "$cwd" -n "$wname" -P -F '#{window_id}')
-      tmux send-keys -t "$win" "$cmd" Enter
+      win=$("${TM[@]}" new-session -d -s "$sess" -c "$cwd" -n "$wname" -P -F '#{window_id}')
+      "${TM[@]}" send-keys -t "$win" "$cmd" Enter
       state[$orig]="$sess"; opened=$((opened+1))
       continue
     fi
@@ -60,14 +66,14 @@ while IFS=$'\t' read -r addr cwd target method title; do
     echo "[dry] new-window in ${state[$orig]}  (cwd=$cwd)  win='$wname'  ->  $cmd"
     opened=$((opened+1)); continue
   fi
-  win=$(tmux new-window -t "${state[$orig]}" -c "$cwd" -n "$wname" -P -F '#{window_id}')
-  tmux send-keys -t "$win" "$cmd" Enter
+  win=$("${TM[@]}" new-window -t "${state[$orig]}" -c "$cwd" -n "$wname" -P -F '#{window_id}')
+  "${TM[@]}" send-keys -t "$win" "$cmd" Enter
   opened=$((opened+1))
 done < "$TSV"
 
 echo
 echo "Re-opened $opened claude window(s); skipped $skipped; $pickers need a manual pick (PICK_* windows)."
 echo "Restore sessions:"
-for o in "${!state[@]}"; do [ "${state[$o]}" != "SKIP" ] && echo "  tmux attach -t ${state[$o]}"; done | sort
+for o in "${!state[@]}"; do [ "${state[$o]}" != "SKIP" ] && echo "  tmux -L $SOCKET attach -t ${state[$o]}"; done | sort
 echo
 echo "Tip: ${opened} claude TUIs launch at once — heavy. To do a subset, trim ~/.claude-restore.tsv first."
