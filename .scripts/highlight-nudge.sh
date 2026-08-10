@@ -9,7 +9,10 @@
 #
 # Channels:
 #   1. macOS notification  — always, no configuration needed
-#   2. ntfy                — only if NTFY_TOPIC is set in ~/mc/highlight-nudge.conf
+#   2. ntfy                — only if NTFY_SERVER and NTFY_TOPIC are both set in
+#                            ~/mc/highlight-nudge.conf. Both live there rather
+#                            than here because this script is tracked in the
+#                            public yadm dotfiles repo.
 #
 # Exit 0 always: a nudge failing must never surface as a launchd error loop.
 
@@ -17,7 +20,7 @@ set -uo pipefail
 
 CONF="$HOME/mc/highlight-nudge.conf"
 LOG="$HOME/mc/.highlight-nudge.log"
-NTFY_SERVER="https://ntfy-home.aviad.cloud"
+NTFY_SERVER=""
 NTFY_TOPIC=""
 
 [ -f "$CONF" ] && . "$CONF"
@@ -48,7 +51,7 @@ Switch to it now — no negotiation."
     >>"$LOG" 2>&1 || log "warn: osascript failed"
 
 # 2. ntfy (opt-in)
-if [ -n "$NTFY_TOPIC" ]; then
+if [ -n "$NTFY_SERVER" ] && [ -n "$NTFY_TOPIC" ]; then
     /usr/bin/curl -fsS -m 15 \
         -H "Title: $TITLE" \
         -H "Priority: high" \
