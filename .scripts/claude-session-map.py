@@ -114,6 +114,15 @@ if claude_pids:
         if m:
             pid_lstart[int(m.group(1))] = " ".join(m.group(2).split())
 
+def proc_start(pid):
+    # Linux: Claude records procStart as /proc/<pid>/stat field 22 (starttime,
+    # clock ticks since boot); macOS: as `ps -o lstart` text in UTC.
+    try:
+        with open(f"/proc/{pid}/stat") as fh:
+            return fh.read().rsplit(")", 1)[1].split()[19]
+    except (OSError, IndexError):
+        return pid_lstart.get(pid)
+
 def pidfile_session(pid):
     try:
         with open(os.path.join(SESSIONS, f"{pid}.json")) as fh:
@@ -122,8 +131,8 @@ def pidfile_session(pid):
         return None
     if o.get("pid") != pid:
         return None
-    ps_start = o.get("procStart")
-    if ps_start and pid in pid_lstart and " ".join(ps_start.split()) != pid_lstart[pid]:
+    recorded, live = o.get("procStart"), proc_start(pid)
+    if recorded and live and " ".join(str(recorded).split()) != live:
         return None
     sid = o.get("sessionId")
     return sid if sid and UUID_RE.match(sid) else None
