@@ -11,14 +11,19 @@ Run this BEFORE a reboot. It writes:
   (stdout)                     human-readable summary
 
 Resolution strategy, per pane (ground truth, validated against disk):
-  1. the pane's live `claude` argv has `--resume <uuid>` AND that <uuid>.jsonl
-     still exists on disk                                     -> use <uuid>
-     (a non-UUID slug, or a UUID whose file is gone because the session forked
-      on resume / was compacted, is NOT trusted — fall through.)
+  1. the pane's live `claude` process wrote ~/.claude/sessions/<pid>.json, its
+     procStart matches the live process, and that sessionId's .jsonl exists
+                                                              -> use sessionId
+     (Claude keeps this file current across /clear and forks, and it works for
+      sessions that never got a title — those were permanently UNRESOLVED.)
   2. else match the live pane title (== the running session's ai-title /
      custom-title) to a session in ~/.claude/projects/<encoded-cwd>/*.jsonl,
      newest wins; also try a slug launch-arg as a title  -> use that UUID
-  3. else UNRESOLVED (manual pick from `claude --resume` picker)
+  3. else the pane's live `claude` argv has `--resume <uuid>` AND that
+     <uuid>.jsonl still exists on disk                        -> use <uuid>
+     (a non-UUID slug, or a UUID whose file is gone because the session forked
+      on resume / was compacted, is NOT trusted — fall through.)
+  4. else UNRESOLVED (manual pick from `claude --resume` picker)
 
 After reboot, tmux-resurrect restores the layout/cwds; feed this map to
 claude-rehydrate.sh to re-launch each session in its pane.
@@ -29,6 +34,7 @@ from glob import glob
 
 HOME = os.path.expanduser("~")
 PROJ = os.path.join(HOME, ".claude", "projects")
+SESSIONS = os.path.join(HOME, ".claude", "sessions")
 TSV = os.path.join(HOME, ".claude-restore.tsv")
 # Which tmux server to map. Pinned explicitly because bare `tmux` follows $TMUX:
 # a run from inside a pane on ANOTHER socket (e.g. the `mc` fleet) would capture
@@ -87,17 +93,49 @@ def resume_arg(cmd):
 
 for p in panes:
     p["claude_cmd"] = None
+    p["claude_pid"] = None
     p["resume_name"] = None
     for d in descendants(p["pane_pid"]):
         c = pid_cmd.get(d, "")
         if is_interactive_claude(c):
             p["claude_cmd"] = c
+            p["claude_pid"] = d
             p["resume_name"] = resume_arg(c)
             break
 
+# Live process start times, to reject a pidfile left over from before a reboot
+# whose pid now belongs to a different claude process.
+claude_pids = [p["claude_pid"] for p in panes if p["claude_pid"]]
+pid_lstart = {}
+if claude_pids:
+    # Claude records procStart in UTC; ps prints lstart in local time.
+    for line in sh(f"TZ=UTC ps -o pid=,lstart= -p {','.join(map(str, claude_pids))}").splitlines():
+        m = re.match(r"\s*(\d+)\s+(.*)", line)
+        if m:
+            pid_lstart[int(m.group(1))] = " ".join(m.group(2).split())
+
+def pidfile_session(pid):
+    try:
+        with open(os.path.join(SESSIONS, f"{pid}.json")) as fh:
+            o = json.load(fh)
+    except Exception:
+        return None
+    if o.get("pid") != pid:
+        return None
+    ps_start = o.get("procStart")
+    if ps_start and pid in pid_lstart and " ".join(ps_start.split()) != pid_lstart[pid]:
+        return None
+    sid = o.get("sessionId")
+    return sid if sid and UUID_RE.match(sid) else None
+
 # 3) title -> sessionId index per project dir ------------------------------
 def encode_cwd(cwd):
-    return re.sub(r"[/.]", "-", cwd)
+    # Claude Code's project-dir encoding replaces every non-alphanumeric char
+    # with '-' (not just '/' and '.') — a cwd with an underscore (e.g.
+    # home_containers -> -Users-user-Projects-home-containers) was computing
+    # a directory that never exists, so title_map_for() always came back
+    # empty and the pane stayed permanently UNRESOLVED.
+    return re.sub(r"[^A-Za-z0-9]", "-", cwd)
 
 def session_exists(sid, cwd=None):
     # prefer the cwd's own project dir, but accept the session living anywhere
@@ -159,6 +197,12 @@ for p in panes:
     tmap = tmaps.get(p["cwd"], {})
     rn = p["resume_name"]
     target, method = "", "UNRESOLVED"
+    # 0) Claude's own pidfile names the session this process is running right now.
+    #    A session with no .jsonl yet (never prompted) has nothing to resume.
+    sid = pidfile_session(p["claude_pid"]) if p["claude_pid"] else None
+    if sid and session_exists(sid, p["cwd"]):
+        rows.append((p["addr"], p["cwd"], title, sid, "pidfile"))
+        continue
     # 1) Live pane title == the running session's current ai-title — ground truth
     #    for what is actually open in this pane RIGHT NOW. A session can fork to a
     #    new UUID on resume/compaction while the parent .jsonl survives, so a stale
