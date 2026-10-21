@@ -77,7 +77,9 @@ MIN_HEADINGS_FOR_GATE = 4
 
 # ────────────────────────── /CONFIG ───────────────────────────
 
-ILLEGAL_FILENAME_CHARS = re.compile(r'[\\/:*?"<>|#^\[\]()]')
+# `$` isn't illegal on disk, but in a [[wikilink]] two of them on one line render
+# as inline math in Obsidian, and it needs quoting in every shell command.
+ILLEGAL_FILENAME_CHARS = re.compile(r'[\\/:*?"<>|#^\[\]()$]')
 APOSTROPHE_CHARS = re.compile(r"[’'`]")
 DASH_CHARS = re.compile(r"[—–]")
 WHITESPACE_RUN = re.compile(r"\s+")
