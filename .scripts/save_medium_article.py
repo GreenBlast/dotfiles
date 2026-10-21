@@ -87,6 +87,8 @@ WHITESPACE_RUN = re.compile(r"\s+")
 
 def sanitize_title_for_filename(title: str) -> str:
     t = DASH_CHARS.sub("-", title)
+    # A slash separates words ("$5,000/Month"); deleting it would glue them ("5000Month").
+    t = t.replace("/", " ")
     t = APOSTROPHE_CHARS.sub("", t)
     t = ILLEGAL_FILENAME_CHARS.sub("", t)
     t = t.replace(",", "").replace(".", "")
