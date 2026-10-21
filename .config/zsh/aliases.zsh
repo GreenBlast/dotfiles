@@ -35,6 +35,9 @@ alias gdfs='git difftool --staged'
 alias gcod='git checkout .'
 alias gmd='git merge develop'
 
+# Claude Code
+alias ca='claude'
+
 # Worktrunk (wt) worktree shortcuts
 alias wts='wt switch'             # switch to a worktree (interactive picker if no arg)
 alias wtsc='wt switch --create'   # create a new branch + worktree, then switch to it
@@ -257,6 +260,16 @@ function rmfu() { git ls-files --exclude-standard --other | fzf -m | xargs rm; }
 alias yd=yt-dlp
 alias ydf="yt-dlp -S 'vcodec:h264,fps,res:720,acodec:m4a' --js-runtimes node"
 alias ydfn="yt-dlp -S 'vcodec:h264,fps,res:720,acodec:m4a' --no-playlist --js-runtimes node"
+# ...l = same, but the yt-dlp nightly via uvx (nixpkgs only ships the stable release).
+# Its YouTube JS challenge rejects node 20, so aim it at the newest nvm node >= 22;
+# the nix yt-dlp above doesn't need this, it carries its own deno.
+ydfl() {
+  local n=(~/.nvm/versions/node/v<22->.<->.<->(N/n)) js=()
+  (( $#n )) && js=(--js-runtimes node:${n[-1]}/bin/node)
+  uvx --prerelease allow --from "yt-dlp[default]" yt-dlp -S 'vcodec:h264,fps,res:720,acodec:m4a' \
+    "${js[@]}" "$@"
+}
+ydfln() { ydfl --no-playlist "$@" }
 # alias ydf="yt-dlp -f '232+233' --merge-output-format mp4"
 # alias ydf="yt-dlp -f 22"
 # alias ydfa="yt-dlp -f 'bestvideo[height<=720]+bestaudio[ext=m4a]/best[height<=720]' --merge-output-format mp4"
@@ -290,48 +303,47 @@ function fysumb() {
 }
 
 
-ytchat() {
+# Pull the subtitles for $2 into dir $1 and echo the video title.
+# The nix yt-dlp first; if that lands no .vtt, retry with the nightly via uvx
+# (same runtime as ydfl). YouTube now PO-token-gates captions on some videos,
+# and only the nightly's newer player clients still reach them.
+_ytchat_fetch() {
     emulate -L zsh
-    setopt local_options null_glob
-    local d=$(mktemp -d -t ytchat.XXXXXX)
-    local title=$(yt-dlp --write-auto-sub --skip-download --sub-langs ".*-orig,en" --sub-format vtt \
-      --print "%(title)s" --no-simulate -o "$d/sub.%(ext)s" "$1" 2>/dev/null)
-    local tmp="$d/transcript.txt"
-    local vtts=("$d"/*-orig.vtt)
-    if (( ${#vtts[@]} == 0 )); then
-      vtts=("$d"/*.vtt)
+    setopt local_options null_glob extended_glob
+    local d=$1 url=$2
+    local -a args=(--write-auto-sub --skip-download --sub-langs ".*-orig,en"
+                   --sub-format vtt --print "%(title)s" --no-simulate
+                   -o "$d/sub.%(ext)s")
+    local title=$(yt-dlp "${args[@]}" "$url" 2>/dev/null)
+    local -a vtts=("$d"/*.vtt)
+    if (( ${#vtts} == 0 )); then
+      local n=(~/.nvm/versions/node/v<22->.<->.<->(N/n)) js=()
+      (( $#n )) && js=(--js-runtimes node:${n[-1]}/bin/node)
+      title=$(uvx --prerelease allow --from "yt-dlp[default]" yt-dlp \
+                "${js[@]}" "${args[@]}" "$url" 2>/dev/null)
     fi
-    if (( ${#vtts[@]} == 0 )); then
-      echo "ytchat: no subtitles found for $1" >&2
-      return 1
-    fi
-    cat "${vtts[@]}" \
-      | sed -E -e 's/<v ([^>]*)>/[\1]: /g' \
-               -e 's/<[^>]*>//g' \
-               -e 's/&gt;/>/g; s/&lt;/</g; s/&amp;/\&/g; s/&#39;/'\''/g; s/&quot;/"/g' \
-               -e '/^(WEBVTT|Kind:|Language:|[0-9:.]+ -->|$)/d' \
-               -e 's/^[[:space:]]+//; s/[[:space:]]+$//' \
-      | awk 'NF && !seen[$0]++' > "$tmp"
-    if [[ ! -s "$tmp" ]]; then
-      echo "ytchat: empty transcript for $1" >&2
-      return 1
-    fi
-    claude --add-dir "$d" -- "Video title: ${title}. Video URL: $1. Read the YouTube transcript at $tmp (>> = speaker change, [Name] = identified speaker). Summarize in 5 bullets plus 3 takeaways. I'll ask follow-ups."
+    print -r -- "$title"
 }
 
-ytchatl() {
+# Shared body: $1 = caller name (for messages), $2 = URL, rest -> claude.
+_ytchat_run() {
     emulate -L zsh
     setopt local_options null_glob
+    local fn=$1 url=$2
+    if [[ -z $url ]]; then
+      echo "$fn: usage: $fn <youtube-url>" >&2
+      return 1
+    fi
+    shift 2
     local d=$(mktemp -d -t ytchat.XXXXXX)
-    local title=$(yt-dlp --write-auto-sub --skip-download --sub-langs ".*-orig,en" --sub-format vtt \
-      --print "%(title)s" --no-simulate -o "$d/sub.%(ext)s" "$1" 2>/dev/null)
+    local title=$(_ytchat_fetch "$d" "$url")
     local tmp="$d/transcript.txt"
     local vtts=("$d"/*-orig.vtt)
     if (( ${#vtts[@]} == 0 )); then
       vtts=("$d"/*.vtt)
     fi
     if (( ${#vtts[@]} == 0 )); then
-      echo "ytchatl: no subtitles found for $1" >&2
+      echo "$fn: no subtitles found for $url" >&2
       return 1
     fi
     cat "${vtts[@]}" \
@@ -342,9 +354,12 @@ ytchatl() {
                -e 's/^[[:space:]]+//; s/[[:space:]]+$//' \
       | awk 'NF && !seen[$0]++' > "$tmp"
     if [[ ! -s "$tmp" ]]; then
-      echo "ytchatl: empty transcript for $1" >&2
+      echo "$fn: empty transcript for $url" >&2
       return 1
     fi
-    claude --add-dir "$d" --model 'claude-opus-4-7[1m]' -- "Video title: ${title}. Video URL: $1. Read the YouTube transcript at $tmp (>> = speaker change, [Name] = identified speaker). Summarize in 5 bullets plus 3 takeaways. I'll ask follow-ups."
+    claude --add-dir "$d" "$@" -- "Video title: ${title}. Video URL: $url. Read the YouTube transcript at $tmp (>> = speaker change, [Name] = identified speaker). Summarize in 5 bullets plus 3 takeaways. I'll ask follow-ups."
 }
+
+ytchat()  { _ytchat_run ytchat "$1" }
+ytchatl() { _ytchat_run ytchatl "$1" --model 'claude-opus-4-7[1m]' }
 
